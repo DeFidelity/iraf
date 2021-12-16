@@ -1,19 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
 
 from django.contrib.auth.base_user import BaseUserManager
-
-from .managers import CustomUserManager
-
-
-class User(AbstractUser):
-    email = models.EmailField("email address", unique=True)
-
-    USERNAME_FIELD = "email" # make the user log in with the email
-    REQUIRED_FIELDS = ["username"]
-
-    objects = CustomUserManager()
 
 
 
@@ -49,3 +37,12 @@ class CustomUserManager(BaseUserManager):
             )
 
         return self._create_user(email, password, **extra_fields)
+
+
+class User(AbstractUser):
+    email = models.EmailField("email address", unique=True)
+
+    USERNAME_FIELD = "email" # make the user log in with the email
+    REQUIRED_FIELDS = ["username"]
+
+    objects = CustomUserManager()

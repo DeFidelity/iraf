@@ -36,6 +36,7 @@ INSTALLED_APPS = [
 
     'apps.accounts',
     'apps.restaurants',
+    # 'apps.blogW',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -44,8 +45,29 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # Wagtail
+    'wagtail.contrib.forms',
+    'wagtail.contrib.redirects',
+    'wagtail.embeds',
+    'wagtail.sites',
+    'wagtail.users',
+    'wagtail.snippets',
+    'wagtail.documents',
+    'wagtail.images',
+    'wagtail.search',
+    'wagtail.admin',
+    'wagtail.core',
+
+    'modelcluster',
+    'taggit',
+
+    # local Django app we just copyed
+    'apps.blog',
+    'apps.wagtail_bootstrap_blog',
+
     'django_htmx',
      'tailwind',
+     'theme',
 ]
 
 MIDDLEWARE = [
@@ -57,6 +79,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "django_htmx.middleware.HtmxMiddleware",
+    'wagtail.contrib.redirects.middleware.RedirectMiddleware',
 ]
 
 ROOT_URLCONF = 'iraf.urls'
@@ -77,7 +100,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'iraf.wsgi.application'
+# WSGI_APPLICATION = 'iraf.wsgi.application'
 
 
 # Database
@@ -132,6 +155,17 @@ STATICFILES_DIRS = [Path(BASE_DIR,'static')]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = Path(BASE_DIR,'media')
+
+# Tailwind setup
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
+TAILWIND_APP_NAME = 'theme'
+NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
+
+WAGTAIL_SITE_NAME = 'Iraf ltd'
+SITE_ID = 1
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
