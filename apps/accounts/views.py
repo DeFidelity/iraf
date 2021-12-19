@@ -5,7 +5,7 @@ from django.views import View
 from .models import UserProfile
 from .forms import SignUpForm, LogInForm
 
-class SignUp(View):
+class SignUpView(View):
     def get(self,request):
         form = SignUpForm()
         return render(request, 'accounts/signup.html', {'form': form})

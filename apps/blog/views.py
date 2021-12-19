@@ -1,10 +1,11 @@
 from django.views import View
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
+from django.http import HTTPResponse
 
 
-from .models import BlogPage, BlogCategory
-
+from .models import BlogPage, BlogCategory, Comment
+from .forms import CommentForm
 
 from django.views.generic import TemplateView
 from wagtail.core.models import Site
@@ -26,6 +27,43 @@ class BlogListView(View):
         }
         return render(request,'blog/blog_list.html',context)
 
+class BlogDetailView(View):
+    def get(self,request,pk):
+        blog = get_object_or_404(BlogPage,pk=pk)
+
+        context = {}
+        return render(request,'blog_detail.html',context)
+
+class BlogComment(self):
+    def get(self,request,post_pk):
+        comment = Comment.objects.filter(blog__pk=post_pk)
+
+        return render(request,'blog/comments.html')
+
+    def post(self,request,post_pk):
+
+        comment = request.POST.get('comment')
+        post = get_object_or_404(BlogPage,pk=post_pk)
+
+        if post:
+            form = CommentForm(comment)
+            if form.is_valid():
+                new_comment = form.save(commit=False)
+                new_comment.user = request.user
+                new_comment.blog = post
+                new_comment.save()
+
+                return HTTPResponse("comment submitted")
+            return HTTPResponse("form error")
+        return HTTPResponse("post not exist")
+
+class Search(View):
+    def get(self,request):
+        return render(request,'blog/search.html')
+
+    def post(self,request,*args,**kwargs):
+        query = request.POST.get('query')
+         report = BlogPage.objects.filter(Q)
 
 
 
