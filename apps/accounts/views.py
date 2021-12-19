@@ -1,26 +1,29 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.urls import reverse
-
+from django.views import View
+from .models import UserProfile
 from .forms import SignUpForm, LogInForm
 
-def signup(request):
-    if request.method == 'POST':
+class SignUp(View):
+    def get(self,request):
+        form = SignUpForm()
+        return render(request, 'accounts/signup.html', {'form': form})
+
+    def post(self,request,*args,**kwargs):
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
             return redirect('home')
-    else:
-        form = SignUpForm()
-    return render(request, 'users/signup.html', {'form': form})
+        return render(request, 'accounts/signup.html', {'form': form})
 
+class LogInView(View):
+    def get(self, request):
+        form = LogInForm()
+        return render(request, 'accounts/login.html', {'form': form, 'error': error})
 
-def log_in(request):
-    error = False
-    if request.user.is_authenticated:
-        return redirect('home')
-    if request.method == "POST":
+    def post(self,requst):
         form = LogInForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data["email"]
@@ -31,12 +34,22 @@ def log_in(request):
                 return redirect('home')
             else:
                 error = True
-    else:
-        form = LogInForm()
 
-    return render(request, 'users/login.html', {'form': form, 'error': error})
+                return render(request, 'accounts/login.html', {'form': form, 'error': error})
+
+class LogOutView(View):
+    def get(self,request):
+        return render(requst,'accounts/logout.html')
+
+    def post(self,request,*args,**kwargs):
+        logout(request)
+        return redirect(reverse('users:login'))
 
 
-def log_out(request):
-    logout(request)
-    return redirect(reverse('users:login'))
+class ProfileView(View):
+    def get(self,request,*args,**kwargs):
+        profile = get_object_or_404(UserProfile,user=request.user)
+         context = {
+            'profile': profile
+         }
+         return render(request,'accounts/profile.html')

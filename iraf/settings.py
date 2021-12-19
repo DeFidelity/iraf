@@ -36,7 +36,7 @@ INSTALLED_APPS = [
 
     'apps.accounts',
     'apps.restaurants',
-    # 'apps.blogW',
+    'apps.blog',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sitemaps',
 
     # Wagtail
     'wagtail.contrib.forms',
@@ -57,13 +58,11 @@ INSTALLED_APPS = [
     'wagtail.search',
     'wagtail.admin',
     'wagtail.core',
+    'wagtailmetadata',
 
     'modelcluster',
     'taggit',
 
-    # local Django app we just copyed
-    'apps.blog',
-    'apps.wagtail_bootstrap_blog',
 
     'django_htmx',
      'tailwind',

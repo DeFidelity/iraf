@@ -15,17 +15,17 @@ from wagtail.search import index
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from taggit.models import TaggedItemBase
 from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel
+from wagtailmetadata.models import MetadataPageMixin
 
 
 
+class HomePage(Page):
+    body = RichTextField(blank=True)
 
-# class HomePage(Page):
-#     body = RichTextField(blank=True)
-#
-#     content_panels = Page.content_panels + [
-#         FieldPanel('body', classname="full"),
-#     ]
-#
+    content_panels = Page.content_panels + [
+        FieldPanel('body', classname="full"),
+    ]
+
 
 class BlogIndexPage(Page):
     body = RichTextField(blank=True)
@@ -35,6 +35,7 @@ class BlogIndexPage(Page):
         FieldPanel('intro', classname="full"),
         FieldPanel('body', classname="full"),
     ]
+
 
 @register_snippet
 class BlogCategory(models.Model):
@@ -46,7 +47,7 @@ class BlogCategory(models.Model):
 
     panels = [
         FieldPanel('name'),
-        ImageChooserPanel('icon'),
+        # ImageChooserPanel('icon'),
     ]
 
     def __str__(self):
@@ -81,7 +82,7 @@ class BlogPageTag(TaggedItemBase):
 
 
 
-class BlogPage(Page):
+class BlogPage(MetadataPageMixin, Page):
     author = models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
     intro = models.CharField(max_length=250)
     body = RichTextField(blank=True)
@@ -95,6 +96,10 @@ class BlogPage(Page):
             return gallery_item.image
         else:
             return None
+
+    def get_context(self, request, *args, **kwargs):
+         context = super().get_context(request, *args, **kwargs)
+         context['blog_page'] = self.blog_page
 
 
     search_fields = Page.search_fields + [

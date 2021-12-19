@@ -22,6 +22,6 @@ module.exports = {
     reloadOnRestart: true,
     files: [
         '../static/css/dist/styles.css',
-        ...tailwindConfig.content
+        ...tailwindConfig.purge
     ]
 };
