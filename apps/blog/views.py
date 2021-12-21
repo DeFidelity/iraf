@@ -4,6 +4,7 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.views.generic import TemplateView
 from django.db.models import Q
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 from .models import BlogPage, BlogCategory, Comment
@@ -37,7 +38,7 @@ class BlogDetailView(View):
         }
         return render(request,'blog_detail.html',context)
 
-class BlogComment(View):
+class BlogComment(LoginRequiredMixin,View):
     def get(self,request,pk):
         comment = Comment.objects.filter(post=pk)
 
@@ -81,7 +82,7 @@ class Search(View):
 
         return render(request,'blog/search.html')
 
-class BlogLike(View):
+class BlogLike(LoginRequiredMixin,View):
     def post(self,request,post_pk):
         blog = get_object_or_404(BlogPage,pk=post_pk)
         user = request.user
@@ -99,7 +100,7 @@ class BlogLike(View):
                 return HttpResponse('+1')
 
 
-class UserCollection(View):
+class UserCollection(LoginRequiredMixin,View):
     def post(self,request,post_pk,*args,**kwargs):
         post = get_object_or_404(BlogPage,pk=post_pk)
         user =request.user

@@ -5,6 +5,10 @@ from django.views import View
 from .models import UserProfile
 from django.http import HttpResponse
 from .forms import SignUpForm, LogInForm, ProfileEditForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import get_user_model
+
+
 
 class SignUpView(View):
     def get(self,request):
@@ -37,6 +41,15 @@ class LogInView(View):
                 error = True
 
                 return render(request, 'accounts/login.html', {'form': form, 'error': error})
+class VerifyAccount(View):
+    def post(self,request,*args,**kwargs):
+        username= request.POST.get('username')
+        email = request.POST>get('email')
+
+        if get_user_model().objects.filter(email=email).exist():
+            return HttpResponse('User with this email already exist')
+        else:
+            return HttpResponse('Register your accounts')
 
 class LogOutView(View):
     def get(self,request):
@@ -47,7 +60,7 @@ class LogOutView(View):
         return redirect(reverse('users:login'))
 
 
-class ProfileView(View):
+class ProfileView(LoginRequiredMixin,View):
     def get(self,request,*args,**kwargs):
         profile = get_object_or_404(UserProfile,user=request.user)
         context = {
@@ -55,7 +68,7 @@ class ProfileView(View):
          }
         return render(request,'accounts/profile.html')
 
-class ProfileEdit(View):
+class ProfileEdit(LoginRequiredMixin,View):
     def get(self,request):
         return render(request,'profile_edit.html')
 
