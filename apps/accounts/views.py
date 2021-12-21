@@ -3,7 +3,8 @@ from django.contrib.auth import login, authenticate, logout
 from django.urls import reverse
 from django.views import View
 from .models import UserProfile
-from .forms import SignUpForm, LogInForm
+from django.http import HttpResponse
+from .forms import SignUpForm, LogInForm, ProfileEditForm
 
 class SignUpView(View):
     def get(self,request):
@@ -49,7 +50,26 @@ class LogOutView(View):
 class ProfileView(View):
     def get(self,request,*args,**kwargs):
         profile = get_object_or_404(UserProfile,user=request.user)
-         context = {
+        context = {
             'profile': profile
          }
-         return render(request,'accounts/profile.html')
+        return render(request,'accounts/profile.html')
+
+class ProfileEdit(View):
+    def get(self,request):
+        return render(request,'profile_edit.html')
+
+    def post(self,request,*args,**kwargs):
+        submission = request.POST
+        form = ProfileEditForm(submission)
+
+        if form.is_valid():
+            userprofile = get_object_or_404(UserProfile,user=request.user)
+            if userprofile:
+                profile = form.save(commit=False)
+                profile.user = request.user
+                profile.save()
+
+                return redirect('profile')
+            else:
+                return HttpResponse('U dey mad, Na Your Papa account be that??')

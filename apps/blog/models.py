@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils import timezone
 from django import forms
-from apps.accounts.models import User
 
 
 
@@ -83,12 +82,13 @@ class BlogPageTag(TaggedItemBase):
 
 
 class BlogPage(MetadataPageMixin, Page):
-    author = models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
+    author = models.ForeignKey('accounts.User',on_delete=models.SET_NULL,null=True,related_name='author')
     intro = models.CharField(max_length=250)
     body = RichTextField(blank=True)
     tags = ClusterTaggableManager(through=BlogPageTag, blank=True)
     categories = ParentalManyToManyField(BlogCategory, blank=True)
     date = models.DateField("Post date",default=timezone.now)
+    likes = models.ManyToManyField('accounts.User',blank=True,related_name='+')
 
     def main_image(self):
         gallery_item = self.gallery_images.first()
@@ -134,7 +134,7 @@ class BlogPageGalleryImage(Orderable):
 
 class Comment(models.Model):
     blog = models.ForeignKey(BlogPage,related_name='comments',on_delete=models.CASCADE)
-    user = models.ForeignKey(User,related_name='+',on_delete=models.CASCADE)
+    user = models.ForeignKey('accounts.User',related_name='+',on_delete=models.CASCADE)
     comment = models.TextField(max_length=200)
     stars = models.PositiveSmallIntegerField()
     date = models.DateTimeField(default=timezone.now)
