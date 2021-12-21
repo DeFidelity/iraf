@@ -1,4 +1,4 @@
-{% load static tailwind_tags %}
+{% load tailwind_tags %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -7,14 +7,48 @@
     <title>Django Tailwind</title>
     {% endblock title %}
     <script src="https://unpkg.com/htmx.org@1.6.1"></script>
+		<script src="https://unpkg.com/tailwindcss-jit-cdn"></script>
+		<script src="https://kit.fontawesome.com/c3b2df9771.js" crossorigin="anonymous"></script>
 		{% tailwind_css %}
 	</head>
+		<body class="text-gray-900 bg-gray-100 font-body" id="body">
+		    <!-- wrapper start -->
+		    <div class="pt-16 px-10 grid lg:grid-cols-5 pb-20">
 
-	<body class="bg-gray-50 font-serif leading-normal tracking-normal">
-		<div class="container mx-auto">
-			{% block content %}{% endblock content %}
-		</div>
+		        <div class="bg-black opacity-50 z-20 top-0 bottom-0 left-0 right-0 fixed hidden" id="overlay">
+		        </div>
+						{% include "nav.html" %}
+						<main class="lg:col-span-4">
+								<div class="flex justify-center md:justify-end">
+										<a href="index.html" class="rounded-full bg-gray-200 py-2 px-6 mr-auto"><i
+														class="fas fa-long-arrow-alt-left"></i></a>
+										<button class="font-bold rounded-full bg-white mr-2 py-2 px-3 shadow sm:block hidden cart"><i
+														class="fas fa-shopping-basket"></i> 8
+												items - $17.50</button>
+										<a href="#" class="font-bold rounded-full bg-yellow-400 ml-2 py-2 px-3">login</a>
+										<a href="#" class="font-bold rounded-full bg-gray-300 py-2 px-3 ml-2">signup</a>
+								</div>
+								<button class="font-bold rounded-full bg-white mr-2 py-2 px-3 shadow block sm:hidden mt-5 w-full cart"><i
+												class="fas fa-shopping-basket mr-3"></i> 8
+										items - $17.50</button>
+										{% block content %}
+									<div class="mt-16">
+			                <div>{% block category %}<span class="font-bold text-2xl md:text-4xl">Ninja Salad</span><img src="{% static 'images/salad.svg' %}"
+			                        class="h-6 w-6 md:h-10 md:w-10 mb-3 ml-1 md:ml-2 inline-flex">{% endblock category %}</div>
+									</div>
 
-		{% static 'js/items.js' %}
+									<div class="mt-5 grid md:grid-cols-2 xl:grid-cols-3 sm:grid-cols-2 gap-12">
+										{% block body %}
+										<!-- grid body here -->
+										{% endblock body %}
+									</div>
+										{% endblock content %}
+							</main>
+				</div>
+
+				<!--wrapper end-->
+		    <script src="{% static 'js/cart.js' %}"></script>
+		    <script src="{% static 'js/nav.js' %}"></script>
+		    <script src="{% static 'js/items.js' %}"></script>
 	</body>
 </html>

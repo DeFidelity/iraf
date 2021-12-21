@@ -8,7 +8,7 @@ from .views import (SignUpView,LogInView,ProfileView,
 urlpatterns = [
     path('signup/', SignUpView.as_view(), name='signup'),
     path('login/', LogInView.as_view(), name='login'),
-    path('verification/',VerifyAccount.as_view(),name='verify')
+    path('verification/',VerifyAccount.as_view(),name='verify'),
     path('logout/', LogOutView.as_view(), name='logout'),
     path('profile/',ProfileView.as_view(),name='profile'),
     path('profile/edit',ProfileEdit.as_view(),name='profile-edit'),

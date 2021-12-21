@@ -14,7 +14,8 @@ from wagtail.core.models import Site
 
 
 class LandingPageView(View):
-    pass
+    def get(self,request):
+        return render(request,'blog/landing.html')
 
 class BlogListView(View):
     def get(self,request):
