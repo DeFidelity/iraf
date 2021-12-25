@@ -1,0 +1,40 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% trans "Signup" %}{% endblock title %}
+
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6 col-sm-12">
+    
+  </div>
+</div>
+
+<div class="h-screen bg-indigo-100 flex justify-center items-center">
+  <div class="lg:w-2/5 md:w-1/2 w-2/3">
+    <form class="bg-white p-10 rounded-lg shadow-lg min-w-full" id="signup_form" hx-post="{% url 'account_signup' %}" hx-swap="innerHTML" hx-target="#home">
+      <h1 class="text-center text-xl font-bold mt-2 mb-4">{% trans "Sign Up" %}</h1>
+      {% csrf_token %}
+      {% for field in form %}
+      <div class="w-full bg-gray-100 px-4 py-2 rounded-lg focus:outline-none">
+          <label class="text-gray-800 font-semibold block my-3 text-md">{{ field.label_tag }}</label>
+          {{ field.errors }}
+          {% render_field field class="w-full bg-gray-100 px-4 py-2 rounded-lg focus:outline-none" placeholder=field.name %}
+      </div>
+      {% endfor %}
+      {% if redirect_field_value %}
+      <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+      {% endif %}
+      <div class="d-grid gap-2">
+        <button class="w-full mt-6 bg-indigo-600 rounded-lg px-4 py-2 text-lg text-white tracking-wide font-semibold font-sans" type="submit">{% trans "Register" %} &raquo;</button>
+      </div>
+    </form>
+    <p class="text-center text-md font-light">Already have an account? <a class="font-light text-md text-indigo-600" href="{% url 'account_login' %}">Login</a></p>
+
+  </div>
+</div>
+
+{% endblock %}

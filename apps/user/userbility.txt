@@ -1,0 +1,56 @@
+** add these to installed app
+'jazzmin' (before django contrib admin)
+'django.contrib.sites',
+'widget_tweaks',
+
+#all auth
+'allauth',
+'allauth.account',
+'allauth.socialaccount',
+'allauth.socialaccount.providers.google',
+
+** context processors **
+
+    'django.template.context_processors.request',
+
+** AUTH BACKEND
+AUTHENTICATION_BACKENDS = [
+...
+# Needed to login by username in Django admin, regardless of `allauth`
+'django.contrib.auth.backends.ModelBackend',
+
+# `allauth` specific authentication methods, such as login by e-mail
+'allauth.account.auth_backends.AuthenticationBackend',
+...
+]
+** add these to profile urls.py
+
+path('accounts/', include('allauth.urls')),
+path('accounts/', include('user.urls'))
+
+
+
+**add these to settings.py
+SITE_ID = 1
+
+ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS =True
+
+ACCOUNT_EMAIL_REQUIRED=True
+
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+
+ACCOUNT_EMAIL_VERIFICATION = "optional"
+
+ACCOUNT_MAX_EMAIL_ADDRESSES = 2
+
+SOCIALACCOUNT_QUERY_EMAIL = True
+
+*****************************************
+
+install the apps from above
+create superuser
+create google apikey and add through admin panel for google login
+add migrations
+you can edit templates to taste
+note:
+were using HTMX, Alpine js and Tailwind css for our front-end

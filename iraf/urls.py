@@ -16,7 +16,9 @@ from wagtail.contrib.sitemaps.views import sitemap
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('apps.blog.urls')),
-    path('accounts/',include('apps.accounts.urls')),
+    path('accounts/', include('allauth.urls')),
+    path('accounts/', include('apps.user.urls')),
+
     path('restaurants/',include('apps.restaurants.urls')),
 
     path('cms/', include(wagtailadmin_urls)),

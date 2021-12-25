@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-    {% block title %}
-    <title>Django Tailwind</title>
-    {% endblock title %}
+
+    <title>{% block title %} iRAF {% endblock title %}</title>
+
     <script src="https://unpkg.com/htmx.org@1.6.1"></script>
 		<script src="https://unpkg.com/tailwindcss-jit-cdn"></script>
 		<script src="https://kit.fontawesome.com/c3b2df9771.js" crossorigin="anonymous"></script>
@@ -25,8 +25,12 @@
 										<button class="font-bold rounded-full bg-white mr-2 py-2 px-3 shadow sm:block hidden cart"><i
 														class="fas fa-shopping-basket"></i> 8
 												items - $17.50</button>
-										<a href="#" class="font-bold rounded-full bg-yellow-400 ml-2 py-2 px-3">login</a>
-										<a href="#" class="font-bold rounded-full bg-gray-300 py-2 px-3 ml-2">signup</a>
+									{% if user.is_authenticated %}
+											<a href="{% url 'logout' %}" class="font-bold rounded-full bg-yellow-400 ml-2 py-2 px-3">Logout</a>
+									    {% else %}
+											<a href="{% url 'login' %}" class="font-bold rounded-full bg-yellow-400 ml-2 py-2 px-3">login</a>
+										<a href="{% url 'signup' %}" class="font-bold rounded-full bg-gray-300 py-2 px-3 ml-2">signup</a>
+										{% endif %}
 								</div>
 								<button class="font-bold rounded-full bg-white mr-2 py-2 px-3 shadow block sm:hidden mt-5 w-full cart"><i
 												class="fas fa-shopping-basket mr-3"></i> 8
