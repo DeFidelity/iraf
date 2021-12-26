@@ -26,10 +26,10 @@
 														class="fas fa-shopping-basket"></i> 8
 												items - $17.50</button>
 									{% if user.is_authenticated %}
-											<a href="{% url 'logout' %}" class="font-bold rounded-full bg-yellow-400 ml-2 py-2 px-3">Logout</a>
+											<a href="{% url 'account_logout' %}" class="font-bold rounded-full bg-yellow-400 ml-2 py-2 px-3">Logout</a>
 									    {% else %}
-											<a href="{% url 'login' %}" class="font-bold rounded-full bg-yellow-400 ml-2 py-2 px-3">login</a>
-										<a href="{% url 'signup' %}" class="font-bold rounded-full bg-gray-300 py-2 px-3 ml-2">signup</a>
+											<a href="{% url 'account_login' %}" class="font-bold rounded-full bg-yellow-400 ml-2 py-2 px-3">login</a>
+										<a href="{% url 'account_signup' %}" class="font-bold rounded-full bg-gray-300 py-2 px-3 ml-2">signup</a>
 										{% endif %}
 								</div>
 								<button class="font-bold rounded-full bg-white mr-2 py-2 px-3 shadow block sm:hidden mt-5 w-full cart"><i

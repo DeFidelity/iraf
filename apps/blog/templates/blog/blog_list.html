@@ -1,7 +1,27 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-<div class="mt-5 grid md:grid-cols-2 xl:grid-cols-3 sm:grid-cols-2 gap-12">
+<div class="mt-5 grid md:grid-cols-2 xl:grid-cols-3 sm:grid-cols-2 gap-12" id="mock">
+
+    {% for blog in blogs %}
+        <!--card-->
+        <div class="bg-white rounded-lg shadow-md p-3 hover:shadow-lg item">
+            <div class="grid grid-cols-2 gap-8">
+                <div>
+                    <img src="{% static 'images/salad.png' %}" alt="salad"
+                        class="transform hover:scale-125 transition duration-300">
+                </div>
+                <div>
+                    <span class="font-bold text-xl" hx-get="{% url 'blog-detail' blog.slug%}" hx-push-url="/{{blog.title}}/" hx-swap="innerHTML" hx-target="#mock">{{blog.title}} </span>
+                    <span class="block text-gray-600 text-sm">{{blog.tags }}</span>
+                    <span class="block text-custom-yellow mt-4 font-bold text-3xl">$ 6.30</span>
+                </div>
+            </div>
+        </div>
+        <!--card end-->
+    
+  
+
 
     <!--card-->
     <div class="bg-white rounded-lg shadow-md p-3 hover:shadow-lg item">
@@ -34,21 +54,8 @@
         </div>
     </div>
     <!--card end-->
-
-    <!--card-->
-    <div class="bg-white rounded-lg shadow-md p-3 hover:shadow-lg item">
-        <div class="grid grid-cols-2 gap-8">
-            <div>
-                <img src="{% static 'images/salad.png' %}" alt="salad"
-                    class="transform hover:scale-125 transition duration-300">
-            </div>
-            <div>
-                <span class="font-bold text-xl">Fruit salad</span>
-                <span class="block text-gray-600 text-sm">Mango, Orange, Passion fruit</span>
-                <span class="block text-custom-yellow mt-4 font-bold text-3xl">$ 6.30</span>
-            </div>
-        </div>
-    </div>
-    <!--card end-->
-{% include "blog/blog-detail.html" %}
+<div class="prose">
+{% include "blog/blog-aside.html" %}
+</div>
+{% endfor %}
 {% endblock content %}

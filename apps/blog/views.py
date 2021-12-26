@@ -37,7 +37,7 @@ class BlogDetailView(View):
         context = {
             'blog':blog
         }
-        return render(request,'blog_detail.html',context)
+        return render(request,'blog/blog-detail.html',context)
 
 class BlogComment(LoginRequiredMixin,View):
     def get(self,request,pk):
