@@ -1,0 +1,29 @@
+<div class="flex justify-center md:justify-end">
+					
+    <form class="flex items-center pl-3 pointers-events-none" actiont="{% url 'search' %}" method="POST">
+        {% csrf_token %}
+        <input hx-post="{% url 'search' %}" hx-target="#home" hx-swap="innerHTML" hx-trigger="keyup changed delay:2s"
+            type="text" name="query" class="block p-2 pl-10 w-full border border-gray-600 text-gray-900 bg-gray-50 rounded-lg sm:text-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search...">
+        <button type="submit" class="font-bold rounded-full m-2 text-white text-center bg-pink-400 mr-2 py-2 px-3 shadow sm:block hidden cart">
+        search
+        </button>
+    </form>
+        
+        {% comment %} <a href="index.html" class="rounded-full bg-gray-200 py-2 px-6 mr-auto"><i
+                        class="fas fa-long-arrow-alt-left"></i></a> {% endcomment %}
+    <button class="font-bold rounded-full bg-white mr-2 py-2 px-3 shadow sm:block hidden cart">
+        <i class="fas fa-shopping-basket"></i> 8
+        items - $17.50
+        </button>
+    
+    {% if user.is_authenticated %}
+        <a href="{% url 'account_logout' %}" class="font-bold rounded-full text-white text-center bg-pink-400 ml-2 py-3 px-3">Logout</a>
+    {% else %}
+        <a href="{% url 'account_login' %}" class="font-bold rounded-full text-white text-center bg-pink-400 ml-2 py-2 px-3">login</a>
+        <a href="{% url 'account_signup' %}" class="font-bold rounded-full text-white text-center bg-pink-300 py-2 px-3 ml-2">signup</a>
+    {% endif %}
+    <button class="font-bold rounded-full bg-white mr-2 py-2 px-3 shadow block sm:hidden mt-5 w-full cart">
+        <iclass="fas fa-shopping-basket mr-3"></i>
+            8items - $17.50
+    </button>
+</div>

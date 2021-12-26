@@ -1,6 +1,6 @@
 <!-- nav start -->
 <div class="lg:col-span-1">
-    <nav>
+    <nav class="">
         <div class="flex justify-between mb-6 px-2 md:mb-16">
             <h1 class="font-bold uppercase">
                 <a href="index.html" class="text-xl"><i class="fas fa-user-ninja mr-2"></i>iRaf <span
@@ -10,44 +10,46 @@
                 <i class="fas fa-bars"></i>
             </div>
         </div>
-        <ul class="hidden lg:block mr-10 mb-10" id="menu">
-            <li class="my-3">
-                <a class="rounded-lg py-2 px-3 text-md tracking-wider font-bold bg-custom-yellow block"
-                    href="items-4.html">
-                    <i class="fas fa-carrot mr-2"></i>
-                    <span>Salads</span>
+
+        <ul class="hidden lg:block  mr-10 mb-10" id="menu">
+            <li class="my-6">
+                <a class="py-2 lg:rounded-md lg:bg-pink-400 lg:hover:bg-pink-700 border lg:border-white max-w-md text-white text-center text-md tracking-wider font-bold block" href="items-4.html">
+                    <span>Articles</span>
                 </a>
             </li>
-            <li class="my-3">
-                <a class="rounded-lg py-2 px-3 text-md tracking-wider font-bold" href="items-1.html">
-                    <i class="fas fa-hamburger mr-2"></i>
-                    <span>Burgers</span>
+            <li class="my-6">
+                <a class="py-2 lg:rounded-md lg:bg-pink-400 lg:hover:bg-pink-700 border lg:border-white max-w-md text-white text-center text-md tracking-wider font-bold block" href="items-1.html">
+                    <span>Market Place</span>
                 </a>
             </li>
-            <li class="my-3">
-                <a class="rounded-lg py-2 px-3 text-md tracking-wider font-bold" href="items-3.html">
-                    <i class="fas fa-pizza-slice mr-2"></i>
-                    <span>Pizza</span>
+            <li class="my-6">
+                <a class="rounded-lg lg:rounded-md lg:bg-pink-400 lg:hover:bg-pink-700 border lg:border-white max-w-md text-white text-center block py-2 px-3 text-md tracking-wider font-bold" href="items-3.html">
+                    <span>Basket</span>
                 </a>
             </li>
-            <li class="my-3">
-                <a class="rounded-lg py-2 px-3 text-md tracking-wider font-bold" href="items-2.html">
-                    <i class="fas fa-beer mr-2"></i>
-                    <span>Beverages</span>
+            <li class="my-6">
+                <a class="rounded-lg lg:rounded-md lg:bg-pink-400 lg:hover:bg-pink-700 border lg:border-white max-w-md text-white text-center block py-2 px-3 text-md tracking-wider font-bold" href="items-2.html">
+                    <span>Profile</span>
                 </a>
             </li>
             <div class="mt-16">
-                <span class="px-3 text-gray-500">Other</span>
+                <span class="px-3 text-gray-500">manage</span>
                 <li class="my-3">
-                    <a class="rounded-lg py-2 px-3 text-md tracking-wider font-bold" href="orders-1.html">
+                    <a <a href="{% url 'account_login' %}" class="rounded-lg lg:rounded-md lg:bg-pink-400 lg:hover:bg-pink-700 border block lg:border-white max-w-md text-white text-center py-2 px-3 text-md tracking-wider font-bold" href="orders-1.html">
                         <i class="fas fa-redo-alt mr-2"></i>
-                        <span>My Orders</span>
+                        <span>Login</span>
                     </a>
                 </li>
-                <li class="my-3">
-                    <a class="rounded-lg py-2 px-3 text-md tracking-wider font-bold" href="profile.html">
+                <li class="my-6">
+                    <a href="{% url 'account_signup' %}" class="rounded-lg lg:rounded-md lg:bg-pink-400 lg:hover:bg-pink-700 border lg:border-white max-w-md text-white text-center block py-2 px-3 text-md tracking-wider font-bold" href="orders-1.html">
+                        <i class="fas fa-redo-alt mr-2"></i>
+                        <span>Signup</span>
+                    </a>
+                </li>
+                <li class="my-6">
+                    <a href="{% url 'account_logout' %}" class="rounded-lg py-2 px-3 lg:rounded-md lg:bg-pink-400 lg:hover:bg-pink-700 border lg:border-white max-w-md text-white text-center block text-md tracking-wider font-bold" href="profile.html">
                         <i class="fas fa-user-alt mr-2"></i>
-                        <span>Profile</span>
+                        <span>Logout</span>
                     </a>
                 </li>
             </div>

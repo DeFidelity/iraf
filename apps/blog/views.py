@@ -71,17 +71,18 @@ class Search(View):
         query = request.POST.get('query')
 
         report = blog.filter(
-            Q(title__icontains=[query]) |
+            Q(title__icontains=query) |
             Q(intro__icontains=query) |
             Q(body__icontains=query)
         )
 
         context = {
             'blog': blog,
-            'report': report,
+            'reports': report,
         }
-
-        return render(request,'blog/search.html')
+        print(query)
+        print(report)
+        return render(request,'blog/search.html',context)
 
 class BlogLike(LoginRequiredMixin,View):
     def post(self,request,post_pk):
