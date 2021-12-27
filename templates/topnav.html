@@ -10,8 +10,8 @@
     </form>
         
         {% comment %} <a href="index.html" class="rounded-full bg-gray-200 py-2 px-6 mr-auto"><i
-                        class="fas fa-long-arrow-alt-left"></i></a> {% endcomment %}
-    <button class="font-bold rounded-full bg-white mr-2 py-2 px-3 shadow sm:block hidden cart">
+                        class="fas fa-long-arrow-alt-left"></i></a> 
+    <button class="font-bold hidden md:block rounded-full bg-white mr-2 py-2 px-3 shadow sm:block cart">
         <i class="fas fa-shopping-basket"></i> 8
         items - $17.50
         </button>
@@ -21,8 +21,8 @@
     {% else %}
         <a href="{% url 'account_login' %}" class="font-bold rounded-full text-white text-center bg-pink-400 ml-2 py-2 px-3">login</a>
         <a href="{% url 'account_signup' %}" class="font-bold rounded-full text-white text-center bg-pink-300 py-2 px-3 ml-2">signup</a>
-    {% endif %}
-    <button class="font-bold rounded-full bg-white mr-2 py-2 px-3 shadow block sm:hidden mt-5 w-full cart">
+    {% endif %} {% endcomment %}
+    <button class="font-bold rounded-full bg-white mr-2 py-2 px-3 shadow hidden md:block sm:hidden mt-5 w-1/4 cart">
         <iclass="fas fa-shopping-basket mr-3"></i>
             8items - $17.50
     </button>

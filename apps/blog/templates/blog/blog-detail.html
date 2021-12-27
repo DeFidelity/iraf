@@ -1,132 +1,57 @@
 {% extends 'base.html' %}
-{% block title %}{{ blog.title}}{% endblock title %}
+{% block title %}READ: {{ blog.title}}{% endblock title %}
 {% block content %}
-<!--  component -->
-<div class="mt-6 bg-gray-50">
-<div class=" px-10 py-6 mx-auto">
-
-    <!--author-->
- <div class="max-w-6xl px-10 py-6 mx-auto bg-gray-50">
-
-<a href="#_" class="block transition duration-200 ease-out transform hover:scale-110">
-      <img class="object-cover w-full shadow-sm h-full" src="{{blog.image}}">
-  </a>
-
-<!--post categories-->
-<div class="flex items-center justify-start mt-4 mb-4">
-  {% for category in blog.category.all %}
-  <a href="{% url 'category_detail' category.pk%}"class="px-2 py-1 font-bold bg-red-400 text-white rounded-lg hover:bg-gray-500 mr-4">{{category}}</a>
-  {% endfor %}
-  </div>
-    <div class="mt-2">
-    	<!--post heading-->
-    	<a href="#"
-      class="sm:text-3xl md:text-3xl lg:text-3xl xl:text-4xl font-bold text-purple-500  hover:underline">{{blog.title}}</a>
-            <!--post views-->
-            <div class="flex justify-start items-center mt-2">
-            	<p class="text-sm text-green-500 font-bold bg-gray-100 rounded-full py-2 px-2 hover:text-red-500">3000</p>
-            	<p class="text-sm text-gray-400 font-bold ml-5">Views</p>
-
-            </div>
-
-            <!--author avator-->
-           <div class="font-light text-gray-600">
-
-      		<a href="#" class="flex items-center mt-6 mb-6"><img
-                      src="{{post.author.profile.avi}}"
-                      alt="avatar" class="hidden object-cover w-14 h-14 mx-4 rounded-full sm:block">
-                  <h1 class="font-bold text-gray-700 hover:underline">By {% if post.author.profile.user %}
-                      {{post.author.profile.username}}
-                      {% else %}
-                      {{author}}
-                  {% endif %}
-                  </h1>
-              </a>
-    	  </div>
-   </div>
-
-   <!--end post header-->
-    	<!--post content-->
-<div class="max-w-4xl px-10  mx-auto text-2xl text-gray-700 mt-4 rounded bg-gray-100">
-
-<!--content body-->
-<div class="prose mt-2 p-8">
-    	{{post.body|safe}}
- </div>
-
-
-
-</div>
-</div>
-{% comment %} 
-<!--related posts-->
-<h2 class="text-2xl mt-10 pt-2 text-gray-500 font-bold border-t border-gray-300 text-center">Other Posts</h2>
-<div class="flex grid h-full grid-cols-12 gap-10 pb-10 mt-8 sm:mt-16">
-<div class="grid grid-cols-12 col-span-12 gap-7 border-b border-gray-300">
-  {% for post in related_posts %}
-    <div class="flex flex-col items-start col-span-12 overflow-hidden shadow-sm rounded-xl md:col-span-6 lg:col-span-4">
-        <a href="{% url 'blog_detail' post.pk %}" class="block transition duration-200 ease-out transform hover:scale-110">
-            <img class="object-cover w-full shadow-sm h-full" src="{{post.image}}">
-        </a>
-        <div class="relative flex flex-col items-start px-6 bg-white border border-t-0 border-gray-200 py-7 rounded-b-2xl">
-            <div class="bg-purple-500 absolute top-0 -mt-3 flex items-center px-3 py-1.5 leading-none w-auto inline-block rounded-full text-xs font-medium uppercase text-white inline-block">
-              {% for category in post.category.all %}
-                  <span><a href="{% url 'category_detail' category.pk %}">{{category}}</a></span>
-              {% endfor %}
-            </div>
-            <h2 class="text-base text-gray-500 font-bold sm:text-lg md:text-xl"><a href="{% url 'blog_detail' post.pk %}">{{post.title}}</a></h2>
-            <p class="mt-2 text-sm text-gray-500">{{post.body|safe|truncatewords:15}}</p>
-            <div class="flex justify-between items-center mt-4">
-                <a class="text-blue-600 hover:underline" href="{% url 'blog_detail' post.pk%}">Read more</a>
-              </div>
-        </div>
-      </div>
-      {% endfor %}
-    </div>
-</div>
-
-				<!--comments-->
-
-<div class="max-w-4xl px-10 py-16 mx-auto bg-gray-100 min-w-screen animation-fade animation-delay  px-0 px-8 mx-auto sm:px-12 xl:px-5">
-
-<p class="mt-1 text-2xl font-bold text-left text-gray-800 sm:mx-6 sm:text-2xl md:text-3xl lg:text-4xl sm:text-center sm:mx-0">
-All comments on this post
-</p>
-{% for comment in comments %}
-{% if comment.is_parent %}
-<a href="#" class="flex items-center mt-6 mb-6 mr-6">
-<img src="{{comment.avi}}" alt="avatar" class="hidden object-cover w-14 h-14 mx-4 rounded-full sm:block">
-</a>
-<div><h3 class="text-lg font-bold text-purple-500 sm:text-xl md:text-2xl">By: {{comment.author}}</h3>
-  <p class="text-sm font-bold text-gray-600">{{comment.created_date|timesince}} ago</p>
-  <p class="mt-2 pb-3 text-base border-b border-gray-400 text-gray-600 sm:text-lg md:text-normal">
-   {{comment.body}}</p>
-
-   <div><i onclick="commentReplyToggle('{{ comment.pk }}')" class="text-purple-600 inline-flex items-center mt-4">Reply
-     <svg class="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-       <path d="M5 12h14"></path>
-       <path d="M12 5l7 7-7 7"></path>
-     </svg></i>
-   </div>
-   {% for reply in comment.children %}
-     <div class="bg-gray-200 p-4 m-4"><h3 class="text-medium font-light mb-2 text-purple-400 sm:text-xl md:text-2xl">Replied By: {{reply.author}}</h3>
-         <p class="text-sm font-thin text-gray-500">{{reply.created_date|timesince}} ago.</p>
-         <p class="mt-2 font-light text-base text-gray-600 sm:text-lg md:text-normal">
-           {{reply.body}}
-         </p>
-      </div>
-   {% empty %}
-   <h3 class="text-medium font-light mb-2 text-purple-400 sm:text-xl md:text-2xl">Be the first to reply ...</h3>
-   {% endfor %}
-     {% include "blog/partials/comment_reply.html" %}
-
-</div>
-       {% endif %}
-    {% endfor %}
-  </div>
-
-	  </div>
-  {% include "blog/partials/comment.html" %} {% endcomment %}
 <!-- component -->
+<div class="mt-6 bg-gray-50 overflow-y-auto">
+  <div class=" px-10 py-6 mx-auto">
+        
+        <!--author-->
+     <div class="max-w-6xl px-10 py-6 mx-auto bg-gray-50">
+        
+    <a href="#_" class="block transition duration-200 ease-out transform hover:scale-110">
+          <img class="object-cover w-full shadow-sm h-full" src="blog.image">
+          <img class="object-cover w-full shadow-sm h-full" src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1951&amp;q=80">
+    </a>
+
+    <!--post categories-->
+    <div class="flex items-center justify-start mt-4 mb-4">
+      {% for tag in blog.tags.all %}
+          <a href="#"class="px-2 py-1 font-bold bg-red-400 text-white rounded-lg hover:bg-gray-500 mr-4">{{tag}}</a>
+        {% endfor %}
+         </div>
+        <div class="mt-2">
+          <!--post heading-->
+          <a href="#"
+                class="sm:text-3xl md:text-3xl lg:text-3xl xl:text-4xl font-bold text-purple-500  hover:underline"{{blog.title}}</a>
+
+                <!--post views-->
+                <div class="flex justify-start items-center mt-2">
+                  <p class="text-sm text-green-500 font-bold bg-gray-100 rounded-full py-2 px-2 hover:text-red-500">3000</p>
+                  <p class="text-sm text-gray-400 font-bold ml-5">Views</p>
+                
+                </div>
+
+                <!--author avator-->
+               <div class="font-light text-gray-600">
+                
+              <a href="#" class="flex items-center mt-6 mb-6"><img
+                          src="https://avatars.githubusercontent.com/u/71964085?v=4"
+                          alt="avatar" class="hidden object-cover w-14 h-14 mx-4 rounded-full sm:block">
+                      <h1 class="font-bold text-gray-700 hover:underline">By {{blog.author.profile.user}}</h1>
+                  </a>
+            </div>
+       </div>
+ <div class="max-w-4xl px-10  mx-auto text-2xl text-gray-700 mt-4 rounded bg-gray-100">
+
+   <!--content body-->
+   <div class="prose prose-lg">
+    {{blog.body|safe}}    
+    
+    <div class="not-prose max-w-xl text-pink-300 text-bold text-center text-4xl font-extrabold bg-white border-4 border-pink-400 p-4 block rounded-full"
+      hx-post="{% url 'blog-like' blog.pk %}" hx-trigger="click" hx-target="#like" hx-swap="innerHTML" >
+      <i class="far fa-heart"></i> {{blog.likes.count}}
+      <p class="text-pink-800 text-xl font-bold transform " id="like"></p>
+    </div>
+  </div>
 
 {% endblock content %}

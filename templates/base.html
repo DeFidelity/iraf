@@ -7,8 +7,9 @@
 	<meta charset="utf-8">
 	<title>{% block title %} iRAF {% endblock title %}</title>
     <script src="https://unpkg.com/htmx.org@1.6.1"></script>
-	<script src="https://unpkg.com/tailwindcss-jit-cdn"></script>
+	
 	<script src="https://kit.fontawesome.com/c3b2df9771.js" crossorigin="anonymous"></script>
+	
 	{% tailwind_css %}
 </head>
 	<body class="text-gray-900 bg-gray-200 font-body" id="body">
@@ -20,7 +21,7 @@
 				<div class="mt-14" >
 					{% block content %}
 						<div class="mt-16">
-							<div>
+							<div class="">
 								{% block category %}
 									<span class="font-bold text-2xl md:text-4xl">Ninja Salad</span>
 									<img src="{% static 'images/salad.svg' %}" class="h-6 w-6 md:h-10 md:w-10 mb-3 ml-1 md:ml-2 inline-flex">
@@ -40,6 +41,11 @@
 
 			
 			<!--wrapper end-->
+			<script>
+				document.body.addEventListener('htmx:configRequest', (event) => {
+					event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+				  })
+			</script>
 		<script src="{% static 'js/cart.js' %}"></script>
 		<script src="{% static 'js/nav.js' %}"></script>
 		<script src="{% static 'js/items.js' %}"></script>

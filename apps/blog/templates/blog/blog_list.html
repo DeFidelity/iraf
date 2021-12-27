@@ -7,7 +7,7 @@
         <!--card-->
         <div class="bg-white rounded-lg grid grid-cols-1 shadow-md p-3 hover:shadow-lg item">
             <div class="grid grid-cols-2 gap-6"
-            hx-get="{% url 'blog-detail' blog.slug %}" hx-target="#body" hx-trigger="click" hx-swap="innerHTML">
+            hx-get="{% url 'blog-detail' blog.slug %}" hx-target="#body" hx-trigger="click" hx-swap="innerHTML" hx-push-url="/blog/{{blog.slug}}/">
                 <div>
                     <img class="transform hover:scale-125 transition duration-300"  src="{% static 'images/salad.png' %}" alt="salad" >
                 </div>
@@ -20,6 +20,32 @@
         </div>
 
         {% endfor %}
+        
+    </div>
+    <div class="flex justify-center space-x-1 dark:text-coolGray-100">
+        {% if page_obj.has_previous %}
+        <button title="previous" type="button" class="inline-flex items-center justify-center w-8 h-8 py-0 border rounded-md shadow-md dark:bg-coolGray-900 dark:border-coolGray-800">
+            <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="w-4">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+        </button>
+        {% endif %}
+
+        {% comment %} {% for page in page_obj.paginator.num_pages %}
+            {% if page < 5 %}
+            <button type="button" title="Page 1" class="inline-flex items-center justify-center w-8 h-8 text-sm font-semibold border rounded shadow-md dark:bg-coolGray-900 dark:text-violet-400 dark:border-violet-400">{{ page_obj.number }}</button>
+            {% endif %}
+        {% endfor %} {% endcomment %}
+
+        {% if page_obj.has_next %}
+        <button title="next" type="button" class="inline-flex items-center justify-center w-8 h-8 py-0 border rounded-md shadow-md dark:bg-coolGray-900 dark:border-coolGray-800">
+        <a href="?page={{ page_obj.next_page_number }}">
+            <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="w-4">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+        </a>
+        </button>
+        {% endif %}
     </div>
         {% endblock content %}
     <!--card end-->

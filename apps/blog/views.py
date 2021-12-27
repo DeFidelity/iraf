@@ -87,19 +87,24 @@ class Search(View):
 class BlogLike(LoginRequiredMixin,View):
     def post(self,request,post_pk):
         blog = get_object_or_404(BlogPage,pk=post_pk)
+        liked_users = blog.likes.all()
         user = request.user
+        
+        if len(liked_users) > 0:
+            for person in liked_users:
+                print(person)
+                if user == person:
+                    print(2)
+                    blog.likes.remove(user)
 
-        for person in blog.likes.all():
-            if user == person:
-                blog.likes.remove(user)
-                blog.save()
-
-                return HttpResponse('-1')
-            else:
-                blog.likes.add(request.user)
-                blog.save()
-
-                return HttpResponse('+1')
+                    return HttpResponse('-1')
+                else:
+                    print(1)
+                    blog.likes.add(request.user)
+                    return HttpResponse('+1')
+        else:
+            blog.likes.add(request.user)
+        return HttpResponse('+1')
 
 
 class UserCollection(LoginRequiredMixin,View):

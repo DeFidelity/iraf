@@ -2,30 +2,17 @@
 {% load static %}
 {% block category %}{% endblock category %}
 {% block content %}
-<div class="bg-white rounded-lg shadow-md p-3 hover:shadow-lg item">
-    <div class="grid grid-cols-2 gap-8">
-        <div>
-            <img src="{% static 'images/salad.png' %}" alt="salad"
-                class="transform hover:scale-125 transition duration-300">
-        </div>
-        <div>
-            <span class="font-bold text-xl">{{post.title}}</span>
-            <span class="block text-gray-600 text-sm">Mango, Orange, Passion fruit</span>
-            <span class="block text-custom-yellow mt-4 font-bold text-3xl">$ 6.30</span>
-        </div>
-    </div>
-</div>
-    {% for post in reports %}
-    <div class="bg-white rounded-lg shadow-md p-3 hover:shadow-lg item">
-        <div class="grid grid-cols-2 gap-8">
+    {% for blog in reports %}
+    <div class="bg-white rounded-lg grid grid-cols-1 shadow-md p-3 hover:shadow-lg item">
+        <div class="grid grid-cols-2 gap-6"
+        hx-get="{% url 'blog-detail' blog.slug %}" hx-target="#body" hx-trigger="click" hx-swap="innerHTML">
             <div>
-                <img src="{% static 'images/salad.png' %}" alt="salad"
-                    class="transform hover:scale-125 transition duration-300">
+                <img class="transform hover:scale-125 transition duration-300"  src="{% static 'images/salad.png' %}" alt="salad" >
             </div>
             <div>
-                <span class="font-bold text-xl">{{post.title}}</span>
-                <span class="block text-gray-600 text-sm">Mango, Orange, Passion fruit</span>
-                <span class="block text-custom-yellow mt-4 font-bold text-3xl">$ 6.30</span>
+                <span class="font-bold text-xl" hx-get="{% url 'blog-detail' blog.slug%}" hx-push-url="blog/{{blog.title}}/" hx-swap="innerHTML" hx-target="#mock">{{blog.title}} </span>
+                <span class="block text-gray-600 text-sm">{{blog.tags }}</span>
+                <span class="block text-custom-yellow mt-4  font-bold text-3xl">$ 6.30</span>
             </div>
         </div>
     </div>
