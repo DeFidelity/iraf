@@ -1,3 +1,119 @@
 from django.shortcuts import render
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponse
+from django.core.paginator import Paginator
+from django.views import View 
 
-# Create your views here.
+
+from .models import Review, Restaurant, Food 
+from .forms import RestaurantReviewForm, FoodReviewForm
+
+
+class RestaurantListView(View):
+    def get(self, request):
+        restaurant = Restaurant.objects.all()
+        food = Food.objects.filter(restaurant=restaurant)
+        
+       
+        context = {
+            'restaurant': restaurant,
+            'food': food,
+        }
+        return render(request,'restaurant/restaurant-list.html', context)
+
+
+class RestaurantView(View):
+    def get(self, request,pk):
+        restaurant = get_object_or_404(Restaurant,pk=pk)
+        food = Food.objects.filter(restaurant=restaurant)
+        reviews = restaurant.review.all().order_by('rating')
+        
+        paginator = Paginator(reviews,5)
+        
+            
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        
+        context = {
+            'restaurant':restaurant,
+            'food': food,
+            'reviews': reviews,
+            'page_number':page_number,
+            'page_obj':page_obj,
+        }
+        return render(request, 'restaurant/restaurant.html', context)
+    
+    
+    def post(self, request,pk,*args,**kwargs):
+        restaurant = get_object_or_404(Restaurant,pk=pk)
+        food = Food.objects.filter(restaurant=restaurant)
+        form = RestaurantReviewForm(request.POST)
+        
+        if form.is_valid():
+            form.save(commit=False)
+            restaurant.perform_review(user=request.user,review=form.cleaned_data)
+            form.save()
+            return HttpResponse("Your review has been committed")
+        else:
+            
+            context = {
+                'restaurant':restaurant,
+                'food': food,
+                'error': 'there was an error processing your request'
+            }
+        return render(request, 'restaurant/restaurant.html', context)
+    
+class FoodListView(View):
+    def get(self, request):
+        food = Food.objects.all()
+        paginator = Paginator(food,25)
+        
+            
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+            
+        context = {
+            'page_number': page_number,
+            'page_obj': page_obj,
+        }
+        
+        return render(request, 'restaurant/food-list.html',context)
+    
+
+class FoodDetailView(View):
+    def get(self, request,pk):
+        food = get_object_or_404(Food, pk=pk)
+        categories = food.categories.all()
+        reviews = food.review.all()
+        paginator = Paginator(reviews,5)
+        
+            
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        
+        context = {
+            'categories': categories,
+            'food': food,
+            'review': reviews,
+            'page_number':page_number,
+            'page_obj':page_obj,
+        }   
+
+        return render(request,'restaurant/food-detail.html')
+    
+    def post(self, request,pk,*args,**kwargs):
+        food = get_object_or_404(Food, pk=pk)
+        categories = food.categories.all()
+        form = FoodReviewForm(request.POST)
+        if form.is_valid():
+            food.perform_review(user=request.user,review=form.cleaned_data)
+            form.save()
+
+            return HttpResponse("Review added")
+        
+        context = {
+            'categories': categories,
+            'food': food,
+        } 
+        return render(request,'restaurant/food-detail.html')
+    
