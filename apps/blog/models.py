@@ -119,6 +119,9 @@ class BlogPage(MetadataPageMixin, Page):
         FieldPanel('body'),
         InlinePanel('gallery_images', label="Gallery images"),
     ]
+    
+    class Meta:
+        ordering = ['-date']
 
 class BlogPageGalleryImage(Orderable):
     page = ParentalKey(BlogPage, on_delete=models.CASCADE, related_name='gallery_images')

@@ -15,7 +15,7 @@
 
 <div class="row justify-content-center">
   <div class="col-md-6 col-sm-12">
-    <form hx-post="{% url 'account_logout' %}" hx-swap="innerHTML" hx-target="#home">
+    <form hx-post="{% url 'account_logout' %}" hx-swap="innerHTML" hx-target="#body">
       {% csrf_token %}
       {% if redirect_field_value %}
       <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>

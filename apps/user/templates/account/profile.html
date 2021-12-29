@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Profile{% endblock title %}
 {% block content %}
-<div class="h-screen bg-indigo-300 py-20 px-3">
+<div class="bg-gray-200 py-20 px-3">
     <div class="max-w-md mx-auto md:max-w-lg">
         <div class="w-full">
-            <div class="bg-white p-3 rounded text-center py-5">
+            <div class="p-3 rounded text-center py-5">
                 <div class="flex justify-center"> 
                     <img class="rounded-full" src="https://i.imgur.com/TcyQLXx.jpg" width="100"> 
                 </div>
@@ -16,24 +17,39 @@
                     <div class="flex justify-between mt-3 px-4">
                         <div class="flex flex-col"> 
                             <span class="font-bold text-2xl">97</span> 
-                            <span class="text-sm text-indigo-600">Followers</span> 
+                            <span class="text-sm text-pink-800">Orders</span> 
                         </div>
                         <div class="flex flex-col"> <span class="font-bold text-2xl">197</span> 
-                            <span class="text-sm text-indigo-600">Articles</span> 
+                            <span class="text-sm text-pink-800">Star</span> 
                         </div>
                         <div class="flex flex-col"> 
                             <span class="font-bold text-2xl">47</span> 
-                            <span class="text-sm text-indigo-600">Followings</span> 
+                            <span class="text-sm text-pink-800">Collection</span> 
                         </div>
                     </div>
                     <div class="flex flex-row px-4 mt-4"> 
                         <button 
-                        hx-get="{% url 'profile-edit' %}" hx-swap="innerHTML" hx-target="#home" hx-push-url="edit/" 
-                        class="h-10 w-full text-white text-md rounded bg-indigo-500 hover:bg-indigo-600"
+                        hx-get="{% url 'profile-edit' %}" hx-swap="innerHTML" hx-target="#body" hx-push-url="/accounts/profile/edit/" 
+                        class="h-10 w-full text-white text-md rounded bg-pink-400 hover:bg-pink-500"
                         >Edit</button> 
-                        <button class="h-10 w-full text-white text-md rounded bg-indigo-500 hover:bg-indigo-600 ml-2">Message</button> </div>
+                        <button class="h-10 w-full text-white text-md rounded bg-pink-400 hover:bg-pink-500 ml-2">Message</button> </div>
                 </div>
             </div>
+            {% for blog in profile.collections.all %}
+                <div class="bg-white rounded-lg grid grid-cols-1 shadow-md p-3 hover:shadow-lg item">
+                    <div class="grid grid-cols-2 gap-6"
+                    hx-get="{% url 'blog-detail' blog.slug %}" hx-target="#body" hx-trigger="click" hx-swap="innerHTML" hx-push-url="/blog/{{blog.slug}}/">
+                        <div>
+                            <img class="transform hover:scale-125 transition duration-300"  src="{% static 'images/salad.png' %}" alt="salad" >
+                        </div>
+                        <div>
+                            <span class="font-bold text-xl" hx-get="{% url 'blog-detail' blog.slug%}" hx-push-url="/blog/{{blog.slug}}/" hx-swap="innerHTML" hx-target="#mock">{{blog.title}} </span>
+                            <span class="block text-gray-600 text-sm">{{blog.tags }}</span>
+                            <span class="block text-custom-yellow mt-4  font-bold text-3xl">$ 6.30</span>
+                        </div>
+                    </div>
+                </div>    
+            {% endfor %}
         </div>
     </div>
 </div>

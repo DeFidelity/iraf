@@ -22,6 +22,7 @@ class ProfileEdit(LoginRequiredMixin,View):
         return render(request,'account/profile-edit.html',context)
 
     def post(self,request,*args,**kwargs):
+        profile = get_object_or_404(UserProfile,user=request.user)
         submission = request.POST
         form = ProfileEditForm(submission,instance=request.user.profile)
 
