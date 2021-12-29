@@ -111,15 +111,18 @@ class UserCollection(LoginRequiredMixin,View):
     def post(self,request,post_pk,*args,**kwargs):
         post = get_object_or_404(BlogPage,pk=post_pk)
         user =request.user
-
-        if post not in user.profile.collections.all():
+        profile = user.profile.collections.all()
+        
+        if post not in profile:
             user.profile.collections.add(post)
             user.save()
 
-            return HttpResponse('Added to your collection')
+            return HttpResponse('Added to collection')
         else:
             user.profile.collections.remove(post)
             user.save()
+            return HttpResponse('removed from collection')
+        
 
 
 

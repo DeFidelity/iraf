@@ -35,22 +35,27 @@
                         <button class="h-10 w-full text-white text-md rounded bg-pink-400 hover:bg-pink-500 ml-2">Message</button> </div>
                 </div>
             </div>
-            {% for blog in profile.collections.all %}
-                <div class="bg-white rounded-lg grid grid-cols-1 shadow-md p-3 hover:shadow-lg item">
-                    <div class="grid grid-cols-2 gap-6"
-                    hx-get="{% url 'blog-detail' blog.slug %}" hx-target="#body" hx-trigger="click" hx-swap="innerHTML" hx-push-url="/blog/{{blog.slug}}/">
-                        <div>
-                            <img class="transform hover:scale-125 transition duration-300"  src="{% static 'images/salad.png' %}" alt="salad" >
-                        </div>
-                        <div>
-                            <span class="font-bold text-xl" hx-get="{% url 'blog-detail' blog.slug%}" hx-push-url="/blog/{{blog.slug}}/" hx-swap="innerHTML" hx-target="#mock">{{blog.title}} </span>
-                            <span class="block text-gray-600 text-sm">{{blog.tags }}</span>
-                            <span class="block text-custom-yellow mt-4  font-bold text-3xl">$ 6.30</span>
-                        </div>
-                    </div>
-                </div>    
-            {% endfor %}
+            
         </div>
+        
+    </div>
+    <p class="text-pink-700 text-left uppercase mx-5 text-xl font-bold transform " >Collections:</p>
+    <div class="w-5/4 p-4 m-4">
+    {% for blog in profile.collections.all %}
+        <div class="bg-white rounded-lg grid grid-cols-1 shadow-md p-3 hover:shadow-lg item">
+            <div class="grid grid-cols-2 gap-6"
+            hx-get="{% url 'blog-detail' blog.slug %}" hx-target="#body" hx-trigger="click" hx-swap="innerHTML" hx-push-url="/blog/{{blog.slug}}/">
+                <div>
+                    <img class="transform hover:scale-125 transition duration-300"  src="{% static 'images/salad.png' %}" alt="salad" >
+                </div>
+                <div>
+                    <span class="font-bold text-xl" hx-get="{% url 'blog-detail' blog.slug%}" hx-push-url="/blog/{{blog.slug}}/" hx-swap="innerHTML" hx-target="#mock">{{blog.title}} </span>
+                    <span class="block text-gray-600 text-sm">{{blog.tags }}</span>
+                    <span class="block text-custom-yellow mt-4  font-bold text-3xl">$ 6.30</span>
+                </div>
+            </div>
+        </div>    
+    {% endfor %}
     </div>
 </div>
 {% endblock content %}

@@ -46,11 +46,16 @@
    <!--content body-->
    <div class="prose prose-lg">
     {{blog.body|safe}}    
-    
-    <div class="not-prose max-w-xl text-pink-300 text-bold text-center text-4xl font-extrabold bg-white border-4 border-pink-400 p-4 block rounded-full"
-      hx-post="{% url 'blog-like' blog.pk %}" hx-trigger="click" hx-target="#like" hx-swap="innerHTML" >
-      <i class="far fa-heart"></i> {{blog.likes.count}}
-      <p class="text-pink-800 text-xl font-bold transform " id="like"></p>
+    <div class="not-prose flex justify-between">
+      <div class="text-pink-700 text-bold text-center text-4xl font-extrabold bg-white border-4 border-pink-800 p-4 inline-block rounded-full"
+        hx-post="{% url 'blog-like' blog.pk %}" hx-trigger="click" hx-target="#like" hx-swap="innerHTML" >
+        <i class="far fa-heart"></i><span id="like"> {{blog.likes.count}}</span>
+      </div>
+      <div id="collection" class="text-pink-700 text-bold text-center text-4xl font-extrabold bg-white border-4 border-pink-800 p-4 inline-block rounded-full"
+        hx-post="{% url 'collection' blog.pk %}" hx-trigger="click" hx-target="#collection" hx-swap="innerHTML"
+        >
+        Add to collection
+      </div>
     </div>
   </div>
 
