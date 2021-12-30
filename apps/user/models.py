@@ -22,7 +22,7 @@ class UserProfile(models.Model):
     phone_number = models.CharField(max_length=20, blank=True, null=True)
     additional_mail = models.EmailField(blank=True,null=True)
     address = models.CharField(max_length=50, blank=True, null=True)
-    collections = models.ManyToManyField(BlogPage,related_name='collection',null=True)
+    collections = models.ManyToManyField(BlogPage,related_name='collection',blank=True)
     gender = models.CharField(max_length=20,choices=CHOICES, blank=True, null=True)
 
 @receiver(post_save,sender=User)

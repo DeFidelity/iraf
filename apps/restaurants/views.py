@@ -65,14 +65,15 @@ class RestaurantView(View):
     
 class FoodListView(View):
     def get(self, request):
-        food = Food.objects.all()
-        paginator = Paginator(food,25)
+        foods = Food.objects.all()
+        paginator = Paginator(foods,20)
         
             
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
             
         context = {
+            'foods':foods,
             'page_number': page_number,
             'page_obj': page_obj,
         }

@@ -41,6 +41,7 @@ class FoodCategory(models.Model):
     
 class Food(models.Model):
     name = models.CharField(max_length=255,unique=False)
+    image = models.ImageField(verbose_name="food_image", upload_to='media/foods/', default=None,null=True,blank=True,height_field=None, width_field=None, max_length=100)
     restaurant = models.ForeignKey(Restaurant,related_name='restaurants',null=True,on_delete=models.CASCADE)
     price = models.PositiveSmallIntegerField()
     discount_price = models.PositiveSmallIntegerField()

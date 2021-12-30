@@ -1,11 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-{% comment %} <div class="mt-5 grid md:grid-cols-2 xl:grid-cols-3 sm:grid-cols-2 gap-4" id="mock"> {% endcomment %}
 <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-2 h-52">
     {% for blog in blogs %}
         <!--card-->
-        <div class="bg-white rounded-lg grid grid-cols-1 shadow-md p-3 hover:shadow-lg item">
+        <div class="bg-white rounded-lg grid grid-cols-1 shadow-md p-3 hover:shadow-lg">
             <div class="grid grid-cols-2 gap-6"
             hx-get="{% url 'blog-detail' blog.slug %}" hx-target="#body" hx-trigger="click" hx-swap="innerHTML" hx-push-url="/blog/{{blog.slug}}/">
                 <div>

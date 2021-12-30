@@ -4,7 +4,7 @@ const overlay = document.querySelector('#overlay');
 const body = document.querySelector('#body');
 const close = document.querySelector('#close-side-panel');
 
-document.querySelectorAll('.item').forEach(item => {
+document.querySelectorAll('.food-item').forEach(item => {
     item.addEventListener('click', event => {
         overlay.classList.remove('hidden');
         body.classList.add('overflow-hidden');

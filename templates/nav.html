@@ -17,36 +17,36 @@
                     <span>Articles</span>
                 </a>
             </li>
-            <li class="my-6">
-                <a class="py-2 lg:rounded-md lg:bg-pink-400 lg:hover:bg-pink-700 border text-pink-400 lg:border-white max-w-md lg:text-white text-center text-md tracking-wider font-bold block" href="items-1.html">
+            <li class="my-6" hx-boost="true">
+                <a class="py-2 lg:rounded-md lg:bg-pink-400 lg:hover:bg-pink-700 border text-pink-400 lg:border-white max-w-md lg:text-white text-center text-md tracking-wider font-bold block" href="{% url 'foods' %}">
                     <span>Market Place</span>
                 </a>
             </li>
-            <li class="my-6">
+            <li class="my-6" hx-boost="true">
                 <a class="rounded-lg lg:rounded-md lg:bg-pink-400 lg:hover:bg-pink-700 border text-pink-400 lg:border-white max-w-md lg:text-white text-center block py-2 px-3 text-md tracking-wider font-bold" >
                     <span>Basket</span>
                 </a>
             </li>
-            <li class="my-6">
+            <li class="my-6" hx-boost="true">
                 <a class="rounded-lg lg:rounded-md lg:bg-pink-400 lg:hover:bg-pink-700 border text-pink-400 lg:border-white max-w-md lg:text-white text-center block py-2 px-3 text-md tracking-wider font-bold" href="{% url 'profile' %}">
                     <span>Profile</span>
                 </a>
             </li>
-            <div class="mt-16">
+            <div class="mt-16" >
                 <span class="px-3 text-gray-500">manage</span>
-                <li class="my-3">
+                <li class="my-3" hx-boost="true">
                     <a <a href="{% url 'account_login' %}" class="rounded-lg lg:rounded-md text-pink-400 lg:bg-pink-400 lg:hover:bg-pink-700 border block lg:border-white max-w-md lg:text-white text-center py-2 px-3 text-md tracking-wider font-bold" href="orders-1.html">
                         <i class="fas fa-redo-alt mr-2"></i>
                         <span>Login</span>
                     </a>
                 </li>
-                <li class="my-6">
+                <li class="my-6" hx-boost="true">
                     <a href="{% url 'account_signup' %}" class="rounded-lg lg:rounded-md text-pink-400 lg:bg-pink-400 lg:hover:bg-pink-700 border lg:border-white max-w-md lg:text-white text-center block py-2 px-3 text-md tracking-wider font-bold" href="orders-1.html">
                         <i class="fas fa-redo-alt mr-2"></i>
                         <span>Signup</span>
                     </a>
                 </li>
-                <li class="my-6">
+                <li class="my-6" hx-boost="true">
                     <a href="{% url 'account_logout' %}" class="rounded-lg py-2 px-3 lg:rounded-md text-pink-400 lg:bg-pink-400 lg:hover:bg-pink-700 border lg:border-white max-w-md lg:text-white text-center block text-md tracking-wider font-bold" href="profile.html">
                         <i class="fas fa-user-alt mr-2"></i>
                         <span>Logout</span>

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Foods{% endblock title %}
+{% block content %}
+<div class="bg-black opacity-50 z-20 top-0 bottom-0 left-0 right-0 fixed hidden" id="overlay">
+</div>
+
+    <div class="mt-8 md:grid gap-10 md:grid-cols-2 lg:grid-cols-3">
+        {% for food in food %}
+        <div class="bg-white rounded overflow-hidden shadow-md relative food-item"> 
+            <img src="{{food.image}}" alt="stew" class="w-full h-32 sm:h-48 object-cover">
+            <div class="m-4">
+            <span class="font-bold">{{food.name}}</span>
+            <span class="block text-gray-500">Recipe by Mario</span>
+            </div>
+            <div class="bg-pink-100 text-pink-200 text-xs uppercase font-bold rounded-full p-2 absolute top-0 ml-2 mt-2">
+            <span>25mins</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div>
+        {% include restaurant/food-aside.html %}
+    </div>
+{% endblock content %}
