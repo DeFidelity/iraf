@@ -40,9 +40,9 @@
         
     </div>
     <p class="text-pink-700 text-left uppercase mx-5 text-xl font-bold transform " >Collections:</p>
-    <div class="w-5/4 p-4 m-4">
+    <div class="w-5/4 grid gap-6 p-4 m-4">
     {% for blog in profile.collections.all %}
-        <div class="bg-white rounded-lg grid grid-cols-1 shadow-md p-3 hover:shadow-lg item">
+        <div class="bg-white rounded-lg max-w-min w-1/2 grid grid-cols-1 shadow-md p-3 hover:shadow-lg item">
             <div class="grid grid-cols-2 gap-6"
             hx-get="{% url 'blog-detail' blog.slug %}" hx-target="#body" hx-trigger="click" hx-swap="innerHTML" hx-push-url="/blog/{{blog.slug}}/">
                 <div>
