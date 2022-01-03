@@ -10,7 +10,7 @@ class Restaurant(models.Model):
     contact = models.CharField(max_length=255)
     about = models.CharField(max_length=255)
     review = models.FloatField(default=0.0,null=True,blank=True)
-    num_review = models.IntegerField(default=0)
+    num_reviews = models.IntegerField(default=0)
     
     def perform_review(self,user,review):
         has_reviewed = Review.objects.filter(review_user=user,restaurant=self.instance)
@@ -33,6 +33,7 @@ class Restaurant(models.Model):
         
 class FoodCategory(models.Model):
     name = models.CharField(max_length=255)
+    description = models.TextField(null=True, blank=True)
     date = models.DateTimeField(auto_now=True)
     
     def __str__(self):
@@ -44,12 +45,19 @@ class Food(models.Model):
     image = models.ImageField(verbose_name="food_image", upload_to='media/foods/', default=None,null=True,blank=True,height_field=None, width_field=None, max_length=100)
     restaurant = models.ForeignKey(Restaurant,related_name='restaurants',null=True,on_delete=models.CASCADE)
     price = models.PositiveSmallIntegerField()
+    description = models.TextField(null=True, blank=True)
     discount_price = models.PositiveSmallIntegerField()
     categories = models.ManyToManyField(FoodCategory, related_name='category',blank=True)
     review = models.FloatField(default=0.0,null=True, blank=True)
     num_review = models.PositiveSmallIntegerField(default=0)
     purchase = models.IntegerField(default=0)
+    date = models.DateTimeField(auto_now=True)
     
+    
+    class Meta:
+        ordering = ['-date']
+        
+        
     def __str__(self):
         return self.name
     

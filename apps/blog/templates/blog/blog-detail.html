@@ -2,8 +2,8 @@
 {% block title %}READ: {{ blog.title}}{% endblock title %}
 {% block content %}
 <!-- component -->
-<div class="mt-6 bg-gray-50 overflow-y-auto">
-  <div class=" px-10 py-6 mx-auto">
+<div class="mt-6 bg-gray-50 overflow-y-auto w-screen">
+  <div class=" px-10 py-6 md:mx-auto">
         
         <!--author-->
      <div class="max-w-6xl px-10 py-6 mx-auto bg-gray-50">
@@ -16,9 +16,9 @@
     <!--post categories-->
     <div class="flex items-center justify-start mt-4 mb-4">
       {% for tag in blog.tags.all %}
-          <a href="#"class="px-2 py-1 font-bold bg-red-400 text-white rounded-lg hover:bg-gray-500 mr-4">{{tag}}</a>
-        {% endfor %}
-         </div>
+        <a href="#"class="px-2 py-1 font-bold bg-red-400 text-white rounded-lg hover:bg-gray-500 mr-4">{{tag}}</a>
+      {% endfor %}
+    </div>
         <div class="mt-2">
           <!--post heading-->
           <a href="#"
@@ -41,20 +41,20 @@
                   </a>
             </div>
        </div>
- <div class="max-w-4xl px-10  mx-auto text-2xl text-gray-700 mt-4 rounded bg-gray-100">
+ <div class="md:max-w-4xl md:px-10 md:mx-auto text-2xl text-gray-700 mt-4 rounded bg-gray-100">
 
    <!--content body-->
-   <div class="prose prose-lg">
+   <div class="prose prose-sm md:prose-lg max-w-prose">
     {{blog.body|safe}}    
-    <div class="not-prose flex justify-between">
-      <div class="text-pink-700 text-bold text-center text-4xl font-extrabold bg-white border-4 border-pink-800 p-4 inline-block rounded-full"
+    <div class="not-prose flex justify-between w-screen">
+      <div class="text-pink-700 text-bold text-center md:text-4xl md:font-extrabold bg-white p-4 inline-block rounded-full"
         hx-post="{% url 'blog-like' blog.pk %}" hx-trigger="click" hx-target="#like" hx-swap="innerHTML" >
-        <i class="far fa-heart"></i><span id="like"> {{blog.likes.count}}</span>
+        {{blog.likes.count}} <i class="far fa-heart"></i><span id="like"> </span>
       </div>
       <div id="collection" class="text-pink-700 text-bold text-center text-4xl font-extrabold bg-white border-4 border-pink-800 p-4 inline-block rounded-full"
         hx-post="{% url 'collection' blog.pk %}" hx-trigger="click" hx-target="#collection" hx-swap="innerHTML"
         >
-        Add to collection
+        +
       </div>
     </div>
   </div>

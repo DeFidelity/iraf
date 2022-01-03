@@ -6,7 +6,9 @@
 
     <div class="mt-8 grid gap-10 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {% for food in foods %}
-        <div class="bg-white rounded overflow-hidden shadow-md relative food-item"> 
+        <div class="bg-white rounded overflow-hidden shadow-md relative food-item"
+        hx-get="{% url 'food' food.pk %}" hx-trigger="click" hx-target="body" hx-swap="innerHTML" hx-push-url="/restaurants/food/{{food.pk}}/"
+        > 
             <img src="{{food.image}}" alt="stew" class="w-full h-32 sm:h-48 object-cover">
             <div class="m-4">
             <span class="font-bold" 

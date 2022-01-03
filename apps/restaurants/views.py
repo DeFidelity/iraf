@@ -20,12 +20,11 @@ class RestaurantListView(View):
         return render(request,'restaurant/restaurant-list.html', context)
 
 
-class RestaurantView(View):
-    def get(self, request,pk):
+class RestaurantDetailView(View):
+    def get(self,request,pk,*args,**kwargs):
         restaurant = get_object_or_404(Restaurant,pk=pk)
         foods = Food.objects.filter(restaurant=restaurant)
         reviews = Review.objects.filter(restaurant=restaurant)
-        
         paginator = Paginator(reviews,5)
         
             
@@ -42,7 +41,7 @@ class RestaurantView(View):
         return render(request, 'restaurant/restaurant.html', context)
     
     
-    def post(self, request,pk,*args,**kwargs):
+    def post(self,request,pk,*args,**kwargs):
         restaurant = get_object_or_404(Restaurant,pk=pk)
         food = Food.objects.filter(restaurant=restaurant)
         form = RestaurantReviewForm(request.POST)
@@ -83,7 +82,7 @@ class FoodDetailView(View):
     def get(self, request,pk):
         food = get_object_or_404(Food, pk=pk)
         categories = food.categories.all()
-        review = food.review
+        review = Review.objects.filter(food=food)
         paginator = Paginator(review,5)
         
             
@@ -98,7 +97,7 @@ class FoodDetailView(View):
             'page_obj':page_obj,
         }   
 
-        return render(request,'restaurant/food-detail.html')
+        return render(request,'restaurant/food-detail.html',context)
     
     def post(self, request,pk,*args,**kwargs):
         food = get_object_or_404(Food, pk=pk)

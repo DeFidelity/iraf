@@ -2,26 +2,43 @@
 {% block title %} Restaurants{% endblock title %}
 {% block content %}
 <!-- component -->
-<div
-    class="container mb-2 flex mx-auto w-full items-center justify-center"
->
-    <ul class="flex flex-col p-4">
+<div class="container mb-2 flex mx-auto w-full items-center justify-center">
+    <div class="flex items-center justify-start mt-4 mb-4">
+        {% for category in categories %}
+            <a href="#"class="px-2 py-1 font-bold bg-red-400 text-white rounded-lg hover:bg-gray-500 mr-4">{{category}}</a>
+        {% endfor %}
+    </div>
+    <ul class="flex w-screen md:w-5/6 flex-col p-4">
         {% for restaurant in restaurants %}
-            <li class="border-gray-400 m-6  flex flex-row"
-            hx-get="{% url 'restaurant' restaurant.pk %}" hx-trigger="click" hx-target="body" hx-swap="innerHTML" hx-push-url="/restaurants/restaurant/{{restaurant.pk}}/"
+            <li class="border-gray-400  m-6 w-full flex flex-row"
+            hx-get="{% url 'restaurant_detail' restaurant.pk %}" hx-trigger="click" hx-target="body" hx-swap="innerHTML" hx-push-url="/restaurants/restaurant/{{restaurant.pk}}/"
             >
-                <div
-                    class="select-none flex flex-1 items-center transition duration-500 ease-in-out transform hover:-translate-y-2 rounded-2xl border-2 p-6 hover:shadow-2xl border-pink-400"
-                >
+                <div class="select-none flex flex-1 items-center transition duration-500 ease-in-out transform hover:-translate-y-2 rounded-2xl border-2 p-6 hover:shadow-2xl border-pink-400">
                     <div class="flex-1 pl-1 mr-16">
-                        <div class="font-medium">
+                        <div class="font-medium text">
                             {{restaurant.name}}
                         </div>
                     </div>
-                    <div
-                        class="w-1/4 text-wrap text-center flex text-white text-bold flex-col rounded-md bg-pink-500 justify-center items-center mr-10 p-2"
-                    >
-                        {{restaurant.review}}
+                    <div class="md:w-2/5 text-wrap text-center flex text-white text-bold flex-col rounded-md bg-pink-500 justify-center items-center mr-10 p-2">
+                        <p class="block">
+                            <div x-data="{ temp: 2, orig: 2 }" class="flex cursor-pointer text-4xl">
+                                <input type="number" :value="orig" class="hidden"/>
+                              
+                                <template x-if="orig != null">
+                                  <span class="text-gray-400 hover:text-gray-700" @mouseenter="temp = null" @mouseleave="temp = orig">⨯</span>
+                                </template>
+                              
+                                <template x-for="item in [1,2,3,4,5]">
+                                 <span @mouseenter="temp = item" 
+                                       @mouseleave="temp = orig"
+                                       class="text-gray-300"
+                                       :class="{'text-red-600': (temp >= item)}">★</span>
+                                </template>
+                              </div>
+                        </p>
+                        <p class="block">
+                            {{ restaurant.num_reviews }} users
+                        </p>
                     </div>
                 </div>
             </li>
