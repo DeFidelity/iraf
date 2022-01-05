@@ -1,26 +1,32 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-<div class="grid lg:grid-cols-3 md:grid-cols-2 gap-2 h-52">
-    {% for blog in blogs %}
-        <!--card-->
-        <div class="bg-white rounded-lg grid grid-cols-1 shadow-md p-3 hover:shadow-lg">
-            <div class="grid grid-cols-2 gap-6"
-            hx-get="{% url 'blog-detail' blog.slug %}" hx-target="#body" hx-trigger="click" hx-swap="innerHTML" hx-push-url="/blog/{{blog.slug}}/">
-                <div>
-                    <img class="transform hover:scale-125 transition duration-300"  src="{% static 'images/salad.png' %}" alt="salad" >
-                </div>
-                <div>
-                    <span class="font-bold text-xl" hx-get="{% url 'blog-detail' blog.slug%}" hx-push-url="blog/{{blog.title}}/" hx-swap="innerHTML" hx-target="#mock">{{blog.title}} </span>
-                    <span class="block text-gray-600 text-sm">{{blog.tags }}</span>
-                    <span class="block text-custom-yellow mt-4  font-bold text-3xl">$ 6.30</span>
-                </div>
-            </div>
-        </div>
-
-        {% endfor %}
-    </div>
+<h2 class="text-2xl mt-4 text-gray-500 font-bold text-center">Top Posts</h2>
     <div class="flex justify-center space-x-1 dark:text-coolGray-100">
+		<div class="flex grid h-full grid-cols-12 gap-10 pb-10 mt-8 sm:mt-16">
+            <div class="grid grid-cols-12 col-span-12 gap-7">
+                {% for blog in blogs %}
+                <div class="flex flex-col items-start col-span-12 overflow-hidden shadow-sm rounded-xl md:col-span-6 lg:col-span-4"
+                    hx-get="{% url 'blog-detail' blog.slug %}" hx-target="#body" hx-trigger="click" hx-swap="innerHTML" hx-push-url="/blog/{{blog.slug}}/"
+                >
+                    <a href="#_" class="block transition duration-200 ease-out transform hover:scale-110">
+                        <img class="object-cover w-full shadow-sm h-full" src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1951&amp;q=80">
+                    </a>
+                    <div class="relative flex flex-col items-start px-6 bg-white border border-t-0 border-gray-200 py-7 rounded-b-2xl">
+                        <div class="bg-indigo-400 absolute top-0 -mt-3 flex items-center px-3 py-1.5 leading-none w-auto inline-block rounded-full text-xs font-medium uppercase text-white inline-block">
+                            {% for tag in blog.tags.all %}
+                            <span>{{tag}}</span>
+                            {% endfor %}
+                        </div>
+                        <h2 class="text-base text-gray-500 font-bold w-full sm:text-lg md:text-xl"><a href="#_">{{blog.title|truncatewords:15}}</a></h2>
+                        <!-- <p class="mt-2 text-sm text-gray-500">Learn how to authenticate users to your application using facebook.</p> -->
+                    </div>
+                </div>
+                {% endfor %}
+                
+            </div>
+
+        </div>
         {% if page_obj.has_previous %}
         <button title="previous" type="button" class="inline-flex items-center justify-center w-8 h-8 py-0 border rounded-md shadow-md dark:bg-coolGray-900 dark:border-coolGray-800">
             <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="w-4">
@@ -28,7 +34,6 @@
             </svg>
         </button>
         {% endif %}
-
         {% comment %} {% for page in page_obj.paginator.num_pages %}
             {% if page < 5 %}
             <button type="button" title="Page 1" class="inline-flex items-center justify-center w-8 h-8 text-sm font-semibold border rounded shadow-md dark:bg-coolGray-900 dark:text-violet-400 dark:border-violet-400">{{ page_obj.number }}</button>
@@ -45,7 +50,7 @@
         </button>
         {% endif %}
     </div>
-        {% endblock content %}
+{% endblock content %}
     <!--card end-->
 <div class="prose">
 {% include "blog/blog-aside.html" %}

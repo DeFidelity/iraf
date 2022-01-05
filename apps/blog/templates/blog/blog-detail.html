@@ -2,16 +2,12 @@
 {% block title %}READ: {{ blog.title}}{% endblock title %}
 {% block content %}
 <!-- component -->
-<div class="mt-6 w-screen bg-gray-50 overflow-y-auto ">
-  <div class=" px-10 py-6 md:mx-auto">
-        
-        <!--author-->
-     <div class="max-w-6xl px-10 py-6 mx-auto bg-gray-50">
-        
-    <a href="#_" class="block transition duration-200 ease-out transform hover:scale-110">
-          <img class="object-cover w-full shadow-sm h-full" src="blog.image">
-          <img class="object-cover w-full shadow-sm h-full" src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1951&amp;q=80">
-    </a>
+<div class="mt-6 w-full bg-gray-50 overflow-y-auto ">
+  <div class="px-10 py-6 mx-auto bg-gray-50">  
+      <a href="#_" class="block mx-auto transition duration-200 ease-out transform hover:scale-110">
+            <img class="object-cover w-full shadow-sm h-full" src="blog.image">
+            <img class="object-cover w-full shadow-sm h-full" src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1951&amp;q=80">
+      </a>
 
     <!--post categories-->
     <div class="flex items-center justify-start mt-4 mb-4">
@@ -22,35 +18,33 @@
     <div class="mt-2">
       <!--post heading-->
       <a href="#" class="sm:text-3xl md:text-3xl lg:text-3xl xl:text-4xl font-bold text-purple-500  hover:underline"{{blog.title}}</a>
-            <!--post views-->
-            <div class="flex justify-start items-center mt-2">
-              <p class="text-sm text-green-500 font-bold bg-gray-100 rounded-full py-2 px-2 hover:text-red-500">3000</p>
-              <p class="text-sm text-gray-400 font-bold ml-5">Views</p>
-            </div>
-
-            <!--author avator-->
-            <div class="font-light text-gray-600">
-            
-          <a href="#" class="flex items-center mt-6 mb-6"><img src="https://avatars.githubusercontent.com/u/71964085?v=4" alt="avatar" class="hidden object-cover w-14 h-14 mx-4 rounded-full sm:block">
-                  <h1 class="font-bold text-gray-700 hover:underline">By {{blog.author.profile.user}}</h1>
-          </a>
+        <!--post views-->
+        <div class="flex justify-start items-center mt-2">
+          <p class="text-sm text-green-500 font-bold bg-gray-100 rounded-full py-2 px-2 hover:text-red-500">3000</p>
+          <p class="text-sm text-gray-400 font-bold ml-5">Views</p>
         </div>
-    </div>
- <div class="md:max-w-4xl md:px-10 md:mx-auto text-2xl text-gray-700 mt-4 rounded bg-gray-100">
-   <!--content body-->
-   <div class="prose prose-sm prose-futyi md:prose-lg max-w-prose">
-    {{blog.body|safe}}    
-    <div class="not-prose flex justify-between w-screen">
-      <div class="text-pink-700 text-bold text-center md:text-4xl md:font-extrabold bg-white p-4 inline-block rounded-full"
-        hx-post="{% url 'blog-like' blog.pk %}" hx-trigger="click" hx-target="#like" hx-swap="innerHTML" >
-        {{blog.likes.count}} <i class="far fa-heart"></i><span id="like"> </span>
-      </div>
-      <div id="collection" class="text-pink-700 text-bold text-center text-4xl font-extrabold bg-white border-4 border-pink-800 p-4 inline-block rounded-full"
-        hx-post="{% url 'collection' blog.pk %}" hx-trigger="click" hx-target="#collection" hx-swap="innerHTML"
-        >
-        +
+        <!--author avator-->
+      <div class="font-light text-gray-600">
+        <a href="#" class="flex items-center mt-6 mb-6"><img src="https://avatars.githubusercontent.com/u/71964085?v=4" alt="avatar" class="hidden object-cover w-14 h-14 mx-4 rounded-full sm:block">
+          <h1 class="font-bold text-gray-700 hover:underline">By {{blog.author.profile.user}}</h1>
+        </a>
       </div>
     </div>
+    <div class="md:max-w-4xl md:px-10 mx-auto text-2xl text-gray-700 mt-4 rounded bg-gray-100">
+    <!--content body-->
+      <div class="prose prose-sm prose-stone lg:prose-xl">
+        {{blog.body|safe}}    
+        <div class="not-prose flex gap-x-2.5">
+          <p class="text-pink-300 text-center md:text-lg md:font-bold bg-white p-4 border-4 rounded-lg"
+            hx-post="{% url 'blog-like' blog.pk %}" hx-trigger="click" hx-target="#like" hx-swap="innerHTML" >
+            {{blog.likes.count}} <i class="far fa-heart"></i><span id="like"> </span>
+          </p>
+          <p id="collection" class="text-pink-300 text-center md:text-lg font-bold bg-white inline-block border-4 p-4 rounded-lg"
+            hx-post="{% url 'collection' blog.pk %}" hx-trigger="click" hx-target="#collection" hx-swap="innerHTML"
+            >add
+          </p>
+        </div>
+      </div>
     <div>
       <form class="w-full max-w-xl bg-white rounded-lg px-4 pt-2"
       hx-post="{% url 'blog-comment' blog.pk %}" hx-target="#comment-report" hx-swap="innerHTML">
@@ -68,5 +62,7 @@
       <p id="comment-report" class="px-0 md:px-4 md:pt-3 pb-2 text-green-800 text-sm md:text-lg"></p>
     </div>
   </div>
+</div>
+</div>
 </div>
 {% endblock content %}

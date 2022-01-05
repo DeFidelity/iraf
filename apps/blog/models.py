@@ -79,6 +79,9 @@ class BlogPageTag(TaggedItemBase):
         related_name='tagged_items',
         on_delete=models.CASCADE
     )
+    
+    def __str__(self):
+        return str(self.content_object)
 
 
 
@@ -143,6 +146,5 @@ class Comment(models.Model):
     reply = models.BooleanField(default=False)
     stars = models.PositiveSmallIntegerField(null=True,blank=True)
     date = models.DateTimeField(default=timezone.now)
-
     def __str__(self):
         return self.user

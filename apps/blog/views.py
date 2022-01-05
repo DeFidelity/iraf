@@ -66,7 +66,7 @@ class BlogComment(LoginRequiredMixin,View):
             form = CommentForm(request.POST)
             if form.is_valid():
                 new_comment = form.save(commit=False)
-                new_comment.user = request.user
+                new_comment.author = request.user
                 new_comment.blog = post
                 new_comment.save()
 
@@ -78,7 +78,7 @@ class Search(View):
     def get(self,request):
         return render(request,'blog/search.html')
 
-    def post(self,request,*args,**kwargs):
+    def post(self,request,slug=None,*args,**kwargs):
         blog = BlogPage.objects.all()
         query = request.POST.get('query')
 
