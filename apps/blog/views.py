@@ -38,13 +38,7 @@ class BlogDetailView(View):
             'blog':blog
         }
         return render(request,'blog/blog-detail.html',context)
-
-class BlogComment(LoginRequiredMixin,View):
-    def get(self,request,pk):
-        comment = Comment.objects.filter(post=pk)
-
-        return render(request,'blog/comments.html')
-
+    
     def post(self,request,pk):
 
         comment = request.POST.get('comment')
@@ -52,6 +46,24 @@ class BlogComment(LoginRequiredMixin,View):
 
         if post:
             form = CommentForm(comment)
+            if form.is_valid():
+                new_comment = form.save(commit=False)
+                new_comment.user = request.user
+                new_comment.blog = post
+                new_comment.save()
+
+                return HttpResponse("comment submitted")
+            return HttpResponse("form error")
+        return HttpResponse("post not exist")
+
+class BlogComment(LoginRequiredMixin,View):
+    def post(self,request,pk):
+
+        comment = request.POST.get('comment')
+        post = get_object_or_404(BlogPage,pk=pk)
+
+        if post:
+            form = CommentForm(request.POST)
             if form.is_valid():
                 new_comment = form.save(commit=False)
                 new_comment.user = request.user

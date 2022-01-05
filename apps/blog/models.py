@@ -139,8 +139,9 @@ class BlogPageGalleryImage(Orderable):
 class Comment(models.Model):
     blog = models.ForeignKey(BlogPage,related_name='comments',on_delete=models.CASCADE)
     author = models.ForeignKey(User,related_name='+',on_delete=models.CASCADE)
-    comment = models.TextField(max_length=200)
-    stars = models.PositiveSmallIntegerField()
+    comment = models.TextField()
+    reply = models.BooleanField(default=False)
+    stars = models.PositiveSmallIntegerField(null=True,blank=True)
     date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):

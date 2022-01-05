@@ -2,7 +2,7 @@
 {% block title %}READ: {{ blog.title}}{% endblock title %}
 {% block content %}
 <!-- component -->
-<div class="mt-6 bg-gray-50 overflow-y-auto w-screen">
+<div class="mt-6 w-screen bg-gray-50 overflow-y-auto ">
   <div class=" px-10 py-6 md:mx-auto">
         
         <!--author-->
@@ -19,32 +19,26 @@
         <a href="#"class="px-2 py-1 font-bold bg-red-400 text-white rounded-lg hover:bg-gray-500 mr-4">{{tag}}</a>
       {% endfor %}
     </div>
-        <div class="mt-2">
-          <!--post heading-->
-          <a href="#"
-                class="sm:text-3xl md:text-3xl lg:text-3xl xl:text-4xl font-bold text-purple-500  hover:underline"{{blog.title}}</a>
-
-                <!--post views-->
-                <div class="flex justify-start items-center mt-2">
-                  <p class="text-sm text-green-500 font-bold bg-gray-100 rounded-full py-2 px-2 hover:text-red-500">3000</p>
-                  <p class="text-sm text-gray-400 font-bold ml-5">Views</p>
-                
-                </div>
-
-                <!--author avator-->
-               <div class="font-light text-gray-600">
-                
-              <a href="#" class="flex items-center mt-6 mb-6"><img
-                          src="https://avatars.githubusercontent.com/u/71964085?v=4"
-                          alt="avatar" class="hidden object-cover w-14 h-14 mx-4 rounded-full sm:block">
-                      <h1 class="font-bold text-gray-700 hover:underline">By {{blog.author.profile.user}}</h1>
-                  </a>
+    <div class="mt-2">
+      <!--post heading-->
+      <a href="#" class="sm:text-3xl md:text-3xl lg:text-3xl xl:text-4xl font-bold text-purple-500  hover:underline"{{blog.title}}</a>
+            <!--post views-->
+            <div class="flex justify-start items-center mt-2">
+              <p class="text-sm text-green-500 font-bold bg-gray-100 rounded-full py-2 px-2 hover:text-red-500">3000</p>
+              <p class="text-sm text-gray-400 font-bold ml-5">Views</p>
             </div>
-       </div>
- <div class="md:max-w-4xl md:px-10 md:mx-auto text-2xl text-gray-700 mt-4 rounded bg-gray-100">
 
+            <!--author avator-->
+            <div class="font-light text-gray-600">
+            
+          <a href="#" class="flex items-center mt-6 mb-6"><img src="https://avatars.githubusercontent.com/u/71964085?v=4" alt="avatar" class="hidden object-cover w-14 h-14 mx-4 rounded-full sm:block">
+                  <h1 class="font-bold text-gray-700 hover:underline">By {{blog.author.profile.user}}</h1>
+          </a>
+        </div>
+    </div>
+ <div class="md:max-w-4xl md:px-10 md:mx-auto text-2xl text-gray-700 mt-4 rounded bg-gray-100">
    <!--content body-->
-   <div class="prose prose-sm md:prose-lg max-w-prose">
+   <div class="prose prose-sm prose-futyi md:prose-lg max-w-prose">
     {{blog.body|safe}}    
     <div class="not-prose flex justify-between w-screen">
       <div class="text-pink-700 text-bold text-center md:text-4xl md:font-extrabold bg-white p-4 inline-block rounded-full"
@@ -57,6 +51,22 @@
         +
       </div>
     </div>
+    <div>
+      <form class="w-full max-w-xl bg-white rounded-lg px-4 pt-2"
+      hx-post="{% url 'blog-comment' blog.pk %}" hx-target="#comment-report" hx-swap="innerHTML">
+        <div class="flex flex-wrap -mx-3 mb-6">
+            <h2 class="px-0 md:px-4 md:pt-3 pb-2 text-gray-800 text-sm md:text-lg">Add a new comment</h2>
+            <div class="w-full md:w-full px-3 mb-2 mt-2">
+              <textarea name="comment" class="bg-gray-100 rounded border border-gray-400 leading-normal resize-none w-full h-20 py-2 px-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-white" placeholder='Type Your Comment' required></textarea>
+            </div>
+            <div class="w-full md:w-full flex items-start px-3">
+              <div class="-mr-1">
+                  <input type='submit' class="bg-white text-gray-700 md:font-medium py-1 px-4 border border-gray-400 rounded-lg md:tracking-wide mr-1 hover:bg-gray-100" value='Post Comment'>
+              </div>
+          </div>
+      </form>
+      <p id="comment-report" class="px-0 md:px-4 md:pt-3 pb-2 text-green-800 text-sm md:text-lg"></p>
+    </div>
   </div>
-
+</div>
 {% endblock content %}
