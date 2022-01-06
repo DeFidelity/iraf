@@ -32,7 +32,7 @@
     </div>
     <div class="md:max-w-4xl md:px-10 mx-auto text-2xl text-gray-700 mt-4 rounded bg-gray-100">
     <!--content body-->
-      <div class="prose prose-sm prose-stone lg:prose-xl">
+      <div class="prose prose-sm prose-stone md:prose-lg lg:prose-xl dark:prose-invert">
         {{blog.body|safe}}    
         <div class="not-prose flex gap-x-2.5">
           <p class="text-pink-300 text-center md:text-lg md:font-bold bg-white p-4 border-4 rounded-lg"
@@ -45,22 +45,96 @@
           </p>
         </div>
       </div>
-    <div>
-      <form class="w-full max-w-xl bg-white rounded-lg px-4 pt-2"
-      hx-post="{% url 'blog-comment' blog.pk %}" hx-target="#comment-report" hx-swap="innerHTML">
-        <div class="flex flex-wrap -mx-3 mb-6">
-            <h2 class="px-0 md:px-4 md:pt-3 pb-2 text-gray-800 text-sm md:text-lg">Add a new comment</h2>
-            <div class="w-full md:w-full px-3 mb-2 mt-2">
-              <textarea name="comment" class="bg-gray-100 rounded border border-gray-400 leading-normal resize-none w-full h-20 py-2 px-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-white" placeholder='Type Your Comment' required></textarea>
-            </div>
-            <div class="w-full md:w-full flex items-start px-3">
-              <div class="-mr-1">
-                  <input type='submit' class="bg-white text-gray-700 md:font-medium py-1 px-4 border border-gray-400 rounded-lg md:tracking-wide mr-1 hover:bg-gray-100" value='Post Comment'>
+      
+      {% if category %}
+      <h2 class="text-lg md:text-2xl mt-4 text-gray-500 font-bold text-center">Related Posts</h2>
+      <div class="flex justify-center space-x-1 dark:text-coolGray-100">
+      <div class="flex h-full grid-cols-12 gap-10 pb-10 mt-8 sm:mt-16">
+              <div class="grid grid-cols-12 col-span-12 gap-7">
+                  {% for blog in category %}
+                  <div class="flex flex-col items-start col-span-12 overflow-hidden shadow-sm rounded-xl md:col-span-6 lg:col-span-4"
+                      hx-get="{% url 'blog-detail' blog.slug %}" hx-target="#body" hx-trigger="click" hx-swap="innerHTML" hx-push-url="/blog/{{blog.slug}}/"
+                  >
+                      <a href="#_" class="block transition duration-200 ease-out transform hover:scale-110">
+                          <img class="object-cover w-full shadow-sm h-full" src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1951&amp;q=80">
+                      </a>
+                      <div class="relative flex flex-col items-start px-6 bg-white border border-t-0 border-gray-200 py-7 rounded-b-2xl">
+                          <div class="bg-indigo-400 absolute top-0 -mt-3 items-center px-3 py-1.5 leading-none w-auto rounded-full text-xs font-medium uppercase text-white inline-block">
+                              {% for tag in blog.tags.all %}
+                              <span>{{tag}}</span>
+                              {% endfor %}
+                          </div>
+                          <h2 class="text-base text-gray-500 font-bold w-full sm:text-lg md:text-xl"><a href="#_">{{blog.title|truncatewords:15}}</a></h2>
+                          <!-- <p class="mt-2 text-sm text-gray-500">Learn how to authenticate users to your application using facebook.</p> -->
+                      </div>
+                  </div>
+                  {% endfor %}
+                  
               </div>
+  
           </div>
-      </form>
-      <p id="comment-report" class="px-0 md:px-4 md:pt-3 pb-2 text-green-800 text-sm md:text-lg"></p>
-    </div>
+        </div>
+      {% else %}
+      <h2 class="text-2xl mt-4 text-gray-500 font-bold text-center">Top Posts</h2>
+      <div class="flex justify-center space-x-1 dark:text-coolGray-100">
+      <div class="flex h-full grid-cols-12 gap-10 pb-10 mt-8 sm:mt-16">
+              <div class="grid grid-cols-12 col-span-12 gap-7">
+                  {% for blog in blogs %}
+                  <div class="flex flex-col items-start col-span-12 overflow-hidden shadow-sm rounded-xl md:col-span-6 lg:col-span-4"
+                      hx-get="{% url 'blog-detail' blog.slug %}" hx-target="#body" hx-trigger="click" hx-swap="innerHTML" hx-push-url="/blog/{{blog.slug}}/"
+                  >
+                      <a href="#_" class="block transition duration-200 ease-out transform hover:scale-110">
+                          <img class="object-cover w-full shadow-sm h-full" src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1951&amp;q=80">
+                      </a>
+                      <div class="relative flex flex-col items-start px-6 bg-white border border-t-0 border-gray-200 py-7 rounded-b-2xl">
+                          <div class="bg-indigo-400 absolute top-0 -mt-3 items-center px-3 py-1.5 leading-none w-auto rounded-full text-xs font-medium uppercase text-white inline-block">
+                              {% for tag in blog.tags.all %}
+                              <span>{{tag}}</span>
+                              {% endfor %}
+                          </div>
+                          <h2 class="text-base text-gray-500 font-bold w-full sm:text-lg md:text-xl"><a href="#_">{{blog.title|truncatewords:15}}</a></h2>
+                          <!-- <p class="mt-2 text-sm text-gray-500">Learn how to authenticate users to your application using facebook.</p> -->
+                      </div>
+                  </div>
+                  {% endfor %}
+                  
+              </div>
+  
+          </div>
+        </div>
+      {% endif %}
+
+      <div class="max-w-4xl py-16 xl:px-8 flex justify-center items-center mx-auto">  
+				<div class="w-full mt-16 md:mt-0 ">
+          <form class="relative z-10 h-auto p-8 py-10 overflow-hidden bg-white border-b-2 border-gray-300 rounded-lg shadow-2xl md:px-7"
+            hx-post="{% url 'blog-comment' blog.pk %}" hx-target="#comment-report" hx-swap="innerHTML">
+            <h3 class="mb-6 text-lg md:text-2xl font-medium text-center">Write a comment</h3>
+            <textarea type="text" name="comment" class="w-full px-4 py-3 mb-4 border border-transparent border-gray-200 rounded-lg focus:ring focus:ring-blue-500 focus:outline-none" placeholder="Write your comment" rows="5" col="33"></textarea>
+            <input type="submit" value="Add comment" class="text-lg md:text-xl text-white px-4 py-3 bg-blue-500 rounded-lg">
+            <p id="comment-report" class="px-0 md:px-4 md:pt-3 pb-2 text-green-800 text-sm md:text-lg"></p>
+          </form>
+			   </div>
+      </div>
+
+
+				<!--comments-->
+				
+		 <div class="max-w-4xl py-16 bg-gray-100 min-w-screen animation-fade animation-delay  px-0 md:px-8 mx-auto xl:px-5">
+		        
+		        <p class="mt-1 text-2xl font-bold text-left text-gray-800 sm:text-lg md:text-3xl lg:text-4xl sm:text-center sm:mx-0">
+		            All comments on this post
+		        </p>
+		        {% for comment in comments %}
+		        <div class="flex items-center w-full px-6 py-6 mx-auto mt-10 bg-white border border-gray-200 rounded-lg sm:px-8 md:px-12 sm:py-8 sm:shadow lg:w-5/6 xl:w-2/3">
+
+		            <div><h3 class="text-lg font-bold text-purple-500 sm:text-xl md:text-2xl">By {{comment.author}}</h3>
+		            	<p class="text-sm font-bold text-gray-300">{{comment.date|timesince}} ago</p>
+		            	<p class="mt-2 text-base text-gray-600 sm:text-lg md:text-normal">
+		               {{comment.comment}}</p>
+		            </div>
+		            
+		        </div>
+            {% endfor %}
   </div>
 </div>
 </div>

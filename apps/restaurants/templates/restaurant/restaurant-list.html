@@ -8,7 +8,7 @@
             <a href="#"class="px-2 py-1 font-bold bg-red-400 text-white rounded-lg hover:bg-gray-500 mr-4">{{category}}</a>
         {% endfor %}
     </div>
-    <ul class="flex w-screen md:w-5/6 flex-col p-4">
+    <ul class="flex w-5/6 items-center justify-center flex-col p-4">
         {% for restaurant in restaurants %}
             <li class="border-gray-400  m-6 w-full flex flex-row"
             hx-get="{% url 'restaurant_detail' restaurant.pk %}" hx-trigger="click" hx-target="body" hx-swap="innerHTML" hx-push-url="/restaurants/restaurant/{{restaurant.pk}}/"
@@ -19,9 +19,9 @@
                             {{restaurant.name}}
                         </div>
                     </div>
-                    <div class="md:w-2/5 text-wrap text-center flex text-white text-bold flex-col rounded-md bg-pink-500 justify-center items-center mr-10 p-2">
+                    <div class="text-wrap text-center flex text-white text-sm md:text-bold flex-col rounded-md bg-pink-500 justify-center items-center p-2">
                         <p class="block">
-                            <div x-data="{ temp: 2, orig: 2 }" class="flex cursor-pointer text-4xl">
+                            <div x-data="{ temp: 2, orig: 2 }" class="flex cursor-pointer text-xl md:text-4xl">
                                 <input type="number" :value="orig" class="hidden"/>
                               
                                 <template x-if="orig != null">

@@ -33,9 +33,16 @@ class BlogListView(View):
 class BlogDetailView(View):
     def get(self,request,slug):
         blog = get_object_or_404(BlogPage,slug=slug)
-
+        comments = Comment.objects.filter(blog=blog)
+        blogs = BlogPage.objects.all().exclude(slug=slug).order_by('likes')
+        relative_posts = BlogPage.objects.filter(categories__pk__in=blog.categories.all()).exclude(slug=slug)[:3]
+        
+        
         context = {
-            'blog':blog
+            'blog':blog,
+            'comments':comments,
+            'blogs': blogs,
+            'category': relative_posts,
         }
         return render(request,'blog/blog-detail.html',context)
     
@@ -136,7 +143,24 @@ class UserCollection(LoginRequiredMixin,View):
             return HttpResponse('removed from collection')
         
 
+class CommentReplyView(LoginRequiredMixin,View):
+    def post(self,request,pk,c_pk,*args,**kwargs):
+        comment = request.POST.get('comment')
+        parent = get_object_or_404(Comment,pk=c_pk)
+        post = get_object_or_404(BlogPage,pk=pk)
 
+        if post:
+            form = CommentForm(request.POST)
+            if form.is_valid():
+                new_comment = form.save(commit=False)
+                new_comment.author = request.user
+                new_comment.parent = parent
+                new_comment.blog = post
+                new_comment.save()
+
+                return HttpResponse("reply submitted")
+            return HttpResponse("form error")
+        return HttpResponse("post not exist")
 
 
 

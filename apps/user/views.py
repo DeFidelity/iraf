@@ -36,3 +36,4 @@ class ProfileEdit(LoginRequiredMixin,View):
                 return redirect('profile')
             else:
                 return HttpResponse('U dey mad, Na Your Papa account be that??')
+

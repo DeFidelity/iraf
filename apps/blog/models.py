@@ -90,7 +90,7 @@ class BlogPage(MetadataPageMixin, Page):
     intro = models.CharField(max_length=250)
     body = RichTextField(blank=True)
     tags = ClusterTaggableManager(through=BlogPageTag, blank=True)
-    categories = ParentalManyToManyField(BlogCategory, blank=True)
+    categories = ParentalManyToManyField(BlogCategory, related_name='category', blank=True)
     date = models.DateField("Post date",default=timezone.now)
     likes = models.ManyToManyField(User,blank=True,related_name='+')
 
@@ -143,8 +143,9 @@ class Comment(models.Model):
     blog = models.ForeignKey(BlogPage,related_name='comments',on_delete=models.CASCADE)
     author = models.ForeignKey(User,related_name='+',on_delete=models.CASCADE)
     comment = models.TextField()
-    reply = models.BooleanField(default=False)
+    parent = models.ForeignKey('self',on_delete=models.CASCADE,null=True, blank=True,related_name='+')
     stars = models.PositiveSmallIntegerField(null=True,blank=True)
     date = models.DateTimeField(default=timezone.now)
+    
     def __str__(self):
         return self.user
