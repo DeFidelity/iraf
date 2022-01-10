@@ -40,14 +40,14 @@ class BlogIndexPage(Page):
 @register_snippet
 class BlogCategory(models.Model):
     name = models.CharField(max_length=255)
-    icon = models.ForeignKey(
-        'wagtailimages.Image', null=True, blank=True,
-        on_delete=models.SET_NULL, related_name='+'
-    )
+    title = models.CharField(max_length=100)
+    description = RichTextField(null=True, blank=True)
+    date = models.DateTimeField(auto_now=True)
 
     panels = [
         FieldPanel('name'),
-        # ImageChooserPanel('icon'),
+        FieldPanel('description'),
+        FieldPanel('date')
     ]
 
     def __str__(self):
@@ -148,4 +148,4 @@ class Comment(models.Model):
     date = models.DateTimeField(default=timezone.now)
     
     def __str__(self):
-        return self.user
+        return f"by {self.author} on {self.blog}"

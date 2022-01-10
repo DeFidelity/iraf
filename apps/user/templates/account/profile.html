@@ -12,18 +12,18 @@
                 <div class="text-center">
                     <h1 class="text-2xl mt-2">{{profile.username}}</h1>
                     <div class="px-5 text-sm">
-                        <p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                        {% comment %} <p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p> {% endcomment %}
                     </div>
                     <div class="flex justify-between mt-3 px-4">
                         <div class="flex flex-col"> 
-                            <span class="font-bold text-2xl">97</span> 
-                            <span class="text-sm text-pink-800">Orders</span> 
+                            <span class="font-bold text-2xl">{{review_count}}</span> 
+                            <span class="text-sm text-pink-800">Reviews</span> 
                         </div>
-                        <div class="flex flex-col"> <span class="font-bold text-2xl">197</span> 
-                            <span class="text-sm text-pink-800">Star</span> 
+                        <div class="flex flex-col"> <span class="font-bold text-2xl">{{post_liked}}</span> 
+                            <span class="text-sm text-pink-800">Post liked</span> 
                         </div>
                         <div class="flex flex-col"> 
-                            <span class="font-bold text-2xl">47</span> 
+                            <span class="font-bold text-2xl">{{profile.collections.count}}</span> 
                             <span class="text-sm text-pink-800">Collection</span> 
                         </div>
                     </div>

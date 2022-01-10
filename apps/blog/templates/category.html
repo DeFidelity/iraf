@@ -1,0 +1,50 @@
+{% extends "blog/base.html" %}
+{% block content %}
+  <section class="text-blueGray-700 ">
+    <div class="container flex flex-col px-5 py-8 mx-auto lg:items-center">
+      <div class="flex flex-col w-full mb-8 text-left lg:text-center">
+        <h2 class="mb-4 text-xs font-semibold tracking-widest text-black uppercase title-font">Currently Viewing Posts in {{category.name|upper}} Category</h2>
+        <h1 class="mx-auto mb-6 text-4xl font-thin leading-none tracking-tighter text-purple-800  sm:text-6xl title-font">{{category.title|title}}</h1>
+        <p class="mx-auto text-base font-medium leading-relaxed text-blueGray-700 lg:w-2/3">{{category.description}}</p>
+        </div>
+        <div class="max-w-4xl px-10 my-4 py-6 bg-white rounded-lg shadow-md">
+          {% for post in blogs %}
+          <div class="flex justify-between items-center mt-5">
+              <span class="font-light text-gray-600">{{post.date}}</span>
+              <a class="px-2 py-1 bg-gray-600 text-gray-100 font-bold rounded hover:bg-gray-500" href="{% url 'category' category.name%}">{{category}}</a>
+                </div>
+          <div class="mt-2" hx-boost="true">
+              <a class="text-2xl text-gray-700 font-bold hover:text-gray-600" href="{% url 'blog-detail' post.slug%}">{{post.title}}</a>
+              <p class="mt-2 text-gray-600">{{post.body|safe|truncatewords:50}}</p>
+          </div>
+          <div class="flex justify-between items-center mt-4" hx-boost="true">
+              <a class="text-blue-600 hover:underline" href="{% url 'blog_detail' post.pk%}">Read more</a>
+
+              <div class="flex flex-wrap justify-starts items-center mt-4">
+                {% for tag in post.tags.all %}
+                <div class="text-xs mr-2 py-1.5 px-4 text-gray-600 bg-blue-100 rounded-2xl">
+                    {{tag}}
+                </div>
+                {% endfor %}
+              </div>
+
+              {% comment %} <div>
+                  <a class="flex items-center" href="{% url 'profile' post.author.profile.pk %}">
+                      <img class="mx-4 w-10 h-10 object-cover rounded-full hidden sm:block" src="{{post.author.profile.avi}}" alt="avatar">
+                      <h1 class="text-gray-700 font-bold">By:
+                        {% if post.author.profile.name %}
+                          {{post.author.profile.name}}
+                          {% else %}
+                          {{author}}
+                        {% endif %}
+                      </h1>
+                  </a>
+                </div> {% endcomment %}
+              </div>
+          </div>
+          <hr class="border-t-2 border-gray-800 " >
+          {% endfor %}
+            </div>
+    </div>
+  </section>
+{% endblock content %}

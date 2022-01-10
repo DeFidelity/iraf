@@ -33,7 +33,7 @@ class BlogListView(View):
 class BlogDetailView(View):
     def get(self,request,slug):
         blog = get_object_or_404(BlogPage,slug=slug)
-        comments = Comment.objects.filter(blog=blog)
+        comments = Comment.objects.filter(blog=blog,parent=None)
         blogs = BlogPage.objects.all().exclude(slug=slug).order_by('likes')
         relative_posts = BlogPage.objects.filter(categories__pk__in=blog.categories.all()).exclude(slug=slug)[:3]
         
@@ -65,8 +65,6 @@ class BlogDetailView(View):
 
 class BlogComment(LoginRequiredMixin,View):
     def post(self,request,pk):
-
-        comment = request.POST.get('comment')
         post = get_object_or_404(BlogPage,pk=pk)
 
         if post:
@@ -144,11 +142,21 @@ class UserCollection(LoginRequiredMixin,View):
         
 
 class CommentReplyView(LoginRequiredMixin,View):
+    def get(self,request,pk,c_pk,*args,**kwargs):
+        parent = get_object_or_404(Comment,pk=c_pk,blog=pk)
+        replies = Comment.objects.filter(parent=parent)
+        
+        context = {
+            'replies':replies
+        }
+        
+        return render(request,'blog/partials/reply.html',context)
+    
     def post(self,request,pk,c_pk,*args,**kwargs):
         comment = request.POST.get('comment')
         parent = get_object_or_404(Comment,pk=c_pk)
         post = get_object_or_404(BlogPage,pk=pk)
-
+        replies = Comment.objects.filter(parent=parent)
         if post:
             form = CommentForm(request.POST)
             if form.is_valid():
@@ -157,12 +165,36 @@ class CommentReplyView(LoginRequiredMixin,View):
                 new_comment.parent = parent
                 new_comment.blog = post
                 new_comment.save()
+                
+                context = {
+                    'replies': replies,
+                    'report' : 'Reply added'
+                    }
 
-                return HttpResponse("reply submitted")
+                return render(request,'blog/partials/reply.html',context)
             return HttpResponse("form error")
         return HttpResponse("post not exist")
 
-
+class CategoryDetail(View):
+    def get(self,request,category,*args,**kwargs):
+        category = get_object_or_404(BlogCategory,name=category)
+        category_blogs = BlogPage.objects.filter(category__pk__in=category)
+        
+        context = {
+            'category':category,
+            'blogs': category_blogs
+        }
+        return render(request,'blog/category.html',context)
+        
+class CategoryList(View):
+    def get(self,request):
+        categories = BlogCategory.objects.all().order_by('category')
+        
+        context = {
+            'categories':categories,
+        }
+        return render(request,'blog/category-list.html',context)
+    
 
 
 

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Categories{% endblock title %}
+{% block content %}
+<section class="text-gray-400 bg-white dark:bg-gray-800 body-font overflow-hidden">
+
+  <div class="flex flex-col w-full mb-12 text-left lg:text-center">
+    <p class="mx-auto mt-6 mb-0 p-4 text-base font-medium leading-relaxed text-purple-800 border border-gray-200 border-b-0 lg:w-1/2">Top post categories</p>
+  </div>
+{% for category in categories %}
+
+  <div class="container px-5 py-24 pb-0 mx-auto">
+    <div class="py-8 flex border-t-2 border-gray-800 flex-wrap md:flex-nowrap">
+      <div class="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
+        <span class="font-semibold title-font text-gray-800 dark:text-white">{{category.name}}</span>
+        <span class="mt-1 text-gray-500 text-sm">{{category.date}}</span>
+      </div>
+      <div class="md:flex-grow">
+        <h2 class="text-2xl font-medium text-gray-800 dark:text-white title-font mb-2">{{category.date}}</h2>
+        <p class="leading-relaxed text-gray-800 dark:text-white prose-sm md:prose-lg lg: prose-xl">{{category.description}}</p>
+        <a href="{% url 'category' category.name %}"class="text-green-600 inline-flex items-center mt-4">View Details
+          <svg class="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14"></path>
+            <path d="M12 5l7 7-7 7"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+</div>
+{% endfor %}
+</section>
+{% endblock content %}
