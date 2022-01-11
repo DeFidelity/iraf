@@ -11,7 +11,7 @@
       </a>
 
     <!--post categories-->
-  {% with categories = blog.categories.all %}
+  {% with categories=blog.categories.all %}
     {% if categories %}
       <div class="flex items-center justify-start mt-4 mb-4">
         {% for category in categories %}
@@ -45,6 +45,18 @@
     <!--content body-->
       <div class="prose prose-sm prose-stone md:prose-lg lg:prose-xl dark:prose-invert">
         {{blog.body|safe}}    
+
+        <div class="not-prose flex gap-x-2.5">
+          posted in
+          {% for category in blog.categories.all %}
+          <p class="text-pink-300 text-center md:text-lg md:font-bold bg-white p-4 border-4 rounded-lg"
+            hx-post="{% url 'blog-like' blog.pk %}" hx-trigger="click" hx-target="#like" hx-swap="innerHTML" >
+            {{category}} <i class="far fa-heart"></i><span id="like"> </span>
+          </p>
+          
+          {% endfor %}
+        </div>
+        
         <div class="not-prose flex gap-x-2.5">
           <p class="text-pink-300 text-center md:text-lg md:font-bold bg-white p-4 border-4 rounded-lg"
             hx-post="{% url 'blog-like' blog.pk %}" hx-trigger="click" hx-target="#like" hx-swap="innerHTML" >
@@ -130,29 +142,34 @@
 
 				<!--comments-->
 				
-		 <div class="max-w-4xl py-16 bg-gray-100 min-w-screen animation-fade animation-delay  px-0 md:px-8 mx-auto xl:px-5">
-		        
-		        <p class="mt-1 text-2xl font-bold text-left text-gray-800 sm:text-lg md:text-3xl lg:text-4xl sm:text-center sm:mx-0">
-		            All comments on this post
-		        </p>
-		        {% for comment in comments %}
-		        <div class="flex items-center w-full px-6 py-6 mx-auto mt-10 bg-white border border-gray-200 rounded-lg sm:px-8 md:px-12 sm:py-8 sm:shadow lg:w-5/6 xl:w-2/3">
-
-		            <div><h3 class="text-lg font-bold text-purple-500 sm:text-xl md:text-2xl">By {{comment.author}}</h3>
-		            	<p class="text-sm font-bold text-gray-300">{{comment.date|timesince}} ago</p>
-		            	<p class="mt-2 text-base text-gray-600 sm:text-lg md:text-normal">
-		               {{comment.comment}}</p>
-                  <div x-data="{ reply: false}">
-                   <p @click="reply = ! reply" class="mt-2 flex-none text-sm text-gray-500"
-                   hx-get="{% url 'comment-reply' blog.pk comment.pk %}" hx-swap="innerHTML" hx-trigger="click" hx-target="#commentReply"
-                   >Reply</p>
-                   {% include 'blog/reply.html' %}
-                  </div>
-		            </div>
-		        </div>
+		 <div class="max-w-4xl py-16 bg-gray-100 min-w-screen animation-fade animation-delay  px-0 md:px-8 mx-auto xl:px-5">      
+        <p class="mt-1 text-2xl font-bold text-left text-gray-800 sm:text-lg md:text-3xl lg:text-4xl sm:text-center sm:mx-0">
+            All comments on this post</p>
+        {% for comment in comments %}
+          <div class="flex items-center w-full px-6 py-6 mx-auto mt-10 bg-white border border-gray-200 rounded-lg sm:px-8 md:px-12 sm:py-8 sm:shadow lg:w-5/6 xl:w-2/3">
+            <div>
+              <h3 class="text-lg font-bold text-purple-500 sm:text-xl md:text-2xl">By {{comment.author}}</h3>
+              <p class="text-sm font-bold text-gray-300">{{comment.date|timesince}} ago</p>
+              <p class="mt-2 text-base text-gray-600 sm:text-lg md:text-normal">{{comment.comment}}</p>
+                <div x-data="{ reply: false}">
+                  <p @click="reply = ! reply" class="mt-2 flex-none text-sm text-gray-500"
+                  hx-get="{% url 'comment-reply' blog.pk comment.pk %}" hx-swap="innerHTML" hx-trigger="click" hx-target="#commentReply"
+                  >Reply {{comment.pk}} </p>
+                  {% include 'blog/partials/reply.html' %}
+                </div>
+            </div>
             
+          </div>  
+          <div class="" >
+            <p class="text-sm font-bold">Replies</p>
+            {% for comment in comment.children %}
+              <div id="commentReply">
+                {% include 'blog/partials/replies.html' %}
+              </div>
             {% endfor %}
-  </div>
+          </div>  
+        {% endfor %}
+      </div>
 </div>
 </div>
 </div>

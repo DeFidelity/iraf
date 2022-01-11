@@ -11,7 +11,7 @@
           <h1 class="text-gray-900 text-3xl title-font font-medium mb-1">{{food.name}}</h1>
           <div class="flex mb-4">
             <span class="flex items-center">
-              <div x-data="{ temp: {{food.review}}, orig: 2 }" class="flex cursor-pointer text-4xl" @click="orig = temp">
+              <div x-data="{ temp: {{food.star}}, orig: {{food.star}} }" class="flex cursor-pointer md:text-4xl" @click="orig = temp">
                 <input type="number" :value="orig" class="hidden"/>
               
                 <template x-if="orig != null">
@@ -25,7 +25,6 @@
                        :class="{'text-red-600': (temp >= item)}">★</span>
                 </template>
               </div>
-              <span class="text-gray-600 ml-3">{{food.num_reviews}} Reviews</span>
             </span>
             
           </div>

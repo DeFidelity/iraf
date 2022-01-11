@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
@@ -6,7 +7,7 @@ from django.views import View
 
 
 from .models import Review, Restaurant, Food 
-from .forms import RestaurantReviewForm, FoodReviewForm
+from .forms import RestaurantReviewForm
 
 
 class RestaurantListView(View):
@@ -40,26 +41,8 @@ class RestaurantDetailView(View):
         }
         return render(request, 'restaurant/restaurant.html', context)
     
-    
-    def post(self,request,pk,*args,**kwargs):
-        restaurant = get_object_or_404(Restaurant,pk=pk)
-        food = Food.objects.filter(restaurant=restaurant)
-        form = RestaurantReviewForm(request.POST)
-        
-        if form.is_valid():
-            form.save(commit=False)
-            restaurant.perform_review(user=request.user,review=form.cleaned_data)
-            form.save()
-            return HttpResponse("Your review has been committed")
-        else:
-            
-            context = {
-                'restaurant':restaurant,
-                'food': food,
-                'error': 'there was an error processing your request'
-            }
-        return render(request, 'restaurant/restaurant.html', context)
-    
+
+
 class FoodListView(View):
     def get(self, request):
         foods = Food.objects.all()
@@ -98,20 +81,40 @@ class FoodDetailView(View):
         }   
 
         return render(request,'restaurant/food-detail.html',context)
+
+
+class RestaurantReview(View,LoginRequiredMixin):
+    def post(self,request,pk,*args,**kwargs):
+        restaurant = get_object_or_404(Restaurant,pk=pk)
+        food = Food.objects.filter(restaurant=restaurant)
+        form = RestaurantReviewForm(request.POST)
+        
+        if form.is_valid():
+            form.save(commit=False)
+            restaurant.perform_review(user=request.user,review=form.cleaned_data)
+            form.save()
+            return HttpResponse("Your review has been committed")
+        else:
+            
+            context = {
+                'restaurant':restaurant,
+                'foods': food,
+                'error': 'there was an error processing your request'
+            }
+        return render(request, 'restaurant/restaurant.html', context)
     
+    
+class FoodTryIt(View,LoginRequiredMixin):  
     def post(self, request,pk,*args,**kwargs):
         food = get_object_or_404(Food, pk=pk)
         categories = food.categories.all()
-        form = FoodReviewForm(request.POST)
-        if form.is_valid():
-            food.perform_review(user=request.user,review=form.cleaned_data)
-            form.save()
-
-            return HttpResponse("Review added")
+        user = request.user
+        if user in food.try_it.all():
+            food.try_it.remove(user)
+            return HttpResponse('removed')
         
-        context = {
-            'categories': categories,
-            'food': food,
-        } 
-        return render(request,'restaurant/food-detail.html')
+        else:
+            food.try_it.add(user)
+            return HttpResponse('added')
+
     

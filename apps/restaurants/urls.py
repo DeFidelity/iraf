@@ -2,7 +2,7 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from .views import (RestaurantListView,RestaurantDetailView,
-                    FoodListView,FoodDetailView,)
+                    FoodListView,FoodDetailView,RestaurantReview,FoodTryIt)
 
 
 urlpatterns = [
@@ -10,4 +10,6 @@ urlpatterns = [
     path('restaurant/<int:pk>/',RestaurantDetailView.as_view(),name="restaurant_detail"),
     path('foods/',FoodListView.as_view(),name='foods'),
     path('food/<int:pk>/',FoodDetailView.as_view(),name='food'),
+    path('food/try-it/<int:pk>/',FoodTryIt.as_view(),name='food-try'),
+    path('restaurant/<int:pk>/review',RestaurantReview.as_view(),name='restaurant-review')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -48,8 +48,8 @@ class Food(models.Model):
     description = models.TextField(null=True, blank=True)
     discount_price = models.PositiveSmallIntegerField()
     categories = models.ManyToManyField(FoodCategory, related_name='category',blank=True)
-    review = models.FloatField(default=0.0,null=True, blank=True)
-    num_review = models.PositiveSmallIntegerField(default=0)
+    star = models.FloatField(default=0.0,null=True, blank=True)
+    try_it = models.ManyToManyField(User, related_name='try_it',blank=True)
     purchase = models.IntegerField(default=0)
     date = models.DateTimeField(auto_now=True)
     
@@ -65,28 +65,12 @@ class Food(models.Model):
     def has_purchased(self):
         return self.purchase + 1
     
-    def perform_review(self,user,review):
-        has_reviewed = Review.objects.filter(review_user=user,food=self.instance)
-        if not has_reviewed:
-            review = Review.objects.create(review_user=user,rating=review['rating'],description=review['description'],food=self.instance)
-            review.save()
-            if self.num_review == 0:
-                self.review = review['rating']
-            else:
-                self.review = (self.review + review['rating']) / 2
-            
-            self.num_review = self.num_review + 1
-            self.save()
-            return self.review 
-        else:
-            return None
     
 class Review(models.Model):
     review_user = models.ForeignKey(User,on_delete=models.CASCADE)
     rating = models.PositiveIntegerField(validators=[MinValueValidator(1),MaxValueValidator(5)])
     description = models.CharField(max_length=200,null=True)
     active = models.BooleanField(default=True)
-    food = models.ForeignKey(Food,on_delete=models.CASCADE, related_name='reviews',null=True, blank=True)
     restaurant = models.ForeignKey(Restaurant,on_delete=models.CASCADE,related_name="restaurantreview",null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     update = models.DateTimeField(auto_now=True)

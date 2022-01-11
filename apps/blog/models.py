@@ -40,15 +40,20 @@ class BlogIndexPage(Page):
 @register_snippet
 class BlogCategory(models.Model):
     name = models.CharField(max_length=255)
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100,null=True, blank=True)
     description = RichTextField(null=True, blank=True)
     date = models.DateTimeField(auto_now=True)
 
     panels = [
         FieldPanel('name'),
+        FieldPanel('title'),
         FieldPanel('description'),
-        FieldPanel('date')
+
     ]
+    
+    @property
+    def categories(self):
+        return BlogPage.objects.filter(categories__pk__in=self)
 
     def __str__(self):
         return self.name
@@ -146,6 +151,17 @@ class Comment(models.Model):
     parent = models.ForeignKey('self',on_delete=models.CASCADE,null=True, blank=True,related_name='+')
     stars = models.PositiveSmallIntegerField(null=True,blank=True)
     date = models.DateTimeField(default=timezone.now)
+    
+    @property
+    def is_parent(self):
+        if self.parent is None:
+            return True
+        return False 
+    
+    @property
+    def children(self):
+        return Comment.objects.filter(parent=self).all()
+    
     
     def __str__(self):
         return f"by {self.author} on {self.blog}"

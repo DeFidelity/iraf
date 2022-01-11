@@ -6,7 +6,7 @@ class RestaurantDisplay(admin.ModelAdmin):
     
 
 class FoodDisplay(admin.ModelAdmin):
-    list_display = ['name','restaurant','price','review','purchase']
+    list_display = ['name','restaurant','price','purchase']
     
 admin.site.register(Restaurant,RestaurantDisplay)
 admin.site.register(Food,FoodDisplay)

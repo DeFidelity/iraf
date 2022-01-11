@@ -7,8 +7,5 @@ class RestaurantReviewForm(forms.ModelForm):
         fields = ['rating', 'description','restaurant']
         
         
-class FoodReviewForm(forms.ModelForm):
-    class Meta:
-        model = Review
-        fields = ['rating', 'description','food']
+
     

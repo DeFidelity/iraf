@@ -37,7 +37,6 @@ class BlogDetailView(View):
         blogs = BlogPage.objects.all().exclude(slug=slug).order_by('likes')
         relative_posts = BlogPage.objects.filter(categories__pk__in=blog.categories.all()).exclude(slug=slug)[:3]
         
-        
         context = {
             'blog':blog,
             'comments':comments,
@@ -144,10 +143,13 @@ class UserCollection(LoginRequiredMixin,View):
 class CommentReplyView(LoginRequiredMixin,View):
     def get(self,request,pk,c_pk,*args,**kwargs):
         parent = get_object_or_404(Comment,pk=c_pk,blog=pk)
+        blog = get_object_or_404(BlogPage,pk=pk)
         replies = Comment.objects.filter(parent=parent)
         
         context = {
-            'replies':replies
+            'replies':replies,
+            'comment':parent,
+            'blog':blog
         }
         
         return render(request,'blog/partials/reply.html',context)
@@ -167,6 +169,8 @@ class CommentReplyView(LoginRequiredMixin,View):
                 new_comment.save()
                 
                 context = {
+                    'blog':post,
+                    'comment':parent,
                     'replies': replies,
                     'report' : 'Reply added'
                     }
@@ -189,7 +193,7 @@ class CategoryDetail(View):
 class CategoryList(View):
     def get(self,request):
         categories = BlogCategory.objects.all().order_by('category')
-        
+        print(categories)
         context = {
             'categories':categories,
         }
