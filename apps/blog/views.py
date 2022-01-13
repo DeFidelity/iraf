@@ -206,7 +206,6 @@ class CategoryList(View):
 
 
 
-
 class RobotsView(TemplateView):
 
     content_type = 'text/plain'

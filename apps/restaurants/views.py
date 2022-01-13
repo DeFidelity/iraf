@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 from django.core.paginator import Paginator
 from django.views import View 
-
+from django.contrib import messages
 
 from .models import Review, Restaurant, Food 
 from .forms import RestaurantReviewForm
@@ -62,22 +62,13 @@ class FoodListView(View):
     
 
 class FoodDetailView(View):
-    def get(self, request,pk):
+    def get(self,request,pk):
         food = get_object_or_404(Food, pk=pk)
         categories = food.categories.all()
-        review = Review.objects.filter(food=food)
-        paginator = Paginator(review,5)
-        
-            
-        page_number = request.GET.get('page')
-        page_obj = paginator.get_page(page_number)
         
         context = {
             'categories': categories,
             'food': food,
-            'review': review,
-            'page_number':page_number,
-            'page_obj':page_obj,
         }   
 
         return render(request,'restaurant/food-detail.html',context)
@@ -118,3 +109,18 @@ class FoodTryIt(View,LoginRequiredMixin):
             return HttpResponse('added')
 
     
+class RestaurantLike(View):
+    def post(self, request,pk,*args,**kwargs):
+        restaurant = get_object_or_404(Restaurant, pk=pk)
+        user = request.user
+        
+        if user in restaurant.like.all():
+            restaurant.like.remove(user)
+            likes = len(restaurant.like.all())
+            messages.success(request,likes)
+            return HttpResponse('unliked')
+        else:
+            restaurant.like.add(user)
+            likes = len(restaurant.like.all())
+            messages.success(request,likes)
+            return HttpResponse('Liked')

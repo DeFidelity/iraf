@@ -5,12 +5,15 @@ from django.core.validators import MinValueValidator, MaxValueValidator
       
 class Restaurant(models.Model):
     name = models.CharField(max_length=255)
+    like = models.ManyToManyField(User,related_name='+',blank=True)
+    description = models.TextField(blank=True,null=True)
     location = models.CharField(max_length=255)
     email = models.EmailField(max_length=255)
     contact = models.CharField(max_length=255)
     about = models.CharField(max_length=255)
     review = models.FloatField(default=0.0,null=True,blank=True)
     num_reviews = models.IntegerField(default=0)
+    image = models.ImageField(verbose_name="restaurant_image", upload_to='media/restaurants/', default=None,null=True,blank=True,height_field=None, width_field=None)
     
     def perform_review(self,user,review):
         has_reviewed = Review.objects.filter(review_user=user,restaurant=self.instance)
@@ -42,7 +45,7 @@ class FoodCategory(models.Model):
     
 class Food(models.Model):
     name = models.CharField(max_length=255,unique=False)
-    image = models.ImageField(verbose_name="food_image", upload_to='media/foods/', default=None,null=True,blank=True,height_field=None, width_field=None, max_length=100)
+    image = models.ImageField(verbose_name="food_image", upload_to='media/foods/', default=None,null=True,blank=True,height_field=None, width_field=None)
     restaurant = models.ForeignKey(Restaurant,related_name='restaurants',null=True,on_delete=models.CASCADE)
     price = models.PositiveSmallIntegerField()
     description = models.TextField(null=True, blank=True)
