@@ -79,11 +79,18 @@ class RestaurantReview(View,LoginRequiredMixin):
         restaurant = get_object_or_404(Restaurant,pk=pk)
         food = Food.objects.filter(restaurant=restaurant)
         form = RestaurantReviewForm(request.POST)
+        rating = request.POST.get('rating')
         
         if form.is_valid():
-            form.save(commit=False)
-            restaurant.perform_review(user=request.user,review=form.cleaned_data)
-            form.save()
+            restaurant.perform_review(user=request.user,review=form.cleaned_data,restaurant=restaurant)
+            if restaurant.num_reviews == 0:
+                restaurant.review = rating
+                restaurant.num_reviews = 1
+                restaurant.save
+            else:
+                restaurant.review = (restaurant.review + rating) / 2
+                restaurant.num_reviews = restaurant.num_reviews + 1
+                restaurant.save()
             return HttpResponse("Your review has been committed")
         else:
             
@@ -92,7 +99,7 @@ class RestaurantReview(View,LoginRequiredMixin):
                 'foods': food,
                 'error': 'there was an error processing your request'
             }
-        return render(request, 'restaurant/restaurant.html', context)
+        return HttpResponse('Form not valid')
     
     
 class FoodTryIt(View,LoginRequiredMixin):  

@@ -15,19 +15,14 @@ class Restaurant(models.Model):
     num_reviews = models.IntegerField(default=0)
     image = models.ImageField(verbose_name="restaurant_image", upload_to='media/restaurants/', default=None,null=True,blank=True,height_field=None, width_field=None)
     
-    def perform_review(self,user,review):
-        has_reviewed = Review.objects.filter(review_user=user,restaurant=self.instance)
+    def perform_review(self,user,review,restaurant):
+        has_reviewed = Review.objects.filter(review_user=user,restaurant=restaurant)
         if not has_reviewed:
-            review = Review.objects.create(review_user=user,rating=review['rating'],description=review['description'],restaurant=self.instance)
-            review.save()
-            if self.num_review == 0:
-                self.review = review['rating']
-            else:
-                self.review = (self.review + review['rating']) / 2
-            
-            self.num_review = self.num_review + 1
-            self.save()
-            return self.review 
+            review = Review.objects.create(rating=review['rating'],description=review['description'],restaurant=restaurant)
+            review.review_user = user
+            if review.review_user:
+                review.save()
+            return None
         else:
             return None
         
@@ -78,8 +73,11 @@ class Review(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     update = models.DateTimeField(auto_now=True)
     
+    class Meta:
+        ordering = ['rating',]
+    
     def __str__(self):
-        return f"{self.review_user} review for {self.food} {self.restaurant}"
+        return f"{self.review_user} review for {self.restaurant}"
   
 
     
