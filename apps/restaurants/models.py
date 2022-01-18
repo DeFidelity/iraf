@@ -1,4 +1,5 @@
 from django.db import models
+from django.http import HttpResponseForbidden
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
 
@@ -11,20 +12,25 @@ class Restaurant(models.Model):
     email = models.EmailField(max_length=255)
     contact = models.CharField(max_length=255)
     about = models.CharField(max_length=255)
-    review = models.FloatField(default=0.0,null=True,blank=True)
-    num_reviews = models.IntegerField(default=0)
+    rating = models.FloatField(default=0.0,null=True,blank=True)
+    reviews = models.ManyToManyField('Review',related_name='reviews',blank=True)
     image = models.ImageField(verbose_name="restaurant_image", upload_to='media/restaurants/', default=None,null=True,blank=True,height_field=None, width_field=None)
     
     def perform_review(self,user,review,restaurant):
         has_reviewed = Review.objects.filter(review_user=user,restaurant=restaurant)
         if not has_reviewed:
-            review = Review.objects.create(rating=review['rating'],description=review['description'],restaurant=restaurant)
-            review.review_user = user
-            if review.review_user:
-                review.save()
-            return None
+            review = Review.objects.create(review_user=user,rating=review['rating'],description=review['description'],restaurant=restaurant)
+            review.save()
+            restaurant.reviews.add(review)
+            if restaurant.rating == 0.0:
+                restaurant.rating = review.rating 
+                restaurant.save()
+            else:
+                restaurant.rating = (restaurant.rating + review.rating)/2
+                restaurant.save()
+            return restaurant
         else:
-            return None
+           return HttpResponseForbidden('you have review this restaurant',status=403)
         
     def __str__(self):
         return self.name
@@ -59,7 +65,7 @@ class Food(models.Model):
     def __str__(self):
         return self.name
     
-    
+    @property
     def has_purchased(self):
         return self.purchase + 1
     

@@ -40,12 +40,12 @@
       </div>
     </div>
   </div>
-<div class="flex flex-col md:flex-row md:items-center lg:justify-between h-3/5 m-2">
+<div class="flex flex-col md:flex-row md:items-center lg:justify-between h-3/5 mx-auto">
 <!-- review item -->
 <div class="mx-auto bg-gray-300 shadow-lg rounded-lg my-32 px-4 py-4 max-w-sm ">
   <span class="text-lg text-gray-800">Summary of this restaurant reviews</span>
   <div class="mb-1 tracking-wide px-4 py-4" >
-     <h2 class="text-gray-800 font-semibold mt-1">{{restaurant.num_reviews}} Users reviews on</h2>
+     <h2 class="text-gray-800 font-semibold mt-1">{{restaurant.reviews.count}} Users reviews on</h2>
      <h2 class="text-gray-800 text-center font-bold text-2xl mt-1">{{restaurant.name}}</h2>
      <div class="border-b -mx-8 px-8 pb-3">
         <div class="flex items-center mt-1">
@@ -60,7 +60,7 @@
               </div>
            </div>
            <div class="w-1/5 text-gray-700 pl-3">
-              <span class="text-sm">51%</span>
+              <span class="text-sm">{{five.count}}</span>
            </div>
         </div><!-- first -->
         <div class="flex items-center mt-1">
@@ -75,7 +75,7 @@
               </div>
            </div>
            <div class="w-1/5 text-gray-700 pl-3">
-              <span class="text-sm">17%</span>
+              <span class="text-sm">{{four.count}}</span>
            </div>
         </div><!-- second -->
         <div class="flex items-center mt-1">
@@ -90,7 +90,7 @@
               </div>
            </div>
            <div class="w-1/5 text-gray-700 pl-3">
-              <span class="text-sm">19%</span>
+              <span class="text-sm">{{three.count}}</span>
            </div>
         </div><!-- thisrd -->
         <div class="flex items-center mt-1">
@@ -105,7 +105,7 @@
               </div>
            </div>
            <div class="w-1/5 text-gray-700 pl-3">
-              <span class="text-sm">8%</span>
+              <span class="text-sm">{{two.count}}</span>
            </div>
         </div><!-- 4th -->
         <div class="flex items-center mt-1">
@@ -120,7 +120,7 @@
               </div>
            </div>
            <div class="w-1/5 text-gray-700 pl-3">
-              <span class="text-sm">5%</span>
+              <span class="text-sm">{{one.count}}</span>
            </div>
         </div><!-- 5th -->
      </div>

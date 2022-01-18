@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import Restaurant, FoodCategory, Food, Review
 
 class RestaurantDisplay(admin.ModelAdmin):
-    list_display = ['name','location','email','contact','review']
+    list_display = ['name','location','email','contact','rating']
     
 
 class FoodDisplay(admin.ModelAdmin):

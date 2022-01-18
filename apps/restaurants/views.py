@@ -28,6 +28,11 @@ class RestaurantDetailView(View):
         reviews = Review.objects.filter(restaurant=restaurant)
         paginator = Paginator(reviews,5)
         
+        five = Review.objects.filter(restaurant=restaurant,rating=5)
+        four = Review.objects.filter(restaurant=restaurant,rating=4)
+        three = Review.objects.filter(restaurant=restaurant,rating=3)
+        two = Review.objects.filter(restaurant=restaurant,rating=2)
+        one = Review.objects.filter(restaurant=restaurant,rating=1)
             
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
@@ -38,6 +43,11 @@ class RestaurantDetailView(View):
             'reviews': reviews,
             'page_number':page_number,
             'page_obj':page_obj,
+            'one': one,
+            'two':two,
+            'three':three,
+            'four': four,
+            'five':five
         }
         return render(request, 'restaurant/restaurant.html', context)
     
@@ -79,27 +89,19 @@ class RestaurantReview(View,LoginRequiredMixin):
         restaurant = get_object_or_404(Restaurant,pk=pk)
         food = Food.objects.filter(restaurant=restaurant)
         form = RestaurantReviewForm(request.POST)
-        rating = request.POST.get('rating')
         
+        user = request.user
+        review_check = Review.objects.filter(review_user=user,restaurant=restaurant)
+
+        
+        if review_check:
+            return HttpResponse('You have review this restaurant before')
+    
         if form.is_valid():
             restaurant.perform_review(user=request.user,review=form.cleaned_data,restaurant=restaurant)
-            if restaurant.num_reviews == 0:
-                restaurant.review = rating
-                restaurant.num_reviews = 1
-                restaurant.save
-            else:
-                restaurant.review = (restaurant.review + rating) / 2
-                restaurant.num_reviews = restaurant.num_reviews + 1
-                restaurant.save()
             return HttpResponse("Your review has been committed")
         else:
-            
-            context = {
-                'restaurant':restaurant,
-                'foods': food,
-                'error': 'there was an error processing your request'
-            }
-        return HttpResponse('Form not valid')
+            return HttpResponse('Form not valid')
     
     
 class FoodTryIt(View,LoginRequiredMixin):  
