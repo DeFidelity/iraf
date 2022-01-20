@@ -25,6 +25,22 @@ class UserProfile(models.Model):
     collections = models.ManyToManyField(BlogPage,related_name='collection',blank=True)
     gender = models.CharField(max_length=20,choices=CHOICES, blank=True, null=True)
 
+
+
+class NewsLetter(models.Model):
+    email = models.EmailField(max_length=100)
+    date = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return self.email
+
+
+
+
+
+
+
+
 @receiver(post_save,sender=User)
 def create_profile(sender,instance,created,**kwargs):
     if created:
@@ -34,4 +50,5 @@ def create_profile(sender,instance,created,**kwargs):
 @receiver(post_save,sender=User)
 def save_profile(sender,instance,**kwargs):
     instance.profile.save()
+
 

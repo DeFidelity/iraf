@@ -11,17 +11,15 @@
         <div class="flex mb-4">
           <span class="flex items-center">
             <div x-data="{ temp: 5, orig: 0 }" class="flex cursor-pointer md:text-4xl">
-              <input type="number" :value="orig" class="hidden"/>
+              {% comment %} <input type="number" :value="orig" class="hidden"/>
             
               <template x-if="orig != null">
                 <span class="text-gray-400 hover:text-gray-700" @mouseenter="temp = null" @mouseleave="temp = orig">{{food.star}}</span>
-              </template>
+              </template> {% endcomment %}
             
               <template x-for="item in [1,2,3,4,5]">
-               <span @mouseenter="temp = item" 
-                     @mouseleave="temp = orig"
-                     class="text-gray-300"
-                     :class="{'text-red-600': ({{restaurant.review|floatformat}} >= item)}">★</span>
+               <span class="text-gray-300"
+                     :class="{'text-red-600': ({{restaurant.rating|floatformat}} >= item)}">★</span>
               </template>
             </div>
           </span>
@@ -40,183 +38,15 @@
       </div>
     </div>
   </div>
-<div class="flex flex-col md:flex-row md:items-center lg:justify-between h-3/5 mx-auto">
-<!-- review item -->
-<div class="mx-auto bg-gray-300 shadow-lg rounded-lg my-32 px-4 py-4 max-w-sm ">
-  <span class="text-lg text-gray-800">Summary of this restaurant reviews</span>
-  <div class="mb-1 tracking-wide px-4 py-4" >
-     <h2 class="text-gray-800 font-semibold mt-1">{{restaurant.reviews.count}} Users reviews on</h2>
-     <h2 class="text-gray-800 text-center font-bold text-2xl mt-1">{{restaurant.name}}</h2>
-     <div class="border-b -mx-8 px-8 pb-3">
-        <div class="flex items-center mt-1">
-           <div class=" w-1/5 text-pink-500 tracking-tighter">
-              <span>5 star</span>
-           </div>
-           <div class="w-3/5">
-              <div class="bg-gray-300 w-full rounded-lg h-2">
-                 <div class=" w-7/12 bg-pink-600 rounded-lg h-2"
-                 
-                 ></div>
-              </div>
-           </div>
-           <div class="w-1/5 text-gray-700 pl-3">
-              <span class="text-sm">{{five.count}}</span>
-           </div>
-        </div><!-- first -->
-        <div class="flex items-center mt-1">
-           <div class="w-1/5 text-pink-500 tracking-tighter">
-              <span>4 star</span>
-           </div>
-           <div class="w-3/5">
-              <div class="bg-gray-300 w-full rounded-lg h-2">
-                 <div class="w-1/5 bg-pink-600 rounded-lg h-2"
-                 
-                 ></div>
-              </div>
-           </div>
-           <div class="w-1/5 text-gray-700 pl-3">
-              <span class="text-sm">{{four.count}}</span>
-           </div>
-        </div><!-- second -->
-        <div class="flex items-center mt-1">
-           <div class="w-1/5 text-pink-500 tracking-tighter">
-              <span>3 star</span>
-           </div>
-           <div class="w-3/5">
-              <div class="bg-gray-300 w-full rounded-lg h-2">
-                 <div class=" w-3/12 bg-pink-600 rounded-lg h-2"
-                 
-                 ></div>
-              </div>
-           </div>
-           <div class="w-1/5 text-gray-700 pl-3">
-              <span class="text-sm">{{three.count}}</span>
-           </div>
-        </div><!-- thisrd -->
-        <div class="flex items-center mt-1">
-           <div class=" w-1/5 text-pink-500 tracking-tighter">
-              <span>2 star</span>
-           </div>
-           <div class="w-3/5">
-              <div class="bg-gray-300 w-full rounded-lg h-2">
-                 <div class=" w-1/5 bg-pink-600 rounded-lg h-2"
-                 
-                 ></div>
-              </div>
-           </div>
-           <div class="w-1/5 text-gray-700 pl-3">
-              <span class="text-sm">{{two.count}}</span>
-           </div>
-        </div><!-- 4th -->
-        <div class="flex items-center mt-1">
-           <div class="w-1/5 text-pink-500 tracking-tighter">
-              <span>1 star</span>
-           </div>
-           <div class="w-3/5">
-              <div class="bg-gray-300 w-full rounded-lg h-2">
-                 <div class=" w-2/12 bg-pink-600 rounded-lg h-2"
-                 
-                 ></div>
-              </div>
-           </div>
-           <div class="w-1/5 text-gray-700 pl-3">
-              <span class="text-sm">{{one.count}}</span>
-           </div>
-        </div><!-- 5th -->
-     </div>
-  </div>
-
+  {% comment %} adding reviews and analysis {% endcomment %}
+  {% include 'restaurant/partials/reviews.html' %}
 </div>
 
-  <div class="py-3 rounded-lg sm:mx-auto">
-    <div class="bg-white min-w-1xl flex flex-col rounded-xl shadow-lg">
-      <div class="bg-gray-200 w-full flex flex-col items-center">
-        <div class="flex flex-col items-center py-6 space-y-3">
-          <span class="text-lg text-gray-800">Rate {{restaurant.name}}</span>
-          <div x-data="
-    {
-      rating: 0,
-      hoverRating: 0,
-      ratings: [{'amount': 1, 'label':'Terrible'}, {'amount': 2, 'label':'Bad'}, {'amount': 3, 'label':'Okay'}, {'amount': 4, 'label':'Good'}, {'amount': 5, 'label':'Great'}],
-      rate(amount) {
-        if (this.rating == amount) {
-          this.rating = 0;
-        }
-        else this.rating = amount;
-      },
-      currentLabel() {
-         let r = this.rating;
-        if (this.hoverRating != this.rating) r = this.hoverRating;
-        let i = this.ratings.findIndex(e => e.amount == r);
-        if (i >=0) {return this.ratings[i].label;} else {return ''};     
-      }
-    }
-    " class="flex flex-col items-center justify-center space-y-2 rounded m-2 w-72 h-56 p-3 bg-gray-200 mx-auto">
-    <div class="flex space-x-0 bg-gray-100">
 
-          <template x-for="(star, index) in ratings" :key="index">
-            <button  @click="rate(star.amount)" @mouseover="hoverRating = star.amount" @mouseleave="hoverRating = rating"
-              aria-hidden="true"
-              :title="star.label"
-              class="rounded-sm text-gray-400 fill-current focus:outline-none focus:shadow-outline p-1 w-12 m-0 cursor-pointer"
-              :class="{'text-gray-600': hoverRating >= star.amount, 'text-yellow-400': rating >= star.amount && hoverRating >= star.amount}">
-              <svg class="w-15 transition duration-150" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-              </svg>
-            </button>
-          </template>
-          </div>
-          <div class="p-2">
-            <template x-if="rating || hoverRating">
-              <p x-text="currentLabel()"></p>
-              
-            </template>
-            <template x-if="!rating && !hoverRating">
-              <p>Please Rate!</p>
-            </template>
-          </div>
-          <div class="w-3/4 flex flex-col">
-            <form hx-post="{% url 'restaurant-review' restaurant.pk %}" hx-target="#justput" hx-swap="innerHTML">
-              <input type="number" hidden name="rating" :value="rating">
-              <textarea name="description" rows="3" class="p-4 text-gray-500 rounded-xl resize-none" placeholder="Write a review if you've visit this restaurant before"></textarea>
-              <button class="py-3 my-8 text-lg bg-gradient-to-r from-pink-500 to-pink-600 rounded-xl w-full text-white">Rate now</button>
-            </form>
-            <p class="text-green-600 text-center" id="justput"></p>
-          </div>
-         
-  </div>
-        
-      </div>
-  </div>
-{% comment %} </div> {% endcomment %}
-  </div>
-</section>
+{% comment %} menu {% endcomment %}
+{% include 'restaurant/partials/menu.html' %}
 
-<div id="menu" class="container bg-white mx-auto px-4 lg:pt-24 lg:pb-64">
-    <div class="flex flex-wrap text-center justify-center">
-      <div class="w-full lg:w-6/12 px-4">
-        <h2 class="text-4xl font-semibold text-black">Our Menu</h2>
-        
-      </div>
-    </div>
-    <div class="flex flex-wrap md:space-3 mt-12 justify-center">
-        <div class="grid grid-cols-1 md:content-center md:text-center sm:grid-cols-6 md:grid-cols-6 lg:grid-cols-6 xl:grid-cols-6 gap-4 ">
-            {% for food in foods %}
-                <div class="col-span-2 sm:col-span-1 xl:col-span-1"
-                  hx-get="{% url 'food' food.pk %}" hx-trigger="click" hx-target="body" hx-swap="innerHTML" hx-push-url="/restaurants/food/{{food.pk}}/">
-                    <img alt="{{food.name}}" src="https://source.unsplash.com/gUBJ9vSlky0" class="h-24 w-24 rounded  mx-auto"/>
-                </div>
-                <div class="col-span-2 bg-gray-300 sm:col-span-4 xl:col-span-4">
-                    <h3 class="font-semibold text-pink=500 text-left m-2">{{food.name}}</h3>
-                    <p class="p-2">{{food.description|truncatewords:15}} </p>
-                </div>
-                <div class="col-span-2 sm:col-span-1 xl:col-span-1 font-bold bg-gray-200 ">&#8358; {{food.price}}</div>
+{% comment %} review detail {% endcomment %}
+{% include 'restaurant/partials/review_list.html' %}
 
-                <hr class="border-gray-400 md:hidden font-bold border">
-              {% empty %}
-              <p class="text-lg leading-relaxed mt-4 mb-4 text-gray-500">This restaurant does'nt serve any food for now lol</p>
-            {% endfor %}    
-        </div>
-    </div>
-</div>
 {% endblock content %}

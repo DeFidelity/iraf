@@ -3,8 +3,10 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 from django.core.paginator import Paginator
+from django.urls import reverse_lazy
 from django.views import View 
 from django.contrib import messages
+from django.views.generic.edit import DeleteView
 
 from .models import Review, Restaurant, Food 
 from .forms import RestaurantReviewForm
@@ -133,3 +135,7 @@ class RestaurantLike(View):
             likes = len(restaurant.like.all())
             messages.success(request,likes)
             return HttpResponse('Liked')
+        
+class ReviewDelete(DeleteView):
+    model = Review
+    success_url = reverse_lazy('/')
