@@ -1,0 +1,12 @@
+<form hx-post="{% url 'newsletter' %}" hx-swap="innerHTML" hx-target='#newsletter'>
+    {% csrf_token %}
+    <input id="email" name="email" type="email" class="px-4 py-2 text-gray-500 bg-white border border-gray-300 rounded-md sm:mx-2 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" placeholder="Email Address"
+        hx-post="{% url 'email-check' %}" hx-trigger="keyup changed delay:2s" hx-target="#newsletter" hx-swap="innerHTML">
+    <button type="submit" class="px-4 py-2 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-pink-700 rounded-md sm:mx-2 hover:bg-pink-500 focus:outline-none focus:bg-pink-600">
+        Get Started
+    </button>
+    {% for message in messages %}
+        <p class="text-sm mt-4 text-red-500 text-center">{{message}}</p>
+    {% endfor %}
+    <p id='newsletter' class="text-sm text-green-500 text-center">Submission error: {{error}}</p>
+</form>

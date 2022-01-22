@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 from django.core.paginator import Paginator
@@ -136,6 +136,9 @@ class RestaurantLike(View):
             messages.success(request,likes)
             return HttpResponse('Liked')
         
-class ReviewDelete(DeleteView):
-    model = Review
-    success_url = reverse_lazy('/')
+class ReviewDelete(View):
+    def post(self, request,pk,*args,**kwargs):
+        review = get_object_or_404(Review, pk=pk)
+        restaurant = review.restaurant.pk
+        review.delete()
+        return redirect('restaurant_detail',restaurant)

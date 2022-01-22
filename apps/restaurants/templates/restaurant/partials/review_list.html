@@ -24,7 +24,7 @@
       {% endif %}
     </div>
     {% if request.user == review.review_user %}
-      <button hx-post="{% url 'review-delete' review.pk %}" hx-trigger="click" hx-swap="innerHTML" class="bg-pink-500 border border-white rounded text-white p-3">Delete</button>
+      <button hx-post="{% url 'review-delete' review.pk %}" hx-trigger="click" hx-swap="innerHTML" hx-target="body" class="bg-pink-500 border border-white rounded text-white p-3">Delete</button>
     {% endif %}
   </div>
 </div>

@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.views import View
 from .models import UserProfile, NewsLetter
-from .forms import NewsLetterForm, ProfileEditForm
+from .forms import NewsLetterForm, ProfileEditForm, ContactForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 class ProfileView(LoginRequiredMixin,View):
@@ -56,3 +56,13 @@ class EmailCheck(View):
             return HttpResponse('Please enter a valid email address')
         else:
             return HttpResponse('success')
+        
+class Contact(View):
+    def get(self,request):
+        return render(request,'contact.html')
+    def post(self,request,*args, **kwargs):
+        form = ContactForm(request.POST)
+        
+        if form.is_valid():
+            form.save()
+            return render(request,'contact_sucess.html')
