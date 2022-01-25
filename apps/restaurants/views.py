@@ -16,7 +16,6 @@ class RestaurantListView(View):
     def get(self, request):
         restaurants = Restaurant.objects.all()
         
-       
         context = {
             'restaurants': restaurants,
         }
@@ -86,10 +85,9 @@ class FoodDetailView(View):
         return render(request,'restaurant/food-detail.html',context)
 
 
-class RestaurantReview(View,LoginRequiredMixin):
+class RestaurantReview(View):
     def post(self,request,pk,*args,**kwargs):
         restaurant = get_object_or_404(Restaurant,pk=pk)
-        food = Food.objects.filter(restaurant=restaurant)
         form = RestaurantReviewForm(request.POST)
         
         user = request.user
@@ -109,7 +107,6 @@ class RestaurantReview(View,LoginRequiredMixin):
 class FoodTryIt(View,LoginRequiredMixin):  
     def post(self, request,pk,*args,**kwargs):
         food = get_object_or_404(Food, pk=pk)
-        categories = food.categories.all()
         user = request.user
         if user in food.try_it.all():
             food.try_it.remove(user)
@@ -120,7 +117,7 @@ class FoodTryIt(View,LoginRequiredMixin):
             return HttpResponse('added')
 
     
-class RestaurantLike(View):
+class RestaurantLike(View,LoginRequiredMixin):
     def post(self, request,pk,*args,**kwargs):
         restaurant = get_object_or_404(Restaurant, pk=pk)
         user = request.user
@@ -138,7 +135,11 @@ class RestaurantLike(View):
         
 class ReviewDelete(View):
     def post(self, request,pk,*args,**kwargs):
+        
         review = get_object_or_404(Review, pk=pk)
-        restaurant = review.restaurant.pk
-        review.delete()
-        return redirect('restaurant_detail',restaurant)
+        if request.user == review.review_user:
+            restaurant = review.restaurant.pk
+            review.delete()
+            return redirect('restaurant_detail',restaurant)
+        else:
+            return HttpResponse('wetin dey occur?')

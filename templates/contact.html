@@ -1,4 +1,5 @@
-{% extends "blog/base.html" %}
+{% extends "base.html" %}
+{% block title %}Contact Us{% endblock title %}
 {% block content %}
 <div class="flex flex-wrap py-8 border bg-gray-800 border-purple-100 text-center justify-center">
 	<div class="w-full lg:w-6/12 px-4">
@@ -61,59 +62,32 @@
         </div>
     </div>
     </div>
-{% comment %} {% include "blog/partials/contact.html" %} {% endcomment %}
 <!-- Contact Me -->
-<form hx-post="{% url 'contact'%}" hx-swap="outerHTML" class="w-full md:w-1/2 border border-purple-500 p-6 bg-gray-900">
-	{% csrf_token %}
-<h2 class="text-2xl pb-3 font-semibold">
-    Send Message
-</h2>
-<div>
-    <div class="flex flex-col mb-3">
-    <label for="name">Name</label>
-    <input
-        type="text" id="name"
-				name="name"
-        class="px-3 py-2 bg-gray-800 border border-gray-900 focus:border-purple-500 focus:outline-none focus:bg-gray-800 focus:text-purple-500"
-        autocomplete="off"
-    >
+    <form hx-post="{% url 'contact'%}" hx-swap="innerHTML" hx-target="#contactus" class="w-full md:w-1/2 border border-purple-500 p-6 bg-gray-900">
+    <h2 class="text-2xl pb-3 font-semibold">
+        Send Message
+    </h2>
+    <div>
+        <div class="flex flex-col mb-3">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" class="px-3 py-2 bg-gray-800 border border-gray-900 focus:border-purple-500 focus:outline-none focus:bg-gray-800 focus:text-purple-500"
+            autocomplete="off">
+        </div>
+        <div class="flex flex-col mb-3">
+            <label for="email">Email</label>
+            <input name="email" type="text" id="email" class="px-3 py-2 bg-gray-800 border border-gray-900 focus:border-purple-500 focus:outline-none focus:bg-gray-800 focus:text-purple-500" >
+        </div>
+        <div class="flex flex-col mb-3">
+            <label for="message">Message</label>
+            <textarea name="message" rows="4" id="message" class="px-3 py-2 bg-gray-800 border border-gray-900 focus:border-purple-500 focus:outline-none focus:bg-gray-800 focus:text-purple-500"></textarea>
+        </div>
     </div>
-    <div class="flex flex-col mb-3">
-    <label for="email">Email</label>
-    <input
-		name="email"
-        type="text" id="email"
-        class="px-3 py-2 bg-gray-800 border border-gray-900 focus:border-purple-500 focus:outline-none focus:bg-gray-800 focus:text-purple-500"
-        autocomplete="off"
-    >
+    <div class="w-full pt-3">
+        <button type="submit" class="w-full bg-gray-900 border border-purple-500 px-4 py-2 transition duration-50 focus:outline-none font-semibold hover:bg-purple-500 hover:text-white text-xl cursor-pointer">
+        Send</button>
     </div>
-    <div class="flex flex-col mb-3">
-    <label for="message">Message</label>
-    <textarea
-		name="message"
-        rows="4" id="message"
-        class="px-3 py-2 bg-gray-800 border border-gray-900 focus:border-purple-500 focus:outline-none focus:bg-gray-800 focus:text-purple-500"
-    ></textarea>
-    </div>
-</div>
-<div class="w-full pt-3">
-    <button type="submit" class="w-full bg-gray-900 border border-purple-500 px-4 py-2 transition duration-50 focus:outline-none font-semibold hover:bg-purple-500 hover:text-white text-xl cursor-pointer">
-    Send
-    </button>
-</div>
-{% for message in messages %}
-    <p class="text-sm mt-4 text-green-500 text-center">{{message}}</p>
-{% endfor %}
-{% for field in form %}
-    {% for error in field.errors %}
-    <p class="text-sm text-red-500 text-center">{{field.label}}: {{error}}</p>
-    {% endfor %}
-{% endfor %}
-{% for error in form.non_field_errors %}
-<p class="text-sm text-red-500 text-center">Submission error: {{error}}</p>
-{% endfor %}
-</form>
-
+        <div id="contactus"></div>
+    </form>
 </div>
 </section>
 {% endblock content %}

@@ -28,7 +28,7 @@ class UserProfile(models.Model):
 
 
 class NewsLetter(models.Model):
-    email = models.EmailField(max_length=100)
+    email = models.EmailField(max_length=100,unique=True)
     date = models.DateTimeField(auto_now=True)
     
     def __str__(self):
@@ -45,7 +45,7 @@ class Contact(models.Model):
         return str(self.email)
 
 
-
+from .newsletter import add_to_newsletter
 
 
 

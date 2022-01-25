@@ -4,7 +4,8 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.views.generic import TemplateView
 from django.db.models import Q
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 
 from .models import BlogPage, BlogCategory, Comment
@@ -45,6 +46,7 @@ class BlogDetailView(View):
         }
         return render(request,'blog/blog-detail.html',context)
     
+    @method_decorator(login_required())
     def post(self,request,pk):
 
         comment = request.POST.get('comment')
@@ -62,7 +64,7 @@ class BlogDetailView(View):
             return HttpResponse("form error")
         return HttpResponse("post not exist")
 
-class BlogComment(LoginRequiredMixin,View):
+class BlogComment(View):
     def post(self,request,pk):
         post = get_object_or_404(BlogPage,pk=pk)
 
@@ -100,7 +102,8 @@ class Search(View):
         print(report)
         return render(request,'blog/search.html',context)
 
-class BlogLike(LoginRequiredMixin,View):
+class BlogLike(View):
+    @method_decorator(login_required())
     def post(self,request,post_pk):
         blog = get_object_or_404(BlogPage,pk=post_pk)
         liked_users = blog.likes.all()
@@ -123,7 +126,8 @@ class BlogLike(LoginRequiredMixin,View):
         return HttpResponse('+1')
 
 
-class UserCollection(LoginRequiredMixin,View):
+class UserCollection(View):
+    @method_decorator(login_required())
     def post(self,request,post_pk,*args,**kwargs):
         post = get_object_or_404(BlogPage,pk=post_pk)
         user =request.user
@@ -140,7 +144,7 @@ class UserCollection(LoginRequiredMixin,View):
             return HttpResponse('removed from collection')
         
 
-class CommentReplyView(LoginRequiredMixin,View):
+class CommentReplyView(View):
     def get(self,request,pk,c_pk,*args,**kwargs):
         parent = get_object_or_404(Comment,pk=c_pk,blog=pk)
         blog = get_object_or_404(BlogPage,pk=pk)
@@ -154,8 +158,8 @@ class CommentReplyView(LoginRequiredMixin,View):
         
         return render(request,'blog/partials/reply.html',context)
     
+    @method_decorator(login_required())
     def post(self,request,pk,c_pk,*args,**kwargs):
-        comment = request.POST.get('comment')
         parent = get_object_or_404(Comment,pk=c_pk)
         post = get_object_or_404(BlogPage,pk=pk)
         replies = Comment.objects.filter(parent=parent)
