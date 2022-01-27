@@ -2,7 +2,7 @@
 {% block title %}Foods{% endblock title %}
 {% block content %}
 <div x-data="{overlay:false}">
-    <div x-show="overlay" class="bg-black opacity-50 z-20 top-0 bottom-0 left-0 right-0 fixed" id="overlay">
+    {% comment %} <div x-show="overlay" class="bg-black opacity-50 z-20 top-0 bottom-0 left-0 right-0 fixed" id="overlay"> {% endcomment %}
     </div>
         <div class="mt-8 grid gap-10 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {% for food in foods %}

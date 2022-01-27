@@ -2397,6 +2397,11 @@ select {
   border-color: rgba(255, 255, 255, var(--tw-border-opacity));
 }
 
+.border-pink-500 {
+  --tw-border-opacity: 1;
+  border-color: rgba(236, 72, 153, var(--tw-border-opacity));
+}
+
 .bg-gray-50 {
   --tw-bg-opacity: 1;
   background-color: rgba(249, 250, 251, var(--tw-bg-opacity));
@@ -2510,6 +2515,11 @@ select {
 .bg-pink-600 {
   --tw-bg-opacity: 1;
   background-color: rgba(219, 39, 119, var(--tw-bg-opacity));
+}
+
+.bg-pink-800 {
+  --tw-bg-opacity: 1;
+  background-color: rgba(157, 23, 77, var(--tw-bg-opacity));
 }
 
 .bg-gradient-to-r {
@@ -3031,6 +3041,11 @@ select {
   color: rgba(251, 191, 36, var(--tw-text-opacity));
 }
 
+.text-pink-600 {
+  --tw-text-opacity: 1;
+  color: rgba(219, 39, 119, var(--tw-text-opacity));
+}
+
 .opacity-50 {
   opacity: 0.5;
 }
@@ -3205,6 +3220,11 @@ select {
   border-color: rgba(167, 243, 208, var(--tw-border-opacity));
 }
 
+.focus\:border-pink-500:focus {
+  --tw-border-opacity: 1;
+  border-color: rgba(236, 72, 153, var(--tw-border-opacity));
+}
+
 .focus\:bg-gray-800:focus {
   --tw-bg-opacity: 1;
   background-color: rgba(31, 41, 55, var(--tw-bg-opacity));
@@ -3218,6 +3238,11 @@ select {
 .focus\:text-purple-500:focus {
   --tw-text-opacity: 1;
   color: rgba(139, 92, 246, var(--tw-text-opacity));
+}
+
+.focus\:text-pink-500:focus {
+  --tw-text-opacity: 1;
+  color: rgba(236, 72, 153, var(--tw-text-opacity));
 }
 
 .focus\:outline-none:focus {

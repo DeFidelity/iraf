@@ -2,8 +2,8 @@
 <div class="lg:col-span-1">
     <nav class="">
         <div class="flex justify-between mb-6 px-2 md:mb-16">
-            <h1 class="font-bold uppercase">
-                <a href="index.html" class="text-xl"><i class="fas fa-user-ninja mr-2"></i>Foodie <span
+            <h1 class="font-bold uppercase" hx-boost="true">
+                <a href="{% url 'blog-list' %}" class="text-xl"><i class="fas fa-user-ninja mr-2"></i>Foodie <span
                         class="text-red-700">World</span></a>
             </h1>
             <div class="px-4 cursor-pointer lg:hidden" id="open-menu">
@@ -39,6 +39,14 @@
             </li>
             <div class="mt-16" >
                 <span class="px-3 text-gray-500">manage</span>
+                {% if user.is_authenticated %}
+                <li class="my-6" hx-boost="true">
+                    <a href="{% url 'account_logout' %}" class="rounded-lg py-2 px-3 lg:rounded-md text-pink-400 lg:bg-pink-400 lg:hover:bg-pink-700 border lg:border-white max-w-md lg:text-white text-center block text-md tracking-wider font-bold" href="profile.html">
+                        <i class="fas fa-user-alt mr-2"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
+                {% else %}
                 <li class="my-3" hx-boost="true">
                     <a <a href="{% url 'account_login' %}" class="rounded-lg lg:rounded-md text-pink-400 lg:bg-pink-400 lg:hover:bg-pink-700 border block lg:border-white max-w-md lg:text-white text-center py-2 px-3 text-md tracking-wider font-bold" href="orders-1.html">
                         <i class="fas fa-redo-alt mr-2"></i>
@@ -51,12 +59,8 @@
                         <span>Signup</span>
                     </a>
                 </li>
-                <li class="my-6" hx-boost="true">
-                    <a href="{% url 'account_logout' %}" class="rounded-lg py-2 px-3 lg:rounded-md text-pink-400 lg:bg-pink-400 lg:hover:bg-pink-700 border lg:border-white max-w-md lg:text-white text-center block text-md tracking-wider font-bold" href="profile.html">
-                        <i class="fas fa-user-alt mr-2"></i>
-                        <span>Logout</span>
-                    </a>
-                </li>
+                
+                {% endif %}
             </div>
         </ul>
     </nav>

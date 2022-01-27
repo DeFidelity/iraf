@@ -176,10 +176,9 @@ class CommentReplyView(View):
                     'blog':post,
                     'comment':parent,
                     'replies': replies,
-                    'report' : 'Reply added'
                     }
-
-                return render(request,'blog/partials/reply.html',context)
+                "'messages.success(request,'reply added')'"
+                return render(request,'blog/partials/replies.html',context)
             return HttpResponse("form error")
         return HttpResponse("post not exist")
 

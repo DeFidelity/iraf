@@ -1,11 +1,13 @@
 <div x-show="reply"  class="max-w-4xl py-16 xl:px-8 flex justify-center items-center mx-auto">  
     <div class="w-full mt-16 md:mt-0" >
       <form class="relative z-10 h-auto p-8 py-10 overflow-hidden bg-white border-b-2 border-gray-300 rounded-lg shadow-2xl md:px-7"
-        hx-post="{% url 'comment-reply' blog.pk comment.pk %}" hx-swap="afterend" hx-target="targetReply">
+        hx-post="{% url 'comment-reply' blog.pk comment.pk %}" hx-swap="innerHTML" hx-target="targetReply">
         <textarea type="text" name="comment" class="w-full px-4 py-3 mb-4 border border-transparent border-gray-200 rounded-lg focus:ring focus:ring-blue-500 focus:outline-none" placeholder="Write your reply" rows="2" col="33"></textarea>
         <input type="submit" value="Add reply" class="text-sm md:text-lg text-white px-4 py-3 bg-blue-500 rounded-lg">
-        {% if report %}
-        <p id="targetReply" class="px-0 md:px-4 md:pt-3 pb-2 text-green-800 text-sm md:text-lg">{{report}}</p>
+        {% if messages %}
+          {% for message in messages %}
+            <p id="targetReply" class="px-0 md:px-4 md:pt-3 pb-2 text-green-800 text-sm md:text-lg">{{message}}</p>
+          {% endfor %}
         {% endif %}
       </form>
     </div>

@@ -1,6 +1,6 @@
 <div class="flex justify-center md:justify-end">
 					
-    <form class="flex items-center pl-3 pointers-events-none" actiont="{% url 'search' %}" method="POST">
+    <form class="flex items-center pl-3 pointers-events-none" hx-post="{% url 'search' %}" hx-target="#body" hx-swap="innerHTML">
         {% csrf_token %}
         <input type="text" name="query" class="block p-2 pl-10 w-full border border-gray-600 text-gray-900 bg-gray-50 rounded-lg sm:text-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search..."
         hx-post="{% url 'search' %}" hx-target="#home" hx-swap="innerHTML" hx-trigger="keyup changed delay:2s">
@@ -8,8 +8,4 @@
         search
         </button>
     </form>
-    {% comment %} <button class="font-bold rounded-full bg-white mr-2 py-2 px-3 shadow hidden md:block sm:hidden mt-5 w-1/4 cart">
-        <iclass="fas fa-shopping-basket mr-3"></i>
-            8items - $17.50
-    </button> {% endcomment %}
 </div>
