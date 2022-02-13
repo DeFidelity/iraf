@@ -35,8 +35,8 @@
           <p class="text-sm text-gray-400 font-bold ml-5">Views</p>
         </div>
         <!--author avator-->
-      <div class="font-light text-gray-600">
-          <h1 class="font-bold text-gray-700 hover:underline">By {{blog.author.profile.user}}</h1>
+      <div class="font-light text-gray-500">
+          <h1 class="font-bold text-gray-600">Article by: <p class="uppercase hover:underline font-bold text-gray-700 inline-block">{{blog.author.profile.user}}</p></h1>
         </a>
       </div>
     </div>
@@ -57,13 +57,16 @@
         </div>
         
         <div class="not-prose flex gap-x-2.5">
+          <p class="text-pink-300 text-center md:text-lg md:font-bold bg-white p-4 border-4 rounded-lg">
+             {{blog.likes.count}} Likes
+          </p>
           <p class="text-pink-300 text-center md:text-lg md:font-bold bg-white p-4 border-4 rounded-lg"
             hx-post="{% url 'blog-like' blog.pk %}" hx-trigger="click" hx-target="#like" hx-swap="innerHTML" >
-            {{blog.likes.count}} <i class="far fa-heart"></i><span id="like"> </span>
+             <i class="far fa-heart"></i><span id="like"> </span>
           </p>
           <p id="collection" class="text-pink-300 text-center md:text-lg font-bold bg-white inline-block border-4 p-4 rounded-lg"
             hx-post="{% url 'collection' blog.pk %}" hx-trigger="click" hx-target="#collection" hx-swap="innerHTML"
-            >add
+            >{% if blog in request.user.profile.collections %}Collected {% else %} Add {% endif %}
           </p>
         </div>
       </div>
@@ -160,7 +163,6 @@
             
           </div>  
           <div class="" >
-            <p class="text-sm font-bold">Replies</p>
             {% for comment in comment.children %}
               <div id="commentReply">
                 {% include 'blog/partials/replies.html' %}

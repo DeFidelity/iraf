@@ -8,7 +8,7 @@
         <img alt="ecommerce" class="lg:w-1/2 w-full object-cover object-center rounded border border-gray-200" src="https://images.food52.com/e6RyxggWQpBwCPcd3kugqz01J54=/2016x1344/filters:format(webp)/583d2633-65c0-43d6-9b52-cba0c8fa1399--2019-1210_nigerian-jollof-rice_3x2_rocky-luten_006.jpg">
         <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
           <h2 class="text-sm title-font text-gray-500 tracking-widest">{{food.restaurant.name}}</h2>
-          <h1 class="text-gray-900 text-3xl title-font font-medium mb-1">{{food.name}} </h1>
+          <h1 class="text-green-700 text-3xl title-font font-medium mb-1">{{food.name}} </h1>
           <div class="flex mb-4">
             <span class="flex items-center">
               <div x-data="{ temp: {{food.star}}, orig: {{food.star}} }" class="flex cursor-pointer md:text-4xl">
@@ -44,6 +44,7 @@
         </div>
       </div>
     </div>
+    <p class="text-sm uppercase font-bold text-center p-1 text-gray-400">You'll be able to order from your favorite restaurant soon, we're working on it.</p>
   </section>
 
 {% endblock content %}

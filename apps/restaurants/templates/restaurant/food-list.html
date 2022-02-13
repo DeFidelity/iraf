@@ -1,28 +1,30 @@
 {% extends 'base.html' %}
 {% block title %}Foods{% endblock title %}
 {% block content %}
+
 <div x-data="{overlay:false}">
     {% comment %} <div x-show="overlay" class="bg-black opacity-50 z-20 top-0 bottom-0 left-0 right-0 fixed" id="overlay"> {% endcomment %}
     </div>
+    <p class="text-sm uppercase font-bold text-center p-1 text-gray-400">You'll be able to order from your favorite restaurant soon, we're working on it.</p>
+
         <div class="mt-8 grid gap-10 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            
             {% for food in foods %}
             <div class="bg-white rounded overflow-hidden shadow-md relative food-item"
-                hx-get="{% url 'food' food.pk %}" hx-trigger="click" hx-target="body" hx-swap="innerHTML" hx-push-url="/restaurants/food/{{food.pk}}/"
-
-            > 
+                hx-get="{% url 'food' food.pk %}" hx-trigger="click" hx-target="body" hx-swap="innerHTML" hx-push-url="/restaurants/food/{{food.pk}}/"> 
                 <img src="{{food.image}}" alt="stew" class="w-full h-32 sm:h-48 object-cover">
                 <div class="m-4">
                 <span class="font-bold" @click="overlay=true">{{food.name}}</span>
-                <span class="block text-gray-500">Recipe by Mario</span>
+                <span class="block text-gray-500">Food from {{food.restaurant}}</span>
                 </div>
                 <div class="bg-pink-100 text-pink-200 text-xs uppercase font-bold rounded-full p-2 absolute top-0 ml-2 mt-2">
-                <span>25mins</span>
+                <span>{{food.discount_price}}</span>
                 </div>
             </div>
             {% endfor %}
         </div>
         <div>
-            {% include 'restaurant/food-aside.html' %}
+            <p class="text-sm uppercase font-bold text-center p-1 mt-2 text-gray-400">You'll be able to order from your favorite restaurant soon, we're working on it.</p>
         </div>
 </div>
 {% endblock content %}

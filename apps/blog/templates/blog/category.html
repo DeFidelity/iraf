@@ -1,6 +1,44 @@
 {% extends 'base.html' %}
 {% block title %}Categories{% endblock title %}
 {% block content %}
+<section class="text-blueGray-700 ">
+    <div class="container flex flex-col px-5 py-8 mx-auto lg:items-center">
+      <div class="flex flex-col w-full mb-8 text-left lg:text-center">
+        <h2 class="mb-4 text-xs font-semibold tracking-widest text-black uppercase title-font">Currently Viewing Posts in {{category.name|upper}} Category</h2>
+        <h1 class="mx-auto mb-6 text-lg font-thin leading-none tracking-tighter text-pink-600  sm:text-xl title-font">{{category.title|title}}</h1>
+        <p class="mx-auto text-base font-medium leading-relaxed text-pink-500-700 lg:w-2/3">{{category_description}}</p>
+        </div>
+        <div class="max-w-4xl px-10 my-4 py-6 bg-white rounded-lg shadow-md">
+          {% for post in blogs %}
+          <div class="flex justify-between items-center mt-5">
+              <span class="font-light text-gray-600">{{post.date}}</span>
+              <a class="px-2 py-1 bg-gray-600 text-gray-100 font-bold rounded hover:bg-gray-500" href="{% url 'category' category.name%}">{{category}}</a>
+          </div>
+          <div class="mt-2">
+              <a class="text-2xl text-gray-700 font-bold hover:text-gray-600" href="{%url 'blog_detail' post.pk%}">{{post.title}}</a>
+              <p class="mt-2 text-gray-600 prose prose-sm md:prose-md">{{post.body|safe|truncatewords:50}}</p>
+          </div>
+          <div class="flex justify-between items-center mt-4">
+              <a class="text-blue-600 hover:underline" href="{% url 'blog-detail' post.slug%}">Read more</a>
 
+              <div class="flex flex-wrap justify-starts items-center mt-4">
+                {% for tag in post.tags.all %}
+                  <div class="text-xs mr-2 py-1.5 px-4 text-gray-600 bg-blue-100 rounded-2xl">{{tag}}</div>
+                {% endfor %}
+              </div>
+
+              <div>
+                  <a class="flex items-center">
+                      <h1 class="text-gray-700 font-bold">By: {{post.author}}</h1>
+                  </a>
+              </div>
+          </div>
+          <hr class="border-t-2 border-gray-800 " >
+          {%empty%}
+                <p class="mt-2 text-gray-600">There is no post in this category for now.</p>
+          {% endfor %}
+    </div>
+  </div>
+</section>
 
 {% endblock content %}

@@ -2,7 +2,57 @@
 {% load static %}
 {% block category %}{% endblock category %}
 {% block content %}
-    {% for blog in reports %}
+
+    {% if food_result %}
+        <div class="flex flex-wrap md:space-3 mt-12 justify-center">
+            <div class="grid grid-cols-1 md:content-center md:text-center sm:grid-cols-6 md:grid-cols-6 lg:grid-cols-6 xl:grid-cols-6 gap-4 ">
+                {% for food in food_result %}
+                    <div class="col-span-2 sm:col-span-1 xl:col-span-1"
+                      hx-get="{% url 'food' food.pk %}" hx-trigger="click" hx-target="body" hx-swap="innerHTML" hx-push-url="/restaurants/food/{{food.pk}}/">
+                        <img alt="{{food.name}}" src="https://source.unsplash.com/gUBJ9vSlky0" class="h-24 w-24 rounded  mx-auto"/>
+                    </div>
+                    <div class="col-span-2 bg-gray-300 sm:col-span-4 xl:col-span-4">
+                        <h3 class="font-semibold text-pink=500 text-left m-2">{{food.name}}</h3>
+                        <p class="p-2">{{food.description|truncatewords:15}} </p>
+                    </div>
+                    <div class="col-span-2 sm:col-span-1 xl:col-span-1 font-bold bg-gray-200 ">&#8358; {{food.price}}</div>
+    
+                    <hr class="border-gray-400 md:hidden font-bold border">
+                  {% empty %}
+                  <p class="text-lg leading-relaxed mt-4 mb-4 text-gray-400">There is no food in search result</p>
+                {% endfor %}    
+            </div>
+        </div>
+    {% endif %}
+
+    {% if restaurant_result %}
+        <ul class="flex w-5/6 items-center justify-center flex-col p-4">
+            {% for restaurant in restaurant_result %}
+                <li class="border-gray-400  m-6 w-full flex flex-row"
+                hx-get="{% url 'restaurant_detail' restaurant.pk %}" hx-trigger="click" hx-target="body" hx-swap="innerHTML" hx-push-url="/restaurants/restaurant/{{restaurant.pk}}/"
+                >
+                    <div class="select-none flex flex-1 items-center transition duration-500 ease-in-out transform hover:-translate-y-2 rounded-2xl border-2 p-6 hover:shadow-2xl border-pink-400">
+                        <div class="flex-1 pl-1 mr-16">
+                            <div class="font-medium text">
+                                {{restaurant.name}}
+                            </div>
+                        </div>
+                        <div class="text-wrap text-center flex text-white text-sm md:text-bold flex-col rounded-md bg-pink-500 justify-center items-center p-2">
+                            <p class="block">
+                                {{ restaurant.reviews.count }} users
+                            </p>
+                        </div>
+                    </div>
+                </li>
+                {% empty %}
+                <p class="text-lg leading-relaxed mt-4 mb-4 text-gray-400">There is no restaurant in search result</p>
+
+            {% endfor %}
+        </ul>
+    {% endif %}
+    
+    {% if blog_results %}
+    {% for blog in blog_result %}
     <div class="bg-white rounded-lg grid grid-cols-1 shadow-md p-3 hover:shadow-lg item">
         <div class="grid grid-cols-2 gap-6"
         hx-get="{% url 'blog-detail' blog.slug %}" hx-target="#body" hx-trigger="click" hx-swap="innerHTML">
@@ -17,7 +67,10 @@
         </div>
     </div>
     {%empty%}
-    <p class="text-center font-bold text-xl text-gray-400 uppercase">No result for your search</p>
     {% endfor %}
+    {% endif %}
+    {% if not food_result and not restaurant_result and not blog_result %}
+    <p class="text-center font-bold text-xl text-gray-400 uppercase">No result for your search</p>
+    {% endif %}
 {% endblock content %}
 

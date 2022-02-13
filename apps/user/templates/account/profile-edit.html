@@ -4,32 +4,26 @@
 <div class="bg-gray-300 mx-auto">
     <div class="py-12">
         <div class="flex flex-row tracking-wider mx-5">
-            <h2 class="text-3xl font-semibold">{{profile.username}} </h2>
             <h2 class="text-3xl text-green-400 font-semibold">Edit your Profile</h2>
         </div>
-        <div class="shadow-lg rounded-lg mx-auto w-4/5">
+        <div class="shadow-lg rounded-lg md:w-3/5 w-full">
             <div class="md:flex">
                 <div class="w-full p-4 px-5 py-5">
-                    <span>Profile Detail</span>
-                    <div class="relative pb-5"> 
-                        <input type="text" name="mail" class="border rounded h-10 w-full focus:outline-none focus:border-green-200 px-2 mt-2 text-sm" placeholder="E-mail"> 
-                        <span class="absolute text-blue-500 right-2 top-4 font-medium text-sm">Log out</span> 
-                    </div> 
                     <span>Profile Information</span>
                     <form hx-post="{% url 'profile-edit' %}" hx-swap="innerHTML" hx-target="#body">
                         {% csrf_token %}
                         <div class="grid md:grid-cols-2 md:gap-2"> 
-                            <input type="text" name="username" class="border rounded h-10 w-full focus:outline-none focus:border-green-200 px-2 mt-2 text-sm" 
+                            <input type="text" name="username" class="border rounded h-10 w-full focus:outline-none focus:border-pink-200 px-2 mt-2 text-sm" 
                             placeholder="Username*" {% if profile.username %} value="{{profile.username }}" {% endif %} > 
-                            <input type="test" name="display_name" class="border rounded h-10 w-full focus:outline-none focus:border-green-200 px-2 mt-2 text-sm" 
+                            <input type="test" name="display_name" class="border rounded h-10 w-full focus:outline-none focus:border-pink-200 px-2 mt-2 text-sm" 
                             placeholder="Display name*" {% if profile.display_name %} value="{{profile.display_name }}" {% endif %} > 
                         </div> 
                     
-                        <input type="email" name="additional_mail" class="border rounded h-10 w-full focus:outline-none focus:border-green-200 px-2 mt-2 text-sm" 
+                        <input type="email" name="additional_mail" class="border rounded h-10 w-full focus:outline-none focus:border-grpinkeen-200 px-2 mt-2 text-sm" 
                         placeholder="Additional email adress*" {% if profile.additional_mail %} value="{{profile.additional_mail }}" {% endif %} > 
-                        <input type="text" name="address" class="border rounded h-10 w-full focus:outline-none focus:border-green-200 px-2 mt-2 text-sm" 
+                        <input type="text" name="address" class="border rounded h-10 w-full focus:outline-none focus:border-pink-200 px-2 mt-2 text-sm" 
                         placeholder="Address*" {% if profile.address %} value="{{profile.address }}" {% endif %} >  
-                        <input type="text" name="gender" class="border rounded h-10 w-full focus:outline-none focus:border-green-200 px-2 mt-2 text-sm" 
+                        <input type="text" name="gender" class="border rounded h-10 w-full focus:outline-none focus:border-pink-200 px-2 mt-2 text-sm" 
                         placeholder="Gender [male, female, binary]" {% if profile.gender %} value="{{profile.gender }}" {% endif %} >
                         
                         <select name="gender" class="block border mt-2 border-grey-light w-full p-3 rounded mb-8" placeholder="Regular input">
@@ -40,7 +34,7 @@
                         <p class="text-lg font-bold text-green-700 text-center" id="edited"></p>
                         <button
                             type="submit"
-                            class="w-full text-center py-3 rounded bg-pink-500 text-white hover:bg-purple-900 focus:outline-none my-1"
+                            class="w-full text-center py-3 rounded bg-pink-500 text-white hover:bg-pink-900 focus:outline-none my-1"
                         >Save Changes</button>
                     </form>
                 </div>

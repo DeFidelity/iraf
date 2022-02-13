@@ -4,7 +4,7 @@
         <div class="flex justify-between mb-6 px-2 md:mb-16">
             <h1 class="font-bold uppercase" hx-boost="true">
                 <a href="{% url 'blog-list' %}" class="text-xl"><i class="fas fa-user-ninja mr-2"></i>Foodie <span
-                        class="text-red-700">World</span></a>
+                        class="text-green-700">World</span></a>
             </h1>
             <div class="px-4 cursor-pointer lg:hidden" id="open-menu">
                 <i class="fas fa-bars"></i>
@@ -33,12 +33,17 @@
                 </a>
             </li>
             <li class="my-6" hx-boost="true">
-                <a class="rounded-lg lg:rounded-md lg:bg-pink-400 lg:hover:bg-pink-700 border text-pink-400 lg:border-white max-w-md lg:text-white text-center block py-2 px-3 text-md tracking-wider font-bold" href="{% url 'profile' %}">
-                    <span>Profile</span>
+                <a class="rounded-lg lg:rounded-md lg:bg-pink-400 lg:hover:bg-pink-700 border text-pink-400 lg:border-white max-w-md lg:text-white text-center block py-2 px-3 text-md tracking-wider font-bold" href="{% url 'category-list' %}">
+                    <span>Categories</span>
                 </a>
             </li>
             <div class="mt-16" >
                 <span class="px-3 text-gray-500">manage</span>
+                <li class="my-6" hx-boost="true">
+                    <a class="rounded-lg lg:rounded-md lg:bg-pink-400 lg:hover:bg-pink-700 border text-pink-400 lg:border-white max-w-md lg:text-white text-center block py-2 px-3 text-md tracking-wider font-bold" href="{% url 'profile' %}">
+                        <span>Profile</span>
+                    </a>
+                </li>
                 {% if user.is_authenticated %}
                 <li class="my-6" hx-boost="true">
                     <a href="{% url 'account_logout' %}" class="rounded-lg py-2 px-3 lg:rounded-md text-pink-400 lg:bg-pink-400 lg:hover:bg-pink-700 border lg:border-white max-w-md lg:text-white text-center block text-md tracking-wider font-bold" href="profile.html">

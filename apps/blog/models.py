@@ -95,7 +95,7 @@ class BlogPage(MetadataPageMixin, Page):
     intro = models.CharField(max_length=250)
     body = RichTextField(blank=True)
     tags = ClusterTaggableManager(through=BlogPageTag, blank=True)
-    categories = ParentalManyToManyField(BlogCategory, related_name='category', blank=True)
+    categories = ParentalManyToManyField(BlogCategory, blank=True)
     date = models.DateField("Post date",default=timezone.now)
     likes = models.ManyToManyField(User,blank=True,related_name='+')
 

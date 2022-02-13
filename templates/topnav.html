@@ -3,7 +3,7 @@
     <form class="flex items-center pl-3 pointers-events-none" hx-post="{% url 'search' %}" hx-target="#body" hx-swap="innerHTML">
         {% csrf_token %}
         <input type="text" name="query" class="block p-2 pl-10 w-full border border-gray-600 text-gray-900 bg-gray-50 rounded-lg sm:text-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search..."
-        hx-post="{% url 'search' %}" hx-target="#home" hx-swap="innerHTML" hx-trigger="keyup changed delay:2s">
+        hx-post="{% url 'search' %}" hx-target="#body" hx-swap="innerHTML" hx-trigger="keyup changed delay:2s">
         <button type="submit" class="font-bold rounded-full m-2 text-white text-center bg-pink-400 mr-2 py-2 px-3 shadow sm:block hidden cart">
         search
         </button>

@@ -11,7 +11,8 @@
                   hx-get="{% url 'food' food.pk %}" hx-trigger="click" hx-target="body" hx-swap="innerHTML" hx-push-url="/restaurants/food/{{food.pk}}/">
                     <img alt="{{food.name}}" src="https://source.unsplash.com/gUBJ9vSlky0" class="h-24 w-24 rounded  mx-auto"/>
                 </div>
-                <div class="col-span-2 bg-gray-300 sm:col-span-4 xl:col-span-4">
+                <div class="col-span-2 bg-gray-300 sm:col-span-4 xl:col-span-4"
+                  hx-get="{% url 'food' food.pk %}" hx-trigger="click" hx-target="body" hx-swap="innerHTML" hx-push-url="/restaurants/food/{{food.pk}}/">
                     <h3 class="font-semibold text-pink=500 text-left m-2">{{food.name}}</h3>
                     <p class="p-2">{{food.description|truncatewords:15}} </p>
                 </div>

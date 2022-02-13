@@ -62,10 +62,12 @@ INSTALLED_APPS = [
     'django_htmx',
      'tailwind',
      'theme',
+     "post_office",
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -134,6 +136,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
@@ -148,11 +151,13 @@ USE_L10N = True
 
 USE_TZ = True
 
+EMAIL_BACKEND = 'post_office.EmailBackend'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = Path(BASE_DIR,'staticfiles')
 STATICFILES_DIRS = [Path(BASE_DIR,'static')]
 
 MEDIA_URL = '/media/'

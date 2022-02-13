@@ -7,6 +7,8 @@ from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
+from apps.restaurants.models import Food, Restaurant
+
 
 from .models import BlogPage, BlogCategory, Comment
 from .forms import CommentForm
@@ -21,12 +23,14 @@ class LandingPageView(View):
 class BlogListView(View):
     def get(self,request):
         blogs = BlogPage.objects.all()
+        categories = BlogCategory.objects.all()[:4]
         paginator = Paginator(blogs, 15)
 
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         context= {
             'page_obj': page_obj,
+            'categories': categories,
             'blogs': blogs,
         }
         return render(request,'blog/blog_list.html',context)
@@ -88,18 +92,24 @@ class Search(View):
         blog = BlogPage.objects.all()
         query = request.POST.get('query')
 
-        report = blog.filter(
+        blog_result = blog.filter(
             Q(title__icontains=query) |
             Q(intro__icontains=query) |
             Q(body__icontains=query)
         )
 
+        food = Food.objects.all()
+        food_result = food.filter(Q(name__icontains=query)| Q(description__icontains=query))
+        
+        restaurant = Restaurant.objects.all()
+        restaurant_result = restaurant.filter(Q(name__icontains=query)| Q(description__icontains=query))
+        
         context = {
             'blog': blog,
-            'reports': report,
+            'blog_result': blog_result,
+            'food_result':food_result,
+            'restaurant_result': restaurant_result,
         }
-        print(query)
-        print(report)
         return render(request,'blog/search.html',context)
 
 class BlogLike(View):
@@ -110,20 +120,13 @@ class BlogLike(View):
         user = request.user
         
         if len(liked_users) > 0:
-            for person in liked_users:
-                print(person)
-                if user == person:
-                    print(2)
-                    blog.likes.remove(user)
-
-                    return HttpResponse('-1')
-                else:
-                    print(1)
-                    blog.likes.add(request.user)
-                    return HttpResponse('+1')
-        else:
-            blog.likes.add(request.user)
-        return HttpResponse('+1')
+            # for person in liked_users:
+            if request.user in liked_users:
+                blog.likes.remove(user)
+                return HttpResponse('-1')
+            else:
+                blog.likes.add(request.user)
+                return HttpResponse('+1')
 
 
 class UserCollection(View):
@@ -185,7 +188,9 @@ class CommentReplyView(View):
 class CategoryDetail(View):
     def get(self,request,category,*args,**kwargs):
         category = get_object_or_404(BlogCategory,name=category)
-        category_blogs = BlogPage.objects.filter(category__pk__in=category)
+        # category_blogs = BlogPage.objects.filter(categories__id__in=category)
+        category_blogs = BlogPage.objects.filter(categories__name=category)
+        print(category_blogs)
         
         context = {
             'category':category,
@@ -195,8 +200,7 @@ class CategoryDetail(View):
         
 class CategoryList(View):
     def get(self,request):
-        categories = BlogCategory.objects.all().order_by('category')
-        print(categories)
+        categories = BlogCategory.objects.all()
         context = {
             'categories':categories,
         }

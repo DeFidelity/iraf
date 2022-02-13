@@ -3,14 +3,18 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.views import View
 from .models import UserProfile, NewsLetter
+from apps.restaurants.models import Review
 from .forms import NewsLetterForm, ProfileEditForm, ContactForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 class ProfileView(View):
     def get(self,request,*args,**kwargs):
         profile = get_object_or_404(UserProfile,user=request.user)
+        review = Review.objects.filter(review_user=request.user)
+        
         context = {
-            'profile': profile
+            'profile': profile,
+            'review':review
          }
         return render(request,'account/profile.html',context)
 

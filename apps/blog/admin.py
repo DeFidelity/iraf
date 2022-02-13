@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import BlogPageTag, BlogPage, BlogPageGalleryImage, Comment
+from .models import BlogPageTag, BlogPage, BlogPageGalleryImage, Comment, BlogCategory
 
 
 
@@ -13,4 +13,5 @@ class CommentDisplay(admin.ModelAdmin):
 admin.site.register(BlogPage,BlogPageDisplay)
 admin.site.register(BlogPageTag)
 admin.site.register(BlogPageGalleryImage)
+admin.site.register(BlogCategory)
 admin.site.register(Comment,CommentDisplay)
