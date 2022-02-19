@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta charset="utf-8">
 	<title>{% block title %} iRAF {% endblock title %}</title>
-    {% comment %} <script src="https://unpkg.com/htmx.org@1.6.1"></script> {% endcomment %}
+    <script src="https://unpkg.com/htmx.org@1.6.1"></script>
 	<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 	<script src="https://kit.fontawesome.com/c3b2df9771.js" crossorigin="anonymous"></script>
 	
@@ -38,8 +38,9 @@
 			</main>
 			
 		</div>
+		{% block footer %}
 		{% include 'footer.html' %}
-
+		{% endblock footer %}
 
 
 			
@@ -49,7 +50,6 @@
 					event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
 				  })
 			</script>
-		<script src="{% static 'js/htmx.js' %}"></script>
 		<script src="{% static 'js/nav.js' %}"></script>
 		<script src="{% static 'js/items.js' %}"></script>
 	</body>
