@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 <h2 class="text-2xl mt-4 text-gray-500 font-bold text-center">Top Categories</h2>
-<ul class="hidden sm:block md:grid md:grid-cols-4 gap-3 md:gap-5 space-x-1 m-4">
+<ul class="sm:block grid grid-cols-4 gap-3 md:gap-5 space-x-1 m-4">
     {% for category in categories %}
         <li class="p-4 text-white text-center uppercase font-bold text-lg  bg-gradient-to-r from-pink-500 to-pink-400 rounded"
         hx-get="{% url 'category' category.name %}" hx-trigger="click" hx-target="body" hx-swap="innerHTML" hx-push-url="/blog/category/{{category.name}}/"
@@ -13,7 +13,7 @@
     {% for category in categories %}
         <li class="p-4 text-white text-center uppercase font-bold text-lg  bg-gradient-to-r from-pink-500 to-pink-400 rounded">{{category.name}} </li>
     {% endfor %}
-</ul>
+</ul> 
 
 <h2 class="text-2xl mt-4 text-gray-500 font-bold text-center">Top Posts</h2>
 <div class="flex justify-center space-x-1 dark:text-coolGray-100">

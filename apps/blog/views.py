@@ -9,6 +9,7 @@ from django.utils.decorators import method_decorator
 
 from apps.restaurants.models import Food, Restaurant
 
+from apps.user.newslettermail import send_weekly_mail
 
 from .models import BlogPage, BlogCategory, Comment
 from .forms import CommentForm
@@ -18,6 +19,7 @@ from wagtail.core.models import Site
 
 class LandingPageView(View):
     def get(self,request):
+        send_weekly_mail()
         return render(request,'blog/landing.html')
 
 class BlogListView(View):
