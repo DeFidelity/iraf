@@ -37,8 +37,6 @@ Clone the repository and run
 This command would install all the project requirements on your machine, I'll suggest you do all this in a virtual environment.
 After dependency installations run `python manage.py make migrations` and `python manage.py migrate` which would migrate everything in this projects migration folder to an SQLite db.
 
-### Screenshot of performance rating
-![iraf](https://user-images.githubusercontent.com/68183305/154834421-787da690-f35c-434b-afaa-a98971afcfb3.png)
 
 
 The project should be ready by now, so run `pytjon manage.py runserver`, navigate to your browser and follow the prescribed local host url. You should see this project in its full glory.
