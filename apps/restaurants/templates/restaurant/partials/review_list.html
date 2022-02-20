@@ -1,4 +1,4 @@
-{% for review in reviews %}
+{% for review in page_obj %}
 <div class="flex bg-white m-3 p-2 border-lg rounded border-pink-400 shadow">
   <div class="ml-6 m-5 p-2">
     <p class="flex items-baseline"><span class="text-gray-600 font-bold">{{review.review_user.profile.username}}</span></p>

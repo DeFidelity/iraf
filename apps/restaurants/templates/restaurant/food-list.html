@@ -9,7 +9,7 @@
 
         <div class="mt-8 grid gap-10 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             
-            {% for food in foods %}
+            {% for food in page_obj %}
             <div class="bg-white rounded overflow-hidden shadow-md relative food-item"
                 hx-get="{% url 'food' food.pk %}" hx-trigger="click" hx-target="body" hx-swap="innerHTML" hx-push-url="/restaurants/food/{{food.pk}}/"> 
                 <img src="{{food.image}}" alt="stew" class="w-full h-32 sm:h-48 object-cover">
@@ -26,5 +26,22 @@
         <div>
             <p class="text-sm uppercase font-bold text-center p-1 mt-2 text-gray-400">You'll be able to order from your favorite restaurant soon, we're working on it.</p>
         </div>
+</div>
+<div aria-label="Page navigation" class="inline-flex">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a class="h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white rounded-l-lg focus:shadow-outline hover:bg-indigo-100" hx-get="?page=1" hx-target="body">&laquo; first</a>
+            <a class="h-10 px-5 text-white transition-colors duration-150 bg-indigo-600 focus:shadow-outline" hx-get="?page={{ page_obj.previous_page_number }}" hx-target="body">previous</a>
+        {% endif %}
+
+        {% if page_obj.has_next %}
+            <a class="h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white focus:shadow-outline hover:bg-indigo-100" hx-get="?page={{ page_obj.next_page_number }}" hx-target="body">next</a>
+            <a class="h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white focus:shadow-outline hover:bg-indigo-100"  hx-get="?page={{ page_obj.paginator.num_pages }}" hx-target="body">last &raquo;</a>
+        {% endif %}
+        
+        <span class="h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white focus:shadow-outline hover:bg-indigo-100">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+    </span>
 </div>
 {% endblock content %}

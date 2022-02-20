@@ -6,6 +6,8 @@ def send_weekly_mail():
     first_date = start_date + timedelta(days=7)
     blogs = BlogPage.objects.filter(date__range=(start_date, first_date))
     print(blogs)
+    
+
 # mail.send(
 #     'adeyemihaki@gmail.com', # List of email addresses also accepted
 #     'heedngrow@gmail.com',

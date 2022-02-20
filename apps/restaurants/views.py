@@ -15,9 +15,12 @@ from .forms import RestaurantReviewForm
 class RestaurantListView(View):
     def get(self, request):
         restaurants = Restaurant.objects.all()
-        
+        page = Paginator(restaurants,10)
+        page_number = request.GET.get('page')
+        page_obj = page.get_page(page_number)
         context = {
             'restaurants': restaurants,
+            'page_obj': page_obj,
         }
         return render(request,'restaurant/restaurant-list.html', context)
 
@@ -28,6 +31,9 @@ class RestaurantDetailView(View):
         foods = Food.objects.filter(restaurant=restaurant)
         reviews = Review.objects.filter(restaurant=restaurant)
         paginator = Paginator(reviews,5)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        
         
         five = Review.objects.filter(restaurant=restaurant,rating=5)
         four = Review.objects.filter(restaurant=restaurant,rating=4)
@@ -35,9 +41,7 @@ class RestaurantDetailView(View):
         two = Review.objects.filter(restaurant=restaurant,rating=2)
         one = Review.objects.filter(restaurant=restaurant,rating=1)
             
-        page_number = request.GET.get('page')
-        page_obj = paginator.get_page(page_number)
-        
+       
         context = {
             'restaurant':restaurant,
             'foods': foods,
@@ -58,8 +62,6 @@ class FoodListView(View):
     def get(self, request):
         foods = Food.objects.all()
         paginator = Paginator(foods,20)
-        
-            
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
             

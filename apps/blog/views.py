@@ -8,7 +8,6 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
 from apps.restaurants.models import Food, Restaurant
-
 from apps.user.newslettermail import send_weekly_mail
 
 from .models import BlogPage, BlogCategory, Comment

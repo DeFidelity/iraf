@@ -55,20 +55,23 @@
           
           {% endfor %}
         </div>
-        
-        <div class="not-prose flex gap-x-2.5">
-          <p class="text-pink-300 text-center md:text-lg md:font-bold bg-white p-4 border-4 rounded-lg">
-             {{blog.likes.count}} Likes
-          </p>
-          <p class="text-pink-300 text-center md:text-lg md:font-bold bg-white p-4 border-4 rounded-lg"
-            hx-post="{% url 'blog-like' blog.pk %}" hx-trigger="click" hx-target="#like" hx-swap="innerHTML" >
-             <i class="far fa-heart"></i><span id="like"> </span>
-          </p>
-          <p id="collection" class="text-pink-300 text-center md:text-lg font-bold bg-white inline-block border-4 p-4 rounded-lg"
-            hx-post="{% url 'collection' blog.pk %}" hx-trigger="click" hx-target="#collection" hx-swap="innerHTML"
-            >{% if blog in request.user.profile.collections %}Collected {% else %} Add {% endif %}
-          </p>
-        </div>
+        {% if user.is_authenticated %}
+          <div class="not-prose flex gap-x-2.5">
+            <p class="text-pink-300 text-center md:text-lg md:font-bold bg-white p-4 border-4 rounded-lg">
+              {{blog.likes.count}} Likes
+            </p>
+            <p class="text-pink-300 text-center md:text-lg md:font-bold bg-white p-4 border-4 rounded-lg"
+              hx-post="{% url 'blog-like' blog.pk %}" hx-trigger="click" hx-target="#like" hx-swap="innerHTML" >
+              <i class="far fa-heart"></i><span id="like"> </span>
+            </p>
+            <p id="collection" class="text-pink-300 text-center md:text-lg font-bold bg-white inline-block border-4 p-4 rounded-lg"
+              hx-post="{% url 'collection' blog.pk %}" hx-trigger="click" hx-target="#collection" hx-swap="innerHTML"
+              >{% if blog in request.user.profile.collections %}Collected {% else %} Add {% endif %}
+            </p>
+          </div>
+          {% else %}
+
+        {% endif %}
       </div>
       
       {% if category %}
@@ -153,12 +156,14 @@
               <h3 class="text-lg font-bold text-purple-500 sm:text-xl md:text-2xl">By {{comment.author}}</h3>
               <p class="text-sm font-bold text-gray-300">{{comment.date|timesince}} ago</p>
               <p class="mt-2 text-base text-gray-600 sm:text-lg md:text-normal">{{comment.comment}}</p>
-                <div x-data="{ reply: false}">
+              {% if user.is_authenticated %}  
+              <div x-data="{ reply: false}">
                   <p @click="reply = ! reply" class="mt-2 flex-none text-sm text-gray-500"
                   hx-get="{% url 'comment-reply' blog.pk comment.pk %}" hx-swap="innerHTML" hx-trigger="click" hx-target="#commentReply"
                   >Reply {{comment.pk}} </p>
                   {% include 'blog/partials/reply.html' %}
                 </div>
+                {% endif %}
             </div>
             
           </div>  
