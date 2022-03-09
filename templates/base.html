@@ -5,12 +5,13 @@
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta charset="utf-8">
-	<title>{% block title %} iRAF {% endblock title %}</title>
     <script src="https://unpkg.com/htmx.org@1.6.1"></script>
 	<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 	<script src="https://kit.fontawesome.com/c3b2df9771.js" crossorigin="anonymous"></script>
 	
 	{% tailwind_css %}
+	{% block head %}{% endblock head %}
+	{% block title %}<title>Iraf</title> {% endblock title %}
 </head>
 	<body class="text-gray-900 w-screen bg-gray-300 font-body" id="body">
 		<!-- wrapper start -->

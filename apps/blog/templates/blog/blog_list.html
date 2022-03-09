@@ -1,5 +1,24 @@
 {% extends "base.html" %}
+
+{% block head %}
+<meta name="description" property="og:description" content="published articles and blogs lists page.">
+<meta name="keywords" content="iraf articles, iraf posts, iraf">
+<meta name="author" content="Admin">
+
+<meta property="og:url" content="{% url 'blog-list' %}"> />
+<meta property="og:title" content="blog lists" />
+<meta property="og:image" content="{{post.image}}" />
+<meta property="og:image:alt" content="posts lists" />
+
+<meta name="twitter:image" content="{{post.image}}" />
+<meta property="twitter:image:alt" content="post list" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@HeednGrow" />
+
+{% endblock head %}
+{% block title %}<title>posts list</title>{% endblock title %}
 {% load static %}
+
 {% block content %}
 <h2 class="text-2xl m-4 text-gray-500 font-bold text-center">Top Categories</h2>
 <ul class=" grid grid-cols-2 md:grid-cols-4 gap-3">

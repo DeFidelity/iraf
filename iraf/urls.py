@@ -11,7 +11,18 @@ import apps.blog.views
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.core import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
-from wagtail.contrib.sitemaps.views import sitemap
+
+from django.contrib.sitemaps.views import sitemap
+from apps.blog.sitemaps import PostSitemap, CategorySitemap
+from apps.restaurants.sitemaps import FoodSitemap, RestaurantSitemap
+
+sitemaps = {
+		"posts": PostSitemap,
+        "categories": CategorySitemap,
+        "restaurants": RestaurantSitemap,
+        "food": FoodSitemap
+}
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,6 +35,9 @@ urlpatterns = [
     path('cms/', include(wagtailadmin_urls)),
     path('documents/', include(wagtaildocs_urls)),
     path('pages/', include(wagtail_urls)),
-    path('sitemap.xml', sitemap),
     path('robots.txt', apps.blog.views.RobotsView.as_view()),
+    
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps},
+						name='django.contrib.sitemaps.views.sitemap')
+    
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

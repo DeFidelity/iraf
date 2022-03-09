@@ -8,9 +8,9 @@ from .views import (RestaurantListView,RestaurantDetailView,
 
 urlpatterns = [
     path('',RestaurantListView.as_view(),name="restaurants"),
-    path('restaurant/<int:pk>/',RestaurantDetailView.as_view(),name="restaurant_detail"),
+    path('restaurant/<str:name>/',RestaurantDetailView.as_view(),name="restaurant_detail"),
     path('foods/',FoodListView.as_view(),name='foods'),
-    path('food/<int:pk>/',FoodDetailView.as_view(),name='food'),
+    path('food/<str:restaurant>/food/<str:name>/',FoodDetailView.as_view(),name='food'),
     path('food/try-it/<int:pk>/',FoodTryIt.as_view(),name='food-try'),
     path('restaurant/like/<int:pk>/',RestaurantLike.as_view(),name='restaurant-like'),
     path('restaurant/<int:pk>/review',RestaurantReview.as_view(),name='restaurant-review'),

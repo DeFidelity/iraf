@@ -2,10 +2,11 @@ from django.db import models
 from django.http import HttpResponseForbidden
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.urls import reverse
 
       
 class Restaurant(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255,unique=True,primary_key=True)
     like = models.ManyToManyField(User,related_name='+',blank=True)
     description = models.TextField(blank=True,null=True)
     location = models.CharField(max_length=255)
@@ -15,6 +16,8 @@ class Restaurant(models.Model):
     rating = models.FloatField(default=0.0,null=True,blank=True)
     reviews = models.ManyToManyField('Review',related_name='reviews',blank=True)
     image = models.ImageField(verbose_name="restaurant_image", upload_to='media/restaurants/', default=None,null=True,blank=True,height_field=None, width_field=None)
+    date = models.DateTimeField(auto_now=True)
+    updated = models.DateTimeField(auto_now_add=True)
     
     def perform_review(self,user,review,restaurant):
         has_reviewed = Review.objects.filter(review_user=user,restaurant=restaurant)
@@ -31,7 +34,10 @@ class Restaurant(models.Model):
             return restaurant
         else:
            return HttpResponseForbidden('you have review this restaurant',status=403)
-        
+    @property
+    def get_absolute_url(self):
+        return reverse("restaurant", kwargs={"name": self.name})
+    
     def __str__(self):
         return self.name
         
@@ -56,11 +62,15 @@ class Food(models.Model):
     try_it = models.ManyToManyField(User, related_name='try_it',blank=True)
     purchase = models.IntegerField(default=0)
     date = models.DateTimeField(auto_now=True)
+    updated = models.DateTimeField(auto_now_add=True)
     
     
     class Meta:
         ordering = ['-date']
-        
+    
+    @property
+    def get_absolute_url(self):
+        return reverse("food",kwargs={'name':self.name,'restaurant':self.restaurant})
         
     def __str__(self):
         return self.name

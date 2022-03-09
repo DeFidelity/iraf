@@ -1,5 +1,24 @@
 {% extends 'base.html' %}
-{% block title %}{{food.name}} Info{% endblock title %}
+
+
+{% block head %}
+<meta name="description" property="og:description" content="{{food.description}}">
+<meta name="keywords" content="{{food.name}},{{food.restaurant.name}},iraf {{food.name}} ">
+<meta name="author" content="Admin">
+
+<meta property="og:url" content="{{food.get_absolute_url}}"> />
+<meta property="og:title" content="{{food.name}}" />
+<meta property="og:image" content="{{food.image}}" />
+<meta property="og:image:alt" content="{{food.name}}" />
+
+<meta name="twitter:image" content="{{food.image}}" />
+<meta property="twitter:image:alt" content="{{food.title}}" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@HeednGrow" />
+
+{% endblock head %}
+{% block title %}<title>{{food.title}} from {{food.restaurant}}</title>{% endblock title %}
+
 {% block content %}
 <!-- component -->
 <section class="text-gray-700 body-font  bg-white">

@@ -1,5 +1,24 @@
 {% extends 'base.html' %}
-{% block title %}{{ restaurant.name }}{% endblock title %}
+
+
+{% block head %}
+<meta name="description" property="og:description" content="{{restaurant.description}}">
+<meta name="keywords" content="restaurant in {{restaurant.location}}, iraf {{restaurant.name}},{{restaurant.name}}">
+<meta name="author" content="Admin Iraf">
+
+<meta property="og:url" content="{{restaurant.get_absolute_url}}"> />
+<meta property="og:title" content="{{restaurant.name}}" />
+<meta property="og:image" content="{{restaurant.image}}" />
+<meta property="og:image:alt" content="restaurant.description" />
+
+<meta name="twitter:image" content="{{restaurant.image}}" />
+<meta property="twitter:image:alt" content="{{restaurant.name}}" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@HeednGrow" />
+
+{% endblock head %}
+{% block title %}<title>{{restaurant.name}}</title>{% endblock title %}
+
 {% block content %}
 <section class="text-gray-700 body-font  bg-white">
   <div class="container px-5 py-24 mx-auto">

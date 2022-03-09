@@ -43,6 +43,7 @@ class BlogCategory(models.Model):
     title = models.CharField(max_length=100,null=True, blank=True)
     description = RichTextField(null=True, blank=True)
     date = models.DateTimeField(auto_now=True)
+    updated = models.DateTimeField(auto_now_add=True)
 
     panels = [
         FieldPanel('name'),
@@ -96,7 +97,8 @@ class BlogPage(MetadataPageMixin, Page):
     body = RichTextField(blank=True)
     tags = ClusterTaggableManager(through=BlogPageTag, blank=True)
     categories = ParentalManyToManyField(BlogCategory, blank=True)
-    date = models.DateField("Post date",default=timezone.now)
+    date = models.DateField("Post date",auto_now=True)
+    changed = models.DateTimeField(auto_now_add=True)
     likes = models.ManyToManyField(User,blank=True,related_name='+')
 
     def main_image(self):
@@ -119,7 +121,6 @@ class BlogPage(MetadataPageMixin, Page):
     content_panels = Page.content_panels + [
         MultiFieldPanel([
             FieldPanel('author'),
-            FieldPanel('date'),
             FieldPanel('tags'),
             FieldPanel('categories', widget=forms.CheckboxSelectMultiple),
         ], heading="Blog information"),

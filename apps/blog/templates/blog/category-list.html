@@ -1,5 +1,14 @@
 {% extends 'base.html' %}
-{% block title %}{{category.name}}{% endblock title %}
+
+{% block head %}
+<meta name="description" property="og:description" content="Blog and published article category listing page.">
+<meta name="keywords" content="{{post.keywords}}">
+<meta name="author" content="{{post.author}}">
+
+
+{% endblock head %}
+{% block title %}<title>Categories | iRaf }</title>{% endblock title %}
+
 {% block content %}
 <ul class="hidden sm:block md:grid md:grid-cols-4 gap-3 md:gap-5 m-4">
     {% for category in categories %}

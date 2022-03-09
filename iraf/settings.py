@@ -24,14 +24,15 @@ INSTALLED_APPS = [
     'apps.restaurants',
     'apps.blog',
     'jazzmin',
+    'django.contrib.sitemaps',
+    'django.contrib.sites',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sitemaps',
-    'django.contrib.sites',
+    
 
     'widget_tweaks',
 
@@ -64,6 +65,8 @@ INSTALLED_APPS = [
      'theme',
      "post_office",
 ]
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

@@ -1,12 +1,29 @@
 {% extends 'base.html' %}
-{% block title %}Categories{% endblock title %}
+
+{% block head %}
+<meta name="description" property="og:description" content="{{category.description}}">
+<meta name="keywords" content="{{category.name}},iraf {{category.name}} ">
+<meta name="author" content="admin">
+
+<meta property="og:url" content="{% url 'category' %}"> />
+<meta property="og:title" content="{{category.title}}" />
+<meta property="og:image" content="{{post}}" />
+<meta property="og:image:alt" content="{{category.name}} " />
+
+<meta name="twitter:image" content="{{category}}" />
+<meta property="twitter:image:alt" content="{{category.title}}" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@iraf" />
+
+{% endblock head %}
+{% block title %}<title>iraf: {{category.name}}</title>{% endblock title %}
 {% block content %}
 <section class="text-blueGray-700 ">
     <div class="container flex flex-col px-5 py-8 mx-auto lg:items-center">
       <div class="flex flex-col w-full mb-8 text-left lg:text-center">
         <h2 class="mb-4 text-xs font-semibold tracking-widest text-black uppercase title-font">Currently Viewing Posts in {{category.name|upper}} Category</h2>
         <h1 class="mx-auto mb-6 text-lg font-thin leading-none tracking-tighter text-pink-600  sm:text-xl title-font">{{category.title|title}}</h1>
-        <p class="mx-auto text-base font-medium leading-relaxed text-pink-500-700 lg:w-2/3">{{category_description}}</p>
+        <p class="mx-auto text-base font-medium leading-relaxed text-pink-500-700 lg:w-2/3">{{category.description}}</p>
         </div>
         <div class="max-w-4xl px-10 my-4 py-6 bg-white rounded-lg shadow-md">
           {% for post in blogs %}

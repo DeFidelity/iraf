@@ -1,6 +1,24 @@
 {% extends 'base.html' %}
 {% load wagtailcore_tags wagtailimages_tags %}
-{% block title %}READ: {{ blog.title}}{% endblock title %}
+
+{% block head %}
+<meta name="description" property="og:description" content="{{blog.intro}}">
+<meta name="keywords" content="{{blog title}}, iraf {{blog.titile}}">
+<meta name="author" content="{{blog.author}}">
+
+<meta property="og:url" content="{% url 'blog-detail' blog.slug%}"> />
+<meta property="og:title" content="{{blog.title}}" />
+<meta property="og:image" content="{{blog.image}}" />
+<meta property="og:image:alt" content="image describing {{blog.title}}" />
+
+<meta name="twitter:image" content="{{blog.image}}" />
+<meta property="twitter:image:alt" content="{{blog.title}}" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@HeednGrow" />
+
+{% endblock head %}
+{% block title %}<title>{{blog.title}}</title>{% endblock title %}
+
 {% block content %}
 <!-- component -->
 <div class="mt-6 w-full bg-gray-50 overflow-y-auto ">

@@ -26,8 +26,8 @@ class RestaurantListView(View):
 
 
 class RestaurantDetailView(View):
-    def get(self,request,pk,*args,**kwargs):
-        restaurant = get_object_or_404(Restaurant,pk=pk)
+    def get(self,request,name,*args,**kwargs):
+        restaurant = get_object_or_404(Restaurant,name=name)
         foods = Food.objects.filter(restaurant=restaurant)
         reviews = Review.objects.filter(restaurant=restaurant)
         paginator = Paginator(reviews,5)
@@ -75,8 +75,8 @@ class FoodListView(View):
     
 
 class FoodDetailView(View):
-    def get(self,request,pk):
-        food = get_object_or_404(Food, pk=pk)
+    def get(self,request,name,restaurant):
+        food = get_object_or_404(Food, name=name, restaurant=restaurant)
         categories = food.categories.all()
         
         context = {
