@@ -26,8 +26,8 @@ class RestaurantListView(View):
 
 
 class RestaurantDetailView(View):
-    def get(self,request,name,*args,**kwargs):
-        restaurant = get_object_or_404(Restaurant,name=name)
+    def get(self,request,slug,*args,**kwargs):
+        restaurant = get_object_or_404(Restaurant,slug=slug)
         foods = Food.objects.filter(restaurant=restaurant)
         reviews = Review.objects.filter(restaurant=restaurant)
         paginator = Paginator(reviews,5)
@@ -54,7 +54,7 @@ class RestaurantDetailView(View):
             'four': four,
             'five':five
         }
-        return render(request, 'restaurant/restaurant.html', context)
+        return render(request,'restaurant/restaurant.html', context)
     
 
 
@@ -135,13 +135,10 @@ class RestaurantLike(View,LoginRequiredMixin):
             messages.success(request,likes)
             return HttpResponse('Liked')
         
-class ReviewDelete(View):
+class ReviewDelete(LoginRequiredMixin,View):
     def post(self, request,pk,*args,**kwargs):
         
-        review = get_object_or_404(Review, pk=pk)
-        if request.user == review.review_user:
-            restaurant = review.restaurant.pk
-            review.delete()
-            return redirect('restaurant_detail',restaurant)
-        else:
-            return HttpResponse('wetin dey occur?')
+        review = get_object_or_404(Review, pk=pk,review_user=request.user)
+        restaurant = review.restaurant.slug
+        review.delete()
+        return redirect('restaurant_detail',restaurant)

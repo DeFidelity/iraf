@@ -8,11 +8,11 @@ from .views import (RestaurantListView,RestaurantDetailView,
 
 urlpatterns = [
     path('',RestaurantListView.as_view(),name="restaurants"),
-    path('restaurant/<str:name>/',RestaurantDetailView.as_view(),name="restaurant_detail"),
+    path('restaurant/<slug:slug>/',RestaurantDetailView.as_view(),name="restaurant_detail"),
     path('foods/',FoodListView.as_view(),name='foods'),
     path('food/<str:restaurant>/food/<str:name>/',FoodDetailView.as_view(),name='food'),
     path('food/try-it/<int:pk>/',FoodTryIt.as_view(),name='food-try'),
     path('restaurant/like/<int:pk>/',RestaurantLike.as_view(),name='restaurant-like'),
     path('restaurant/<int:pk>/review',RestaurantReview.as_view(),name='restaurant-review'),
     path('restaurant/reviews/<int:pk>/delete/',ReviewDelete.as_view(),name='review-delete'),    
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] 

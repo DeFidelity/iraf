@@ -70,6 +70,7 @@ class BlogDetailView(View):
         return HttpResponse("post not exist")
 
 class BlogComment(View):
+    @method_decorator(login_required())
     def post(self,request,pk):
         post = get_object_or_404(BlogPage,pk=pk)
 

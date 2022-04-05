@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.text import slugify
 from django.http import HttpResponseForbidden
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -7,6 +8,7 @@ from django.urls import reverse
       
 class Restaurant(models.Model):
     name = models.CharField(max_length=255,unique=True,primary_key=True)
+    slug = models.SlugField(max_length=100,unique=True,blank=True)
     like = models.ManyToManyField(User,related_name='+',blank=True)
     description = models.TextField(blank=True,null=True)
     location = models.CharField(max_length=255)
@@ -18,7 +20,14 @@ class Restaurant(models.Model):
     image = models.ImageField(verbose_name="restaurant_image", upload_to='media/restaurants/', default=None,null=True,blank=True,height_field=None, width_field=None)
     date = models.DateTimeField(auto_now=True)
     updated = models.DateTimeField(auto_now_add=True)
-    
+
+    class Meta:
+        ordering = ['rating']
+        
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Restaurant, self).save(*args, **kwargs)
+        
     def perform_review(self,user,review,restaurant):
         has_reviewed = Review.objects.filter(review_user=user,restaurant=restaurant)
         if not has_reviewed:
@@ -36,10 +45,12 @@ class Restaurant(models.Model):
            return HttpResponseForbidden('you have review this restaurant',status=403)
     @property
     def get_absolute_url(self):
-        return reverse("restaurant", kwargs={"name": self.name})
+        return reverse("restaurant_detail", kwargs={"name": self.name})
     
     def __str__(self):
         return self.name
+    
+    
         
 class FoodCategory(models.Model):
     name = models.CharField(max_length=255)
