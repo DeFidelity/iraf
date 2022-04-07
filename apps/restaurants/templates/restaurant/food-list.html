@@ -15,7 +15,7 @@
                 <img src="{{food.image}}" alt="stew" class="w-full h-32 sm:h-48 object-cover">
                 <div class="m-4">
                 <span class="font-bold" @click="overlay=true">{{food.name}}</span>
-                <span class="block text-pink-500 cursor-pointer " hx-get="{% url 'restaurant_detail' restaurant.slug %}" hx-target="body">Food from {{food.restaurant}}</span>
+                <span class="block text-pink-500 cursor-pointer " hx-get="{% url 'restaurant_detail' food.restaurant.slug %}" hx-target="body">Food from {{food.restaurant}}</span>
                 </div>
                 <div class="bg-pink-100 text-pink-200 text-xs uppercase font-bold rounded-full p-2 absolute top-0 ml-2 mt-2">
                 <span>{{food.discount_price}}</span>

@@ -12,7 +12,7 @@ urlpatterns = [
     path('foods/',FoodListView.as_view(),name='foods'),
     path('food/<str:restaurant>/food/<str:name>/',FoodDetailView.as_view(),name='food'),
     path('food/try-it/<int:pk>/',FoodTryIt.as_view(),name='food-try'),
-    path('restaurant/like/<int:pk>/',RestaurantLike.as_view(),name='restaurant-like'),
-    path('restaurant/<int:pk>/review',RestaurantReview.as_view(),name='restaurant-review'),
+    path('restaurant/like/<slug:slug>/',RestaurantLike.as_view(),name='restaurant-like'),
+    path('restaurant/<slug:slug>/review',RestaurantReview.as_view(),name='restaurant-review'),
     path('restaurant/reviews/<int:pk>/delete/',ReviewDelete.as_view(),name='review-delete'),    
 ] 

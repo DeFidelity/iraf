@@ -11,7 +11,7 @@
     <ul class="flex w-5/6 items-center justify-center flex-col p-4">
         {% for restaurant in page_obj %}
             <li class="border-gray-400  m-6 w-full flex flex-row"
-            hx-get="{% url 'restaurant_detail' restaurant.slug %}" hx-trigger="click" hx-target="body" hx-swap="innerHTML" hx-push-url="/restaurants/restaurant/{{restaurant.pk}}/"
+            hx-get="{% url 'restaurant_detail' restaurant.slug %}" hx-trigger="click" hx-target="body" hx-swap="innerHTML" hx-push-url="{% url 'restaurant_detail' restaurant.slug%}"
             >
                 <div class="select-none flex flex-1 items-center transition duration-500 ease-in-out transform hover:-translate-y-2 rounded-2xl border-2 p-6 hover:shadow-2xl border-pink-400">
                     <div class="flex-1 pl-1 mr-16">

@@ -87,9 +87,9 @@ class FoodDetailView(View):
         return render(request,'restaurant/food-detail.html',context)
 
 
-class RestaurantReview(View):
-    def post(self,request,pk,*args,**kwargs):
-        restaurant = get_object_or_404(Restaurant,pk=pk)
+class RestaurantReview(LoginRequiredMixin,View):
+    def post(self,request,slug,*args,**kwargs):
+        restaurant = get_object_or_404(Restaurant,slug=slug)
         form = RestaurantReviewForm(request.POST)
         
         user = request.user
@@ -106,7 +106,7 @@ class RestaurantReview(View):
             return HttpResponse('Form not valid')
     
     
-class FoodTryIt(View,LoginRequiredMixin):  
+class FoodTryIt(LoginRequiredMixin,View):  
     def post(self, request,pk,*args,**kwargs):
         food = get_object_or_404(Food, pk=pk)
         user = request.user
@@ -119,9 +119,9 @@ class FoodTryIt(View,LoginRequiredMixin):
             return HttpResponse('added')
 
     
-class RestaurantLike(View,LoginRequiredMixin):
-    def post(self, request,pk,*args,**kwargs):
-        restaurant = get_object_or_404(Restaurant, pk=pk)
+class RestaurantLike(LoginRequiredMixin,View):
+    def post(self, request,slug,*args,**kwargs):
+        restaurant = get_object_or_404(Restaurant, slug=slug)
         user = request.user
         
         if user in restaurant.like.all():

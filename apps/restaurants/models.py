@@ -7,8 +7,8 @@ from django.urls import reverse
 
       
 class Restaurant(models.Model):
-    name = models.CharField(max_length=255,unique=True,primary_key=True)
-    slug = models.SlugField(max_length=100,unique=True,blank=True)
+    name = models.CharField(max_length=255,unique=True)
+    slug = models.SlugField(max_length=300,unique=True,blank=True,primary_key=True)
     like = models.ManyToManyField(User,related_name='+',blank=True)
     description = models.TextField(blank=True,null=True)
     location = models.CharField(max_length=255)
@@ -45,7 +45,7 @@ class Restaurant(models.Model):
            return HttpResponseForbidden('you have review this restaurant',status=403)
     @property
     def get_absolute_url(self):
-        return reverse("restaurant_detail", kwargs={"name": self.name})
+        return reverse("restaurant_detail", kwargs={"slug": self.slug})
     
     def __str__(self):
         return self.name
@@ -63,6 +63,7 @@ class FoodCategory(models.Model):
     
 class Food(models.Model):
     name = models.CharField(max_length=255,unique=False)
+    slug = models.SlugField(max_length=300,unique=True,blank=True)
     image = models.ImageField(verbose_name="food_image", upload_to='media/foods/', default=None,null=True,blank=True,height_field=None, width_field=None)
     restaurant = models.ForeignKey(Restaurant,related_name='restaurants',null=True,on_delete=models.CASCADE)
     price = models.PositiveSmallIntegerField()
@@ -78,6 +79,10 @@ class Food(models.Model):
     
     class Meta:
         ordering = ['-date']
+        
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Food, self).save(*args, **kwargs)
     
     @property
     def get_absolute_url(self):

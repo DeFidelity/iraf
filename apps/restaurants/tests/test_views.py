@@ -56,13 +56,12 @@ class TestRestaurantViewClasses(TestCase):
         self.assertEquals(response.status_code,200)
         self.assertTemplateUsed('restaurant/restaurant-list.html')
         
-    # def test_restaurant_detail_view(self):
-    #     restaurant = reverse('restaurant_detail',args=[self.restaurant.slug])
-    #     # {'slug':self.restaurant.slug}
-    #     response = self.client.get(restaurant)
+    def test_restaurant_detail_view(self):
+        restaurant = reverse('restaurant_detail',args=[self.restaurant.slug])
+        response = self.client.get(restaurant)
         
-    #     self.assertEquals(response.status_code,200)
-    #     self.assertTemplateUsed('restaurant/restaurant.html')
+        self.assertEquals(response.status_code,200)
+        self.assertTemplateUsed('restaurant/restaurant.html')
         
     def test_food_list_view(self):
         food = reverse('foods')
@@ -72,61 +71,85 @@ class TestRestaurantViewClasses(TestCase):
         self.assertEquals(response.status_code,200)
         self.assertTemplateUsed('restaurant/food-list.html')
         
-    # def test_food_detail_view(self):
-    #     food = reverse('food',args=[self.restaurant.name,self.food.name])
+    def test_food_detail_view(self):
+        food = reverse('food',kwargs={'restaurant':self.restaurant.pk,'name':self.food.name})
         
-    #     response = self.client.get(food)
+        response = self.client.get(food)
         
-    #     self.assertEquals(response.status_code,200)
-    #     self.assertTemplateUsed('restaurant/food-detail.html')
+        self.assertEquals(response.status_code,200)
+        self.assertTemplateUsed('restaurant/food-detail.html')
         
-    # def test_restaurant_review(self):
-    #     review = reverse('restaurant-review',args=[self.restaurant.id])
+    def test_restaurant_review_with_anon_user(self):
+        review = reverse('restaurant-review',args=[self.restaurant.slug])
         
-    #     response = self.client.post(review,data={
-    #         'review_user': self.user,
-    #         'rating': 4,
-    #         'description': 'i ate there and it was great'
-    #     })
+        response = self.client.post(review,data={
+            'review_user': self.user,
+            
+            'rating': 4,
+            'description': 'i ate there and it was great'
+        })
         
-    #     self.assertEquals(response.status_code,200)
-    #     self.assertTemplateUsed('restaurant/restaurant.html')
         
-    # def test_food_try_it(self):
-    #     food_try = reverse('food-try',args=[str(self.food.pk)])
+        self.assertEquals(response.status_code,302)
+        self.assertTemplateUsed('restaurant/restaurant.html')
         
-    #     response = self.client.post(food_try)
+    def test_restaurant_review_with_logged_in_user(self):
+        review = reverse('restaurant-review',args=[self.restaurant.slug])
         
-    #     self.assertEquals(response.status_code,200)
+        self.client.login(email=self.user.email,password = 'testpassword')
+        response = self.client.post(review,data={
+            'review_user': self.user,
+            
+            'rating': 4,
+            'description': 'i ate there and it was great'
+        })
         
-    # def test_restaurant_like_with_guest_user(self):
-    #     like = reverse('restaurant-like', args=[self.restaurant.pk])
+        self.assertEquals(response.status_code,200)
+        self.assertTemplateUsed('restaurant/restaurant.html')
         
-    #     response = self.client.post(like)
+    def test_food_try_it_with_anon_user(self):
+        food_try = reverse('food-try',args=[self.food.pk])
         
-    #     self.assertEquals(response.status_code,302)
+        response = self.client.post(food_try)
         
-    # def test_restaurant_like_with_logged_in_user(self):
-    #     like = reverse('restaurant-like', args=[self.restaurant.id])
+        self.assertEquals(response.status_code,302)
         
-    #     self.client.login(email=self.user.email,password = 'testpassword')
-    #     response = self.client.post(like)
+    def test_food_try_it_with_logged_in_user(self):
+        food_try = reverse('food-try',args=[self.food.pk])
         
-    #     self.assertEquals(response.status_code,200)
+        self.client.login(email=self.user.email,password = 'testpassword')
+        response = self.client.post(food_try)
+        
+        self.assertEquals(response.status_code,200)
+        
+    def test_restaurant_like_with_guest_user(self):
+        like = reverse('restaurant-like', args=[self.restaurant.pk])
+        
+        response = self.client.post(like)
+        
+        self.assertEquals(response.status_code,302)
+        
+    def test_restaurant_like_with_logged_in_user(self):
+        like = reverse('restaurant-like', args=[self.restaurant.pk])
+        
+        self.client.login(email=self.user.email,password = 'testpassword')
+        response = self.client.post(like)
+        
+        self.assertEquals(response.status_code,200)
 
-    # def test_review_delete_with_no_user(self):
-    #     delete = reverse('review-delete', args=[self.review.pk])
+    def test_review_delete_with_no_user(self):
+        delete = reverse('review-delete', args=[self.review.pk])
         
-    #     response = self.client.post(delete)
+        response = self.client.post(delete)
         
-    #     self.assertEquals(response.status_code,302) 
+        self.assertEquals(response.status_code,302) 
         
-    # def test_review_delete_with_logged_in_user(self):
-    #     delete = reverse('review-delete', args=[self.review.pk])
+    def test_review_delete_with_logged_in_user(self):
+        delete = reverse('review-delete', args=[self.review.pk])
         
-    #     self.client.login(email=self.user.email,password = 'testpassword')
-    #     response = self.client.post(delete)
+        self.client.login(email=self.user.email,password = 'testpassword')
+        response = self.client.post(delete)
         
         
-    #     self.assertEquals(response.status_code,302) 
+        self.assertEquals(response.status_code,302) 
            
