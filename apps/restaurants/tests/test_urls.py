@@ -36,3 +36,31 @@ class TestUrls(SimpleTestCase):
         
         self.assertEquals(response.func.view_class,FoodDetailView)
         
+    def test_food_try_urls(self):
+        food_try = reverse('food-try',args=[2])
+        
+        response = resolve(food_try)
+        
+        self.assertEquals(response.func.view_class,FoodTryIt)
+        
+    def test_restaurant_like_urls(self):
+        like = reverse('restaurant-like',args=['this-restaurant'])
+        
+        response = resolve(like)
+        
+        self.assertEquals(response.func.view_class,RestaurantLike)
+        
+    def test_restaurant_review_urls(self):
+        reviews = reverse('restaurant-review',args=['this-restaurant'])
+        
+        response = resolve(reviews)
+        
+        self.assertEquals(response.func.view_class,RestaurantReview)
+        
+    def test_restaurant_review_delete(self):
+        review_delete = reverse('review-delete',args=[3])
+        
+        response = resolve(review_delete)
+        
+        self.assertEquals(response.func.view_class,ReviewDelete)
+        
