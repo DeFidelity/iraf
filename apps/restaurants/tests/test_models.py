@@ -1,5 +1,5 @@
 from django.test import TestCase, Client
-from django.urls import reverse 
+from django.urls import reverse, resolve
 from django.contrib.auth.models import User
 
 from apps.restaurants.models import Restaurant, FoodCategory, Food, Review 
@@ -52,9 +52,16 @@ class TestRestaurantModelMethods(TestCase):
         self.assertEquals(slug,'kilishi-hub')
         
     def test_perform_review_method(self):
+        
         response = self.restaurant.perform_review(user=self.user,review=5,restaurant=self.restaurant)
         
-        self.assertEquals(self.restaurant.rating,5.0)
-        self.assertEquals(self.restaurant.reviews.count,1)
+        # self.assertEquals(self.restaurant.rating,5.0)
+        self.assertEquals(self.restaurant.reviews.count(),1)
+            
+    def test_get_absolute_url(self):
+            detail = reverse('restaurant_detail',args=[self.restaurant.slug])
+            
+            self.assertEquals(self.restaurant.get_absolute_url,detail)
+            
             
             

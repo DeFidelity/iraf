@@ -7,7 +7,7 @@ from apps.restaurants.models import Review
 from .forms import NewsLetterForm, ProfileEditForm, ContactForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-class ProfileView(View):
+class ProfileView(LoginRequiredMixin,View):
     def get(self,request,*args,**kwargs):
         profile = get_object_or_404(UserProfile,user=request.user)
         review = Review.objects.filter(review_user=request.user)
