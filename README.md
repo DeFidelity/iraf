@@ -1,6 +1,8 @@
 # iraf
 
-food delivery, restaurant review and blogging app.
+A Glassdoor, but for restaurants.
+
+Featuring food delivery, restaurant review and blogging app.
 
 ### Screenshot of the food listing page
 ![Screenshot 2022-01-12 082042](https://user-images.githubusercontent.com/68183305/154834182-3086045f-c96f-4151-9cba-9ce505a9f5f5.png)
